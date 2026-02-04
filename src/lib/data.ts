@@ -36,7 +36,7 @@ import { getPlaceholderImage } from './placeholder-images';
 export const user: User = {
   name: 'Jett Runner',
   email: 'jett.runner.default@example.com',
-  avatar: getPlaceholderImage('avatar-user')?.imageUrl ?? '',
+  avatar: '',
 };
 
 export const stats: StatCard[] = [
@@ -102,7 +102,7 @@ export const leaderboard: LeaderboardEntry[] = [
     rank: 1,
     user: {
       name: 'Glitch',
-      avatar: getPlaceholderImage('avatar-2')?.imageUrl ?? '',
+      avatar: '',
       email: 'glitch@example.com'
     },
     score: 2150,
@@ -112,7 +112,7 @@ export const leaderboard: LeaderboardEntry[] = [
     rank: 2,
     user: {
       name: '8-Bit',
-      avatar: getPlaceholderImage('avatar-3')?.imageUrl ?? '',
+      avatar: '',
       email: '8bit@example.com'
     },
     score: 2010,
@@ -122,7 +122,7 @@ export const leaderboard: LeaderboardEntry[] = [
     rank: 3,
     user: {
       name: 'Trinity',
-      avatar: getPlaceholderImage('avatar-4')?.imageUrl ?? '',
+      avatar: '',
       email: 'trinity@example.com'
     },
     score: 1980,
@@ -511,7 +511,7 @@ export const forumPosts: ForumPost[] = [
         id: 'post-1',
         user: {
             name: 'Cypher',
-            avatar: getPlaceholderImage('avatar-6')?.imageUrl ?? '',
+            avatar: '',
             email: 'cypher@example.com'
         },
         title: 'My new custom build keeps getting BSOD with MEMORY_MANAGEMENT error.',
@@ -540,7 +540,7 @@ export const forumPosts: ForumPost[] = [
         id: 'post-2',
         user: {
             name: 'Echo',
-            avatar: getPlaceholderImage('avatar-7')?.imageUrl ?? '',
+            avatar: '',
             email: 'echo@example.com'
         },
         title: 'Dell XPS 15 trackpad is randomly freezing and jumping.',

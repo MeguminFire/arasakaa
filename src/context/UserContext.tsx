@@ -30,7 +30,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       const storedLessons = localStorage.getItem('completedLessons');
 
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        parsedUser.avatar = ''; // Force empty avatar on load to use fallback
+        setUser(parsedUser);
       }
       if (storedGames) {
         setCompletedGames(JSON.parse(storedGames));
@@ -49,7 +51,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const updateUser = (newUser: Partial<User>) => {
     setUser(prevUser => {
-      const updatedUser = { ...prevUser, ...newUser };
+      const updatedUser = { ...prevUser, ...newUser, avatar: '' }; // Ensure avatar is always empty
       try {
         localStorage.setItem('troubleshoot-user', JSON.stringify(updatedUser));
       } catch (error) {
