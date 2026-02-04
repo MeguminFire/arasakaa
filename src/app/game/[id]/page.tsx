@@ -12,10 +12,12 @@ import type { GameScenario, Action } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
+import { useUser } from '@/context/UserContext';
 
 export default function GamePage() {
   const params = useParams();
   const router = useRouter();
+  const { addCompletedItem } = useUser();
   const gameId = params.id as string;
   
   const game = useMemo(() => games.find((g) => g.id === gameId), [gameId]);
@@ -30,12 +32,9 @@ export default function GamePage() {
 
   useEffect(() => {
     if (isFinished) {
-      const completed = JSON.parse(localStorage.getItem('completedGames') || '[]');
-      if (!completed.includes(gameId)) {
-        localStorage.setItem('completedGames', JSON.stringify([...completed, gameId]));
-      }
+      addCompletedItem('game', gameId);
     }
-  }, [isFinished, gameId]);
+  }, [isFinished, gameId, addCompletedItem]);
 
   const handleActionClick = (action: Action, index: number) => {
     if (selectedAction) return;
@@ -209,3 +208,5 @@ export default function GamePage() {
     </div>
   );
 }
+
+  

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -14,11 +16,34 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { leaderboard } from '@/lib/data';
+import { leaderboard as defaultLeaderboard } from '@/lib/data';
 import { Trophy } from 'lucide-react';
-import { Badge } from '../ui/badge';
+import { useUser } from '@/context/UserContext';
+import { useMemo } from 'react';
 
 export default function Leaderboard() {
+  const { user } = useUser();
+
+  const leaderboard = useMemo(() => {
+     const userInLeaderboard = defaultLeaderboard.some(entry => entry.user.email === user.email);
+     if (userInLeaderboard) {
+        return defaultLeaderboard.map(entry => entry.user.email === user.email ? {...entry, user: user} : entry)
+     }
+     
+     const userEntry = {
+         rank: 1,
+         user: user,
+         score: 2280, // default score for now
+         time: '03:10', // default time for now
+     };
+     const otherEntries = defaultLeaderboard
+        .filter(entry => entry.user.email !== 'alex.titan.default@example.com')
+        .map((entry, index) => ({...entry, rank: index + 2}));
+
+     return [userEntry, ...otherEntries].slice(0, 4);
+
+  }, [user]);
+
   return (
     <Card>
       <CardHeader>
@@ -68,3 +93,5 @@ export default function Leaderboard() {
     </Card>
   );
 }
+
+  

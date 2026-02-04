@@ -1,6 +1,6 @@
 export type User = {
   name: string;
-  email?: string;
+  email: string;
   avatar: string;
   title: string;
 };
@@ -68,6 +68,7 @@ export type Action = {
 export type GameStep = {
   title: string;
   description: string;
+  hint?: string;
   actions: Action[];
 };
 
@@ -78,3 +79,5 @@ export type GameScenario = {
   steps: GameStep[];
   finalSolution: string;
 };
+
+  

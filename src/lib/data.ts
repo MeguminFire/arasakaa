@@ -24,12 +24,14 @@ import {
   Network,
   HardDrive,
   Printer,
+  PowerOff,
+  FileX,
 } from 'lucide-react';
 import { getPlaceholderImage } from './placeholder-images';
 
 export const user: User = {
   name: 'Alex Titan',
-  email: 'alex.titan@example.com',
+  email: 'alex.titan.default@example.com',
   avatar: getPlaceholderImage('avatar-user')?.imageUrl ?? '',
   title: 'Novice Technician',
 };
@@ -102,42 +104,35 @@ export const titles: Title[] = [
 ];
 
 export const leaderboard: LeaderboardEntry[] = [
-  {
-    rank: 1,
-    user: {
-      name: 'Alex Titan',
-      avatar: getPlaceholderImage('avatar-user')?.imageUrl ?? '',
-      title: 'Network Novice',
-    },
-    score: 2280,
-    time: '03:10',
-  },
     {
-    rank: 2,
+    rank: 1,
     user: {
       name: 'Glitch',
       avatar: getPlaceholderImage('avatar-2')?.imageUrl ?? '',
       title: 'System Solver',
+      email: 'glitch@example.com'
     },
     score: 2150,
     time: '03:45',
   },
   {
-    rank: 3,
+    rank: 2,
     user: {
       name: '8-Bit',
       avatar: getPlaceholderImage('avatar-3')?.imageUrl ?? '',
       title: 'Hardware Hero',
+      email: '8bit@example.com'
     },
     score: 2010,
     time: '04:12',
   },
   {
-    rank: 4,
+    rank: 3,
     user: {
       name: 'Trinity',
       avatar: getPlaceholderImage('avatar-4')?.imageUrl ?? '',
       title: 'PC Rookie',
+      email: 'trinity@example.com'
     },
     score: 1980,
     time: '04:30',
@@ -148,7 +143,7 @@ export const games: Game[] = [
   {
     id: '1',
     title: 'The Uncooperative Printer',
-    description: 'You are on a mission to solve a printing problem. Investigate the scene, take action, and resolve the issue.',
+    description: 'A user can\'t print. Investigate the scene, take action, and resolve the issue.',
     topic: 'Printer issues',
     difficulty: 'easy',
     icon: Printer,
@@ -156,7 +151,7 @@ export const games: Game[] = [
   {
     id: '2',
     title: 'The Case of the Slow Computer',
-    description: 'A user reports their PC is running at a crawl. Your mission is to diagnose the bottleneck and restore its speed.',
+    description: 'A user reports their PC is running at a crawl. Diagnose the bottleneck and restore its speed.',
     topic: 'Slow computer performance',
     difficulty: 'easy',
     icon: Cpu,
@@ -164,18 +159,34 @@ export const games: Game[] = [
   {
     id: '3',
     title: 'Mysterious Wi-Fi Drops',
-    description: 'A laptop keeps losing its connection to the network. Hunt down the cause of the instability and secure the signal.',
+    description: 'A laptop keeps losing its connection. Hunt down the cause of the instability and secure the signal.',
     topic: 'Intermittent Wi-Fi connection',
-    difficulty: 'easy',
+    difficulty: 'medium',
     icon: Router,
   },
   {
     id: '4',
     title: 'The Blue Screen of Dread',
-    description: 'A critical system failure is causing a BSOD. Your mission is to analyze the situation and bring the system back online.',
+    description: 'A critical system failure is causing a BSOD. Analyze the situation and bring the system back online.',
     topic: 'Blue Screen of Death (BSOD)',
-    difficulty: 'easy',
+    difficulty: 'medium',
     icon: ShieldCheck,
+  },
+   {
+    id: '5',
+    title: 'The Silent Desktop',
+    description: 'A user presses the power button on their desktop, but nothing happens. Find the point of failure.',
+    topic: 'No Power',
+    difficulty: 'easy',
+    icon: PowerOff,
+  },
+  {
+    id: '6',
+    title: 'The Installation Blockade',
+    description: 'A user is unable to install a critical piece of software. Determine what is blocking the installation.',
+    topic: 'Software Installation Issues',
+    difficulty: 'hard',
+    icon: FileX,
   },
 ];
 
@@ -184,32 +195,36 @@ export const gameScenarios: GameScenario[] = [
     id: '1',
     title: "The Uncooperative Printer",
     initialSituation: "A user reports, 'I can't print my document! I've tried sending it three times and nothing happens. The printer is on, I can see the little green light!'",
-    finalSolution: "The problem was a simple paper jam combined with a stalled print queue. The optimal path was to first check the physical status of the printer (power, paper), then clear the software-side print queue in Windows, which allowed new print jobs to process correctly.",
+    finalSolution: "The problem was a simple paper jam combined with a stalled print queue. The optimal path was to first check the physical status of the printer, clear the paper jam, and then clear the software-side print queue in Windows.",
     steps: [
       {
         title: "Initial Check",
-        description: "You're at the user's desk. The printer is on, but it's making a quiet, repetitive clicking noise. What's your first move?",
+        description: "You're at the user's desk. The printer is on, but the screen displays 'Error: Paper Jam'. What's your first move?",
+        hint: "Physical problems are often the easiest to check first. Look at the printer itself before diving into software.",
         actions: [
-          { text: "Check the printer's physical status (paper, ink, screen messages).", isCorrect: true, feedback: "Good call. You open the printer tray and immediately spot a crumpled piece of paper caught in the feed mechanism. You carefully remove the paper jam." },
-          { text: "Immediately restart the user's computer.", isCorrect: false, feedback: "Restarting the computer might solve some issues, but it's better to check the hardware first. The computer restarts, but the printing problem persists." },
-          { text: "Reinstall the printer driver.", isCorrect: false, feedback: "A bit premature. While drivers can be an issue, it's best to rule out physical problems first. Reinstalling the driver has no effect." }
+          { text: "Check the printer's physical status (paper, ink, screen messages) and clear the visible paper jam.", isCorrect: true, feedback: "Good call. You open the printer tray and immediately spot a crumpled piece of paper caught in the feed mechanism. You carefully remove the paper jam." },
+          { text: "Immediately restart the user's computer.", isCorrect: false, feedback: "Restarting the computer won't clear a physical paper jam. The problem persists." },
+          { text: "Reinstall the printer driver.", isCorrect: false, feedback: "A bit premature. While drivers can be an issue, the printer screen is explicitly telling you there's a physical problem." }
         ]
       },
       {
         title: "Software Glitch",
-        description: "After clearing the paper jam, the printer is no longer making noise, but the document still isn't printing. The user's original three print jobs seem to be stuck somewhere.",
+        description: "After clearing the paper jam, the printer's error message is gone, but the document still isn't printing. The user's original three print jobs seem to be stuck somewhere in the system.",
+        hint: "When a print job is sent, it goes into a 'queue' on the computer. If a job fails, it can block all subsequent jobs.",
         actions: [
           { text: "Open the Windows print queue and cancel all pending documents.", isCorrect: true, feedback: "Excellent. You open 'Devices and Printers', find the print queue, and see three 'Error - Printing' documents. You cancel them all. The queue is now clear." },
-          { text: "Unplug the printer and plug it back in.", isCorrect: false, feedback: "Power cycling the printer is a good step, but in this case, the stalled jobs are in the computer's queue. The printer restarts, but the jobs are still stuck." },
+          { text: "Unplug the printer and plug it back in.", isCorrect: false, feedback: "Power cycling the printer is a good step, but in this case, the stalled jobs are stored on the computer. The jobs are still stuck." },
           { text: "Tell the user to try printing again.", isCorrect: false, feedback: "The new print job just gets stuck behind the three errored ones. Nothing new comes out." }
         ]
       },
       {
         title: "Final Confirmation",
         description: "The paper jam is cleared and the print queue is empty. It's time to see if the problem is truly solved.",
+        hint: "Never assume, always verify. The final step of any troubleshooting process is to confirm the fix works.",
         actions: [
-          { text: "Ask the user to print a single test page.", isCorrect: true, feedback: "Success! The test page prints out perfectly. You've resolved the issue." },
-          { text: "Assume it's fixed and walk away.", isCorrect: false, feedback: "Never assume! Verification is a key step. The user might have another issue you haven't addressed." }
+          { text: "Ask the user to print a single test page.", isCorrect: true, feedback: "Success! The test page prints out perfectly. You've resolved the issue and can confidently close the case." },
+          { text: "Assume it's fixed and walk away.", isCorrect: false, feedback: "Never assume! Verification is a key step. You might have missed something, and the user will just call you back." },
+          { text: "Print 100 copies of a large document to 'stress test' it.", isCorrect: false, feedback: "A bit of an overkill and a waste of paper. A single test page is sufficient to confirm the fix." }
         ]
       }
     ]
@@ -223,27 +238,31 @@ export const gameScenarios: GameScenario[] = [
       {
         title: "Resource Analysis",
         description: "The user's desktop is cluttered with icons. You need to figure out what's consuming the system resources.",
+        hint: "The Task Manager is your best friend for seeing what's currently running and how much CPU, Memory, and Disk it's using.",
         actions: [
           { text: "Open the Task Manager to check CPU, Memory, and Disk usage.", isCorrect: true, feedback: "Smart move. Task Manager shows Memory usage is high (90%), and a process named 'WebBooster.exe' is constantly using 30% of the CPU." },
-          { text: "Immediately run a virus scan.", isCorrect: false, feedback: "A good instinct, but it's better to see what's happening in real-time first. A full scan could take a while." },
+          { text: "Immediately run a virus scan.", isCorrect: false, feedback: "A good instinct, but it's better to see what's happening in real-time first. A full scan could take a while and slow the machine down even more." },
           { text: "Suggest upgrading the RAM.", isCorrect: false, feedback: "Throwing hardware at a problem isn't always the answer. You need to diagnose the cause first. The high memory usage could be a symptom, not the root problem." }
         ]
       },
       {
         title: "Identify the Culprit",
         description: "You've identified a suspicious process, 'WebBooster.exe', and noted that many non-essential applications are running. What's the plan?",
+        hint: "Check the 'Startup' tab in Task Manager to see what programs launch automatically when the computer boots up.",
         actions: [
-          { text: "Go to the 'Startup' tab in Task Manager and disable unnecessary applications.", isCorrect: true, feedback: "Good. You disable several cloud storage sync tools and 'bloatware' from the manufacturer. You then locate 'WebBooster.exe', right-click, and open its file location. It's in a strange folder, confirming your suspicion it's malware." },
+          { text: "Go to the 'Startup' tab in Task Manager and disable unnecessary applications.", isCorrect: true, feedback: "Good. You disable several cloud sync tools and manufacturer 'bloatware'. This will reduce the background load on future startups." },
           { text: "Right-click and 'End Task' on every application using a lot of memory.", isCorrect: false, feedback: "This might provide temporary relief, but the problem will return on the next reboot if they are startup items." },
           { text: "Ignore 'WebBooster.exe' and focus only on the known applications.", isCorrect: false, feedback: "Ignoring a suspicious, high-resource process is a mistake. It's the most likely cause of the sudden slowdown." }
         ]
       },
       {
         title: "Eradication and Verification",
-        description: "You've disabled the startup bloat and located the malware. Now it's time to clean the system and confirm the fix.",
+        description: "You've disabled the startup bloat. Now you need to deal with the 'WebBooster.exe' malware.",
+        hint: "The safest way to remove malware is with a dedicated scanner, rather than just deleting files manually.",
         actions: [
           { text: "Run a full malware scan to remove 'WebBooster.exe' and any other threats, then reboot.", isCorrect: true, feedback: "Perfect. The antivirus finds and quarantines the malware. After a reboot, you open Task Manager again. CPU and Memory usage are now at normal levels. Photoshop opens quickly. The mission is a success." },
-          { text: "Manually delete the 'WebBooster.exe' file.", isCorrect: false, feedback: "Risky. Malware often has multiple components. Simply deleting the .exe might not remove it entirely. A proper scan is safer and more thorough." }
+          { text: "Manually delete the 'WebBooster.exe' file.", isCorrect: false, feedback: "Risky. Malware often has multiple components or registry entries. Simply deleting the .exe might not remove it entirely. A proper scan is safer and more thorough." },
+          { text: "Just disable the process in Task Manager and hope for the best.", isCorrect: false, feedback: "This is only a temporary fix. The malware will likely restart itself or cause other issues. It needs to be properly removed." }
         ]
       }
     ]
@@ -257,6 +276,7 @@ export const gameScenarios: GameScenario[] = [
       {
         title: "Isolate the Problem",
         description: "The user's laptop shows a Wi-Fi connection, but a yellow triangle indicates 'No Internet'. What's the first thing you verify?",
+        hint: "Is it just this one device, or is the whole network down? This is the most important first question.",
         actions: [
           { text: "Check if other devices (like your phone) can connect to the same Wi-Fi network.", isCorrect: true, feedback: "Crucial first step. Your phone connects to the Wi-Fi and accesses the internet just fine. This proves the network itself is working and the problem is likely with the user's laptop." },
           { text: "Immediately restart the office's main Wi-Fi router.", isCorrect: false, feedback: "This would affect everyone in the office. Since you haven't confirmed the problem is the network, this is a disruptive and likely unnecessary step." },
@@ -266,18 +286,21 @@ export const gameScenarios: GameScenario[] = [
       {
         title: "Driver Investigation",
         description: "You've confirmed the issue is isolated to the laptop. The connection is unstable, suggesting a software or hardware fault on the device.",
+        hint: "Device Manager in Windows is the central place to check the status of all hardware and their drivers.",
         actions: [
           { text: "Open Device Manager and check the status of the Network Adapter.", isCorrect: true, feedback: "You navigate to Device Manager and see a small yellow warning icon next to the 'Intel Wi-Fi 6' adapter. This is a clear sign of a driver issue." },
           { text: "Run the Windows Network Troubleshooter.", isCorrect: false, feedback: "The troubleshooter runs for a few minutes and inconclusively suggests 'Try restarting the router,' which you've already ruled out as the main problem." },
-          { text: "Run `ipconfig /release` and `ipconfig /renew` in the command prompt.", isCorrect: false, feedback: "This is a good step for IP address conflicts, but the issue is more likely a faulty driver given the symptoms and that other devices work fine." }
+          { text: "Run `ipconfig /release` and `ipconfig /renew` in the command prompt.", isCorrect: false, feedback: "This can solve IP address conflicts, but the warning icon in Device Manager points to a lower-level driver problem." }
         ]
       },
       {
         title: "Implement the Fix",
         description: "Device Manager indicates a problem with the Wi-Fi driver. How do you resolve it?",
+        hint: "Sometimes, simply updating a driver isn't enough if the existing files are corrupt. A clean re-installation is often more effective.",
         actions: [
           { text: "Right-click the adapter, choose 'Uninstall device' (and check the box to delete the driver software), then reboot the laptop.", isCorrect: true, feedback: "This is the correct procedure. Upon rebooting, Windows automatically finds the hardware and installs a fresh, working driver. The Wi-Fi connection is now stable and fast. Problem solved." },
-          { text: "Right-click the adapter and choose 'Update driver'.", isCorrect: false, feedback: "You try this first, but Windows reports 'The best drivers for your device are already installed.' This doesn't fix the corruption issue." }
+          { text: "Right-click the adapter and choose 'Update driver'.", isCorrect: false, feedback: "You try this first, but Windows reports 'The best drivers for your device are already installed.' This doesn't fix the corruption issue." },
+           { text: "Disable and then re-enable the adapter in Device Manager.", isCorrect: false, feedback: "This is a good quick step to try, but it often doesn't resolve underlying corruption. In this case, the problem returns after a few minutes." }
         ]
       }
     ]
@@ -291,6 +314,7 @@ export const gameScenarios: GameScenario[] = [
       {
         title: "Information Gathering",
         description: "The user has rebooted, and things seem normal for now. You need to find out what caused the crash.",
+        hint: "The most important piece of information on a BSOD is the 'Stop Code', which often looks like 'MEMORY_MANAGEMENT' or 'IRQL_NOT_LESS_OR_EQUAL'.",
         actions: [
           { text: "Ask the user for the specific 'Stop Code' shown on the blue screen.", isCorrect: true, feedback: "The user luckily snapped a photo with their phone. The stop code is 'MEMORY_MANAGEMENT'. This is a massive clue, pointing directly towards a RAM issue." },
           { text: "Check if the computer feels hot.", isCorrect: false, feedback: "Overheating can cause crashes, but it's not the most direct investigation. The specific error code is more important." },
@@ -300,6 +324,7 @@ export const gameScenarios: GameScenario[] = [
       {
         title: "Formulate a Theory",
         description: "The 'MEMORY_MANAGEMENT' stop code strongly suggests a problem with the computer's RAM. How do you test this theory?",
+        hint: "Windows has a built-in tool specifically for testing RAM. You can find it by searching for 'Windows Memory Diagnostic' in the start menu.",
         actions: [
           { text: "Use the Windows Memory Diagnostic tool to test the RAM.", isCorrect: true, feedback: "This is the correct, non-invasive next step. You schedule the diagnostic to run on the next reboot. The user is informed it will take some time." },
           { text: "Open the computer and start re-seating the RAM sticks.", isCorrect: false, feedback: "This is a physical step that should be taken only after a software diagnostic confirms a hardware fault. It's invasive and might not be necessary." },
@@ -309,9 +334,87 @@ export const gameScenarios: GameScenario[] = [
       {
         title: "Confirm and Resolve",
         description: "After the reboot, the Windows Memory Diagnostic tool runs. A few minutes in, it reports 'Hardware problems were detected'.",
+        hint: "The diagnostic tool has confirmed your theory. The only remaining step is to replace the faulty hardware.",
         actions: [
           { text: "Document the error, power down the PC, and replace the faulty RAM stick.", isCorrect: true, feedback: "With the diagnostic confirming the theory, you now have a clear plan. You replace the bad RAM with a new stick, and the computer boots up and runs without any further crashes. You've conquered the Blue Screen of Dread." },
-          { text: "Reinstall Windows.", isCorrect: false, feedback: "This is a drastic 'scorched earth' approach. It won't fix a hardware problem. The BSOD would almost certainly reappear after the reinstallation." }
+          { text: "Reinstall Windows.", isCorrect: false, feedback: "This is a drastic 'scorched earth' approach. It won't fix a hardware problem. The BSOD would almost certainly reappear after the reinstallation." },
+           { text: "Ignore the error and hope it fixes itself.", isCorrect: false, feedback: "The diagnostic found a definite hardware fault. Ignoring it will lead to more crashes and potential data corruption." }
+        ]
+      }
+    ]
+  },
+  {
+    id: '5',
+    title: "The Silent Desktop",
+    initialSituation: "A frantic user calls you over. 'I press the power button, but absolutely nothing happens! No lights, no beeps, no fans spinning. It's completely dead.'",
+    finalSolution: "The desktop computer was not receiving power because the surge protector it was plugged into had been tripped. The solution was to identify the external point of failure before inspecting internal components.",
+    steps: [
+      {
+        title: "External Power Check",
+        description: "You're looking at a completely unresponsive desktop computer. Where do you start?",
+        hint: "Always check the simplest and most external things first. Is it plugged in? Is the outlet working?",
+        actions: [
+          { text: "Check that the power cable is securely plugged into both the PC and the wall outlet (or surge protector).", isCorrect: true, feedback: "A fundamental first step. You notice the PC is plugged into a surge protector. You press the power button on the PC again... still nothing." },
+          { text: "Immediately open the computer case to check the internal power supply connections.", isCorrect: false, feedback: "Too soon! You should always rule out external power issues before opening the case." },
+          { text: "Tell the user they probably need a new power supply unit (PSU).", isCorrect: false, feedback: "You can't conclude that yet. Many other things could be wrong. Diagnosis must come before conclusions." }
+        ]
+      },
+      {
+        title: "Isolating the Power Source",
+        description: "The PC's power cable is secure. You suspect the issue might be the surge protector or the wall outlet itself.",
+        hint: "How can you test if the power source is the problem? Try a known-good power source.",
+        actions: [
+          { text: "Plug a different, working device (like a lamp or phone charger) into the same surge protector.", isCorrect: true, feedback: "Excellent idea. You plug in a desk lamp, and it doesn't turn on. You then notice the 'reset' switch on the surge protector is sticking out. You press it, it clicks, and the lamp turns on!" },
+          { text: "Replace the computer's power cable with a new one.", isCorrect: false, feedback: "While cables can fail, it's less common than a tripped surge protector or a dead outlet. It's better to test the source first." },
+          { text: "Use a multimeter to test the voltage coming out of the PSU inside the computer.", isCorrect: false, feedback: "This is an advanced and unnecessary step at this stage. The problem is likely external to the PC." }
+        ]
+      },
+      {
+        title: "Final Confirmation",
+        description: "You've reset the surge protector and confirmed it now provides power. The final step is to verify the original problem is solved.",
+        hint: "Don't forget to test the actual problem device.",
+        actions: [
+          { text: "Press the power button on the desktop computer again.", isCorrect: true, feedback: "Success! The computer whirs to life, lights flash, and the monitor displays the boot screen. You've saved the day without even opening the case." },
+          { text: "Tell the user to buy a new surge protector.", isCorrect: false, feedback: "Not necessarily. Surge protectors are designed to trip. Resetting it is often all that's needed. You should only recommend replacement if it trips frequently." },
+          { text: "Leave the lamp plugged in and tell the user the PC is fixed.", isCorrect: false, feedback: "You haven't confirmed the fix! You only confirmed the outlet works. Always test the original failing device." }
+        ]
+      }
+    ]
+  },
+  {
+    id: '6',
+    title: "The Installation Blockade",
+    initialSituation: "A user is trying to install new accounting software, but the installation fails every time with a vague error: 'Installation failed. Please contact your administrator.'",
+    finalSolution: "The software installation was being blocked by the corporate antivirus program, which was incorrectly flagging the installer as a potential threat. The solution was to temporarily disable the antivirus, run the installation as an administrator, and then re-enable the antivirus.",
+    steps: [
+      {
+        title: "Gathering Intel",
+        description: "The installation error is generic. You need more information about the environment.",
+        hint: "Vague errors often mean something external is interfering. What security software is running? Does the user have the right permissions?",
+        actions: [
+          { text: "Right-click the installer and select 'Run as administrator'.", isCorrect: true, feedback: "A crucial first step for many installation issues. However, when you do this, the installation still fails with the same error. This suggests something more than simple permissions is at play." },
+          { text: "Check the software's system requirements against the PC's specifications.", isCorrect: false, feedback: "A good thought, but less likely to cause a generic 'failed' error. Usually, you'd get a specific message like 'Not enough disk space' or 'OS not supported'." },
+          { text: "Try downloading the installer again in case the file is corrupt.", isCorrect: false, feedback: "This is a valid step, but running as admin is a more common fix to try first. In this case, the new download also fails." }
+        ]
+      },
+      {
+        title: "Investigating Interference",
+        description: "Running as administrator didn't work. Something else is actively blocking the installation. What could it be?",
+        hint: "Security software, like antivirus or firewalls, are designed to block suspicious activity, and sometimes they make mistakes (a 'false positive').",
+        actions: [
+          { text: "Temporarily disable the computer's antivirus and firewall software.", isCorrect: true, feedback: "A good theory. You disable the corporate antivirus suite, noting to re-enable it immediately after the test. You run the installer again as administrator." },
+          { text: "Boot the computer into Safe Mode and try the installation.", isCorrect: false, feedback: "This is a powerful troubleshooting step, but many installers won't run in Safe Mode because required Windows services are disabled." },
+          { text: "Edit the Windows Registry to look for related keys.", isCorrect: false, feedback: "Extremely risky and unnecessary at this point. Editing the registry should be a last resort and done with extreme caution." }
+        ]
+      },
+      {
+        title: "Resolution and Cleanup",
+        description: "With the antivirus temporarily disabled, the installation as administrator completes successfully! The accounting software now launches.",
+        hint: "Your job isn't done until the system is back in a secure state.",
+        actions: [
+          { text: "Immediately re-enable the antivirus software and verify the newly installed program still works.", isCorrect: true, feedback: "Perfect. You re-enable the security software, protecting the system. You launch the accounting app, and it works fine. You inform the user and document the solution, perhaps reporting the false positive to the antivirus vendor." },
+          { text: "Leave the antivirus disabled permanently for convenience.", isCorrect: false, feedback: "A huge security risk! The antivirus must be re-enabled to protect the user and the company network from real threats." },
+          { text: "Tell the user it's fixed and walk away without re-enabling security.", isCorrect: false, feedback: "You've left the computer vulnerable. Always return a system to its proper, secure configuration after troubleshooting." }
         ]
       }
     ]
@@ -546,3 +649,5 @@ export const quizQuestions: { [key: string]: QuizQuestion[] } = {
     }
   ]
 };
+
+  

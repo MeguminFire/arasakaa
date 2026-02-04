@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { games } from '@/lib/data';
 import PageHeader from '@/components/shared/page-header';
@@ -10,9 +12,12 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
+import { useUser } from '@/context/UserContext';
 
 export default function GamesPage() {
+  const { completedGames } = useUser();
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -21,31 +26,44 @@ export default function GamesPage() {
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {games.map((game) => (
-          <Card
-            key={game.id}
-            className="flex flex-col justify-between transition-transform transform hover:-translate-y-1 hover:shadow-lg"
-          >
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <game.icon className="h-10 w-10 text-primary mb-4" />
-                <Badge variant="outline" className="capitalize">
-                  {game.difficulty}
-                </Badge>
-              </div>
-              <CardTitle>{game.title}</CardTitle>
-              <CardDescription>{game.description}</CardDescription>
-            </CardHeader>
-            <CardFooter>
-              <Button asChild className="w-full">
-                <Link href={`/game/${game.id}`}>
-                  Play Game <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
+        {games.map((game) => {
+          const isCompleted = completedGames.includes(game.id);
+          return (
+            <Card
+              key={game.id}
+              className="flex flex-col justify-between transition-transform transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <game.icon className="h-10 w-10 text-primary mb-4" />
+                  <div className="flex flex-col items-end gap-2">
+                    <Badge variant="outline" className="capitalize">
+                      {game.difficulty}
+                    </Badge>
+                     {isCompleted && (
+                      <Badge variant="secondary" className="border-green-500 bg-green-500/10 text-green-400">
+                        <CheckCircle className="mr-1 h-3 w-3" />
+                        Completed
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+                <CardTitle>{game.title}</CardTitle>
+                <CardDescription>{game.description}</CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <Button asChild className="w-full">
+                  <Link href={`/game/${game.id}`}>
+                    {isCompleted ? 'Play Again' : 'Play Game'} <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardFooter>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );
 }
+
+  

@@ -26,6 +26,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import type { QuizQuestion } from '@/lib/types';
+import { useUser } from '@/context/UserContext';
 
 // Fisher-Yates shuffle algorithm
 const shuffleArray = (array: any[]) => {
@@ -42,6 +43,7 @@ const QUESTIONS_PER_QUIZ = 10;
 export default function QuizPage() {
   const params = useParams();
   const router = useRouter();
+  const { addCompletedItem } = useUser();
   const quizId = params.id as string;
   const quiz = useMemo(() => quizzes.find((q) => q.id === quizId), [quizId]);
 
@@ -81,6 +83,12 @@ export default function QuizPage() {
   useEffect(() => {
     startNewQuiz();
   }, [startNewQuiz]);
+  
+  useEffect(() => {
+    if (isFinished) {
+      addCompletedItem('quiz', quizId);
+    }
+  }, [isFinished, quizId, addCompletedItem]);
 
   if (isLoading) {
     return (
@@ -240,3 +248,5 @@ export default function QuizPage() {
     </div>
   );
 }
+
+  
