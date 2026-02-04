@@ -14,11 +14,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LogOut, Settings, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { signOut } from 'firebase/auth';
-import { useAuth } from '@/firebase';
 
 export default function UserAvatar() {
-  const { userProfile, authUser } = useUser();
-  const auth = useAuth();
+  const { userProfile, authUser, auth } = useUser();
 
   const handleLogout = async () => {
     if (auth) {

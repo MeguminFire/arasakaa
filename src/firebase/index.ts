@@ -4,16 +4,14 @@ import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
 
-import {
-  FirebaseProvider,
-  useFirebase,
-  useFirebaseApp,
-  useFirestore,
-  useAuth,
-  FirebaseContextValue,
-} from './provider';
-import { useUser } from './auth/use-user';
 import { useDoc } from './firestore/use-doc';
+
+export interface FirebaseContextValue {
+  app: FirebaseApp | null;
+  auth: Auth | null;
+  db: Firestore | null;
+}
+
 
 type FirebaseInstances = FirebaseContextValue;
 
@@ -37,13 +35,5 @@ export function initializeFirebase(): FirebaseInstances | null {
   return firebaseInstances;
 }
 
-export {
-  FirebaseProvider,
-  useFirebase,
-  useFirebaseApp,
-  useFirestore,
-  useAuth,
-  useUser,
-  useDoc,
-};
+export { useDoc };
 export type { FirebaseContextValue };
