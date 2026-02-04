@@ -17,6 +17,7 @@ import {
   Gamepad2,
   BookOpen,
   GraduationCap,
+  MessagesSquare,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import { TitanLogo } from '@/components/shared/icons';
@@ -105,6 +106,18 @@ export default function RootLayout({
                       <Link href="/quizzes">
                         <BookOpen />
                         <span>Quizzes</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      href="/forum"
+                      asChild
+                      tooltip="Guild Hall"
+                    >
+                      <Link href="/forum">
+                        <MessagesSquare />
+                        <span>Guild Hall</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

@@ -9,6 +9,7 @@ import type {
   QuizQuestion,
   GameScenario,
   ForumPost,
+  Comment,
 } from './types';
 import {
   Cpu,
@@ -28,6 +29,7 @@ import {
   PowerOff,
   FileX,
   Terminal,
+  MessagesSquare,
 } from 'lucide-react';
 import { getPlaceholderImage } from './placeholder-images';
 
@@ -748,8 +750,22 @@ export const forumPosts: ForumPost[] = [
         deviceType: 'Desktop PC',
         brand: 'Custom Build',
         createdAt: '2 hours ago',
-        replies: 12,
+        replies: 2,
         views: 88,
+        comments: [
+            {
+                id: 'comment-1-1',
+                user: leaderboard[0].user,
+                content: 'MEMORY_MANAGEMENT is almost always RAM. Did you run Windows Memory Diagnostic? Also, check if your motherboard BIOS is up to date. Sometimes new RAM kits need a BIOS update for stability.',
+                createdAt: '1 hour ago'
+            },
+            {
+                id: 'comment-1-2',
+                user: user,
+                content: 'Also make sure you enabled the correct EXPO/XMP profile in your BIOS. If the speed/timings are wrong, it can cause instability.',
+                createdAt: '45 minutes ago'
+            }
+        ]
     },
     {
         id: 'post-2',
@@ -763,7 +779,15 @@ export const forumPosts: ForumPost[] = [
         deviceType: 'Laptop',
         brand: 'Dell',
         createdAt: '1 day ago',
-        replies: 5,
+        replies: 1,
         views: 256,
+        comments: [
+            {
+                id: 'comment-2-1',
+                user: leaderboard[2].user,
+                content: 'I had a similar issue on an older XPS. It turned out to be a grounding issue with the chassis. Does it happen more when the laptop is plugged in and charging?',
+                createdAt: '22 hours ago'
+            }
+        ]
     }
 ];

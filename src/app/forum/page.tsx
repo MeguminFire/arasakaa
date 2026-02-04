@@ -1,6 +1,8 @@
 'use client';
 
-import { useUser } from '@/context/UserContext';
+import { useState } from 'react';
+import Link from 'next/link';
+import PageHeader from '@/components/shared/page-header';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,7 +14,6 @@ import { useToast } from '@/hooks/use-toast';
 import { forumPosts } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MessageSquare, Eye, Laptop, Smartphone, Tablet, Monitor, Send, HelpCircle } from 'lucide-react';
-import { useState } from 'react';
 
 const deviceTypes = [
   { value: 'desktop', label: 'Desktop PC', icon: Monitor },
@@ -29,8 +30,7 @@ const issueTypes = [
     'Won\'t Turn On', 'Slow Performance', 'Blue Screen (BSOD)', 'Internet/Wi-Fi Issues', 'Software Problem', 'Hardware Malfunction', 'Display/Graphics Issue', 'Other'
 ];
 
-export default function Forum() {
-    const { user } = useUser();
+export default function ForumPage() {
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -48,10 +48,8 @@ export default function Forum() {
     }
     
     return (
-        <div className="space-y-8 mt-8 w-full max-w-5xl">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold text-center">
-                Guild Hall
-            </h2>
+        <div className="space-y-8 w-full">
+            <PageHeader title="Guild Hall" description="Ask questions, share solutions, and connect with the community." />
 
              <Card className="bg-card/50">
                 <CardHeader>
@@ -132,45 +130,48 @@ export default function Forum() {
             <Separator />
             
             <div className="space-y-4">
+                 <h2 className="text-2xl font-headline font-bold">Recent Posts</h2>
                  {forumPosts.map(post => (
-                    <Card key={post.id} className="hover:border-primary/80 transition-colors">
-                        <CardHeader>
-                            <div className="flex gap-4">
-                                <Avatar>
-                                    <AvatarImage src={post.user.avatar} alt={post.user.name} />
-                                    <AvatarFallback>{post.user.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1">
-                                    <CardTitle className="text-lg mb-1">{post.title}</CardTitle>
-                                    <CardDescription>
-                                        Posted by <span className="text-primary font-medium">{post.user.name}</span> &bull; {post.createdAt}
-                                    </CardDescription>
+                    <Link href={`/forum/${post.id}`} key={post.id} className="block">
+                        <Card className="hover:border-primary/80 transition-colors">
+                            <CardHeader>
+                                <div className="flex gap-4">
+                                    <Avatar>
+                                        <AvatarImage src={post.user.avatar} alt={post.user.name} />
+                                        <AvatarFallback>{post.user.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="flex-1">
+                                        <CardTitle className="text-lg mb-1">{post.title}</CardTitle>
+                                        <CardDescription>
+                                            Posted by <span className="text-primary font-medium">{post.user.name}</span> &bull; {post.createdAt}
+                                        </CardDescription>
+                                    </div>
                                 </div>
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                             <p className="text-muted-foreground line-clamp-3">{post.content}</p>
-                        </CardContent>
-                        <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
-                            <div className="flex gap-4">
-                                <div className="flex items-center gap-1.5">
-                                    <HelpCircle className="h-4 w-4" />
-                                    <span>{post.deviceType} &bull; {post.brand}</span>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-muted-foreground line-clamp-2">{post.content}</p>
+                            </CardContent>
+                            <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
+                                <div className="flex gap-4">
+                                    <div className="flex items-center gap-1.5">
+                                        <HelpCircle className="h-4 w-4" />
+                                        <span>{post.deviceType} &bull; {post.brand}</span>
+                                    </div>
+                                    
                                 </div>
-                                
-                            </div>
-                            <div className="flex gap-4">
-                                <div className="flex items-center gap-1.5">
-                                    <MessageSquare className="h-4 w-4" />
-                                    <span>{post.replies}</span>
+                                <div className="flex gap-4">
+                                    <div className="flex items-center gap-1.5">
+                                        <MessageSquare className="h-4 w-4" />
+                                        <span>{post.replies}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <Eye className="h-4 w-4" />
+                                        <span>{post.views}</span>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                    <Eye className="h-4 w-4" />
-                                    <span>{post.views}</span>
-                                </div>
-                            </div>
-                        </CardFooter>
-                    </Card>
+                            </CardFooter>
+                        </Card>
+                    </Link>
                  ))}
             </div>
         </div>

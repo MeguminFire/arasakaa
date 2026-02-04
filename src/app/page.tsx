@@ -10,12 +10,12 @@ import {
   ArrowRight,
   Zap,
   UserPlus,
+  MessagesSquare,
 } from 'lucide-react';
 import { TitanLogo } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/UserContext';
 import { Input } from '@/components/ui/input';
-import Forum from '@/components/shared/forum';
 
 // Component for the navigation cards on the dashboard
 function DashboardCard({
@@ -212,8 +212,14 @@ export default function DashboardPage() {
           description="Test your knowledge with rapid-fire questions. Precision is key."
           className="md:col-span-2"
         />
+        <DashboardCard
+          href="/forum"
+          icon={MessagesSquare}
+          title="Guild Hall"
+          description="Ask for help, share your knowledge, and connect with other titans in the community forum."
+          className="md:col-span-2"
+        />
       </div>
-      <Forum />
     </div>
   );
 }

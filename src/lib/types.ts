@@ -81,6 +81,13 @@ export type GameScenario = {
   finalSolution: string;
 };
 
+export type Comment = {
+  id: string;
+  user: User;
+  content: string;
+  createdAt: string;
+}
+
 export type ForumPost = {
   id: string;
   user: User;
@@ -91,4 +98,5 @@ export type ForumPost = {
   createdAt: string;
   replies: number;
   views: number;
+  comments?: Comment[];
 };
