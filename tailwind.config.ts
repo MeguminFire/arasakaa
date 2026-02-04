@@ -101,9 +101,13 @@ export default {
             opacity: '1',
           },
         },
-        'scanline': {
-          '0%': { top: '-10%' },
-          '100%': { top: '110%' },
+        'glitch': {
+            '0%': { transform: 'translate(0)' },
+            '20%': { transform: 'translate(-3px, 3px)' },
+            '40%': { transform: 'translate(-3px, -3px)' },
+            '60%': { transform: 'translate(3px, 3px)' },
+            '80%': { transform: 'translate(3px, -3px)' },
+            '100%': { transform: 'translate(0)' },
         },
       },
       animation: {
@@ -111,7 +115,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in': 'fade-in 0.5s ease-out',
         'text-focus-in': 'text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both',
-        'scanline': 'scanline 3s linear infinite',
+        'glitch': 'glitch 0.2s linear',
       },
     },
   },
