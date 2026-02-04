@@ -59,9 +59,6 @@ export default function UserAvatar() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{userProfile.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {userProfile.email}
-            </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

@@ -115,13 +115,9 @@ export default function ProfilePage() {
                 />
               </div>
             </div>
-             <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" value={userProfile.email} disabled className="text-muted-foreground" />
-             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit" disabled={isSaving || name === userProfile.name}>
+            <Button type="submit" disabled={isSaving || !name || (userProfile && name === userProfile.name)}>
                 {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {isSaving ? 'Saving...' : 'Save Changes'}
             </Button>

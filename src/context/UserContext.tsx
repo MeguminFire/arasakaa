@@ -1,7 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { useUser as useFirebaseAuth, useFirestore, FirebaseProvider, initializeFirebase, FirebaseContextValue } from '@/firebase';
+import React, { createContext, useContext, ReactNode } from 'react';
+import { useUser as useFirebaseAuth, useFirestore } from '@/firebase';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import type { UserProfile } from '@/lib/types';
 import { doc, setDoc, arrayUnion } from 'firebase/firestore';
@@ -17,7 +17,7 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-const UserProviderContent = ({ children }: { children: ReactNode }) => {
+export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { user: authUser, loading: authLoading } = useFirebaseAuth();
   const db = useFirestore();
   
@@ -29,8 +29,11 @@ const UserProviderContent = ({ children }: { children: ReactNode }) => {
   const updateUserProfile = async (data: Partial<UserProfile>) => {
     if (!userDocRef) return;
     
-    // When creating a user profile for the first time, ensure email is included.
-    const profileData = userProfile ? data : { ...data, email: authUser?.email };
+    // When creating a user profile for the first time, ensure name is included from auth if available.
+    const profileData = !userProfile 
+      ? { ...data, name: data.name || authUser?.displayName || 'New User' } 
+      : data;
+      
     await setDoc(userDocRef, profileData, { merge: true });
   };
   
@@ -69,45 +72,18 @@ const UserProviderContent = ({ children }: { children: ReactNode }) => {
   );
 }
 
-const uninitializedUserContext: UserContextType = {
-  authUser: null,
-  userProfile: null,
-  loading: true,
-  updateUserProfile: async () => {},
-  addCompletedItem: async () => {},
-};
 
-
-export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [instances, setInstances] = useState<FirebaseContextValue | null>(null);
-
-  useEffect(() => {
-    // This effect runs only on the client, preventing SSR issues.
-    setInstances(initializeFirebase());
-  }, []);
-
-  // While Firebase is initializing on the client, we provide an uninitialized context.
-  // This prevents hooks like useAuth() from throwing errors on the server.
-  if (!instances) {
-     return (
-      <UserContext.Provider value={uninitializedUserContext}>
-        {children}
-      </UserContext.Provider>
-    );
-  }
-
-  return (
-    <FirebaseProvider {...instances}>
-      <UserProviderContent>{children}</UserProviderContent>
-    </FirebaseProvider>
-  );
-};
-
-
-export const useUser = () => {
+export const useUser = (): UserContextType => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    return uninitializedUserContext;
+    // This can happen on server render, provide a safe fallback.
+    return {
+      authUser: null,
+      userProfile: null,
+      loading: true,
+      updateUserProfile: async () => {},
+      addCompletedItem: async () => {},
+    };
   }
   return context;
 };

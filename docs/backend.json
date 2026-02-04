@@ -6,7 +6,6 @@
       "type": "object",
       "properties": {
         "name": { "type": "string", "description": "The user's display name." },
-        "email": { "type": "string", "description": "The user's email." },
         "avatar": { "type": "string", "description": "Data URI of the user's avatar." },
         "completedGames": {
           "type": "array",
@@ -24,7 +23,7 @@
           "description": "An array of completed lesson IDs."
         }
       },
-      "required": ["name", "email"]
+      "required": ["name"]
     }
   },
   "auth": {
