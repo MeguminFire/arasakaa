@@ -11,9 +11,10 @@ import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { LogIn, Loader2 } from 'lucide-react';
 import { TitanLogo } from '@/components/shared/icons';
-import { auth } from '@/firebase';
+import { useFirebase } from '@/firebase/FirebaseProvider';
 
 export default function LoginPage() {
+  const { auth } = useFirebase();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +23,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!auth) return;
     setIsLoading(true);
     try {
       const emailForFirebase = `${username}@example.com`;
@@ -99,7 +101,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full" disabled={isLoading || !auth}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <LogIn className="mr-2 h-4 w-4" />}
                 {isLoading ? 'Logging in...' : 'Log in'}
               </Button>

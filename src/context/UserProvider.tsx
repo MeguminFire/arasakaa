@@ -4,7 +4,7 @@ import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { doc, onSnapshot, setDoc, arrayUnion } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { UserProfile } from '@/lib/types';
-import { auth, db } from '@/firebase';
+import { useFirebase } from '@/firebase/FirebaseProvider';
 
 type UserContextValue = {
     authUser: FirebaseUser | null;
@@ -28,11 +28,13 @@ const UserContext = createContext<UserContextValue>({
 export const useUser = () => useContext(UserContext);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
+    const { auth, db } = useFirebase();
     const [authUser, setAuthUser] = useState<FirebaseUser | null>(null);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!auth) return;
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setAuthUser(user);
             if (!user) {
@@ -41,10 +43,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             }
         });
         return () => unsubscribe();
-    }, []);
+    }, [auth]);
 
     useEffect(() => {
-        if (authUser) {
+        if (authUser && db) {
             const userDocRef = doc(db, 'users', authUser.uid);
             const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
                 setUserProfile(docSnap.exists() ? (docSnap.data() as UserProfile) : null);
@@ -52,10 +54,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             });
             return () => unsubscribe();
         }
-    }, [authUser]);
+    }, [authUser, db]);
 
     const updateUserProfile = async (data: Partial<UserProfile>) => {
-        if (!authUser) return;
+        if (!authUser || !db) return;
         const userDocRef = doc(db, 'users', authUser.uid);
         const profileData = !userProfile
           ? {
@@ -74,7 +76,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         type: 'game' | 'quiz' | 'lesson',
         id: string
       ) => {
-        if (!authUser || !userProfile) return;
+        if (!authUser || !userProfile || !db) return;
     
         const userDocRef = doc(db, 'users', authUser.uid);
         let fieldToUpdate: keyof UserProfile | null = null;
