@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
 import { useUser as useFirebaseAuth, useFirestore, FirebaseProvider, initializeFirebase } from '@/firebase';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import type { UserProfile } from '@/lib/types';
@@ -69,31 +69,28 @@ const UserProviderContent = ({ children }: { children: ReactNode }) => {
   );
 }
 
+const uninitializedUserContext: UserContextType = {
+  authUser: null,
+  userProfile: null,
+  loading: true,
+  updateUserProfile: async () => {},
+  addCompletedItem: async () => {},
+};
+
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const firebaseInstances = initializeFirebase();
 
-  // While the client is mounting, we provide a loading state.
-  // We avoid rendering the full Firebase-dependent tree on the server.
-  if (!isClient) {
-    return (
-      <UserContext.Provider value={{
-        authUser: null,
-        userProfile: null,
-        loading: true,
-        updateUserProfile: async () => {},
-        addCompletedItem: async () => {},
-      }}>
+  if (!firebaseInstances) {
+     return (
+      <UserContext.Provider value={uninitializedUserContext}>
         {children}
       </UserContext.Provider>
     );
   }
 
   return (
-    <FirebaseProvider {...initializeFirebase()}>
+    <FirebaseProvider {...firebaseInstances}>
       <UserProviderContent>{children}</UserProviderContent>
     </FirebaseProvider>
   );
@@ -103,7 +100,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    return uninitializedUserContext;
   }
   return context;
 };

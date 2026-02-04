@@ -22,7 +22,11 @@ type FirebaseInstances = {
 
 let firebaseInstances: FirebaseInstances | null = null;
 
-export function initializeFirebase(): FirebaseInstances {
+export function initializeFirebase(): FirebaseInstances | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  
   if (firebaseInstances) {
     return firebaseInstances;
   }
