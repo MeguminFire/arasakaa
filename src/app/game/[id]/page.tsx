@@ -12,7 +12,7 @@ import type { GameScenario, Action, GameStep } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
-import { useUser } from '@/context/UserContext';
+import { useUser } from '@/context/UserProvider';
 
 export default function GamePage() {
   const params = useParams();

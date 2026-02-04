@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { TitanLogo } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
-import { useUser } from '@/context/UserContext';
+import { useUser } from '@/context/UserProvider';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 

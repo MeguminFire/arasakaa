@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { getPlaceholderImage } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, BookOpen, Wifi, Globe, Waypoints, Dna } from 'lucide-react';
-import { useUser } from '@/context/UserContext';
+import { useUser } from '@/context/UserProvider';
 import { useToast } from '@/hooks/use-toast';
 
 const LESSON_ID = '2';

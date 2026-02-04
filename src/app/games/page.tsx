@@ -13,7 +13,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle } from 'lucide-react';
-import { useUser } from '@/context/UserContext';
+import { useUser } from '@/context/UserProvider';
 
 export default function GamesPage() {
   const { userProfile } = useUser();

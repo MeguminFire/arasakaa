@@ -18,7 +18,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { leaderboard as defaultLeaderboard } from '@/lib/data';
 import { Trophy } from 'lucide-react';
-import { useUser } from '@/context/UserContext';
+import { useUser } from '@/context/UserProvider';
 import { useMemo } from 'react';
 import type { LeaderboardEntry } from '@/lib/types';
 

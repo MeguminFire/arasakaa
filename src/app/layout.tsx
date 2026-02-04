@@ -22,8 +22,8 @@ import {
 import { Toaster } from '@/components/ui/toaster';
 import { TitanLogo } from '@/components/shared/icons';
 import './globals.css';
-import { UserProvider } from '@/context/UserContext';
 import UserAvatar from '@/components/shared/UserAvatar';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 
 export const metadata: Metadata = {
@@ -48,7 +48,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark">
-          <UserProvider>
+          <FirebaseClientProvider>
             <SidebarProvider>
               <Sidebar>
                 <SidebarHeader>
@@ -140,7 +140,7 @@ export default function RootLayout({
                 <main className="flex-1 p-4 md:p-6">{children}</main>
               </SidebarInset>
             </SidebarProvider>
-          </UserProvider>
+          </FirebaseClientProvider>
         <Toaster />
       </body>
     </html>

@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle } from 'lucide-react';
-import { useUser } from '@/context/UserContext';
+import { useUser } from '@/context/UserProvider';
 import { Badge } from '@/components/ui/badge';
 
 

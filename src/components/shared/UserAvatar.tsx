@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser } from '@/context/UserContext';
+import { useUser } from '@/context/UserProvider';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,9 +14,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LogOut, Settings, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { signOut } from 'firebase/auth';
+import { useFirebase } from '@/firebase/provider';
 
 export default function UserAvatar() {
-  const { userProfile, authUser, auth } = useUser();
+  const { userProfile, authUser } = useUser();
+  const firebase = useFirebase();
+  const auth = firebase?.auth;
+
 
   const handleLogout = async () => {
     if (auth) {
