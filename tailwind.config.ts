@@ -109,6 +109,14 @@ export default {
             '80%': { transform: 'translate(3px, -3px)' },
             '100%': { transform: 'translate(0)' },
         },
+        'scroll-text': {
+          'from': { transform: 'translateY(0)' },
+          'to': { transform: 'translateY(-50%)' },
+        },
+        'fill-progress': {
+          'from': { width: '0%' },
+          'to': { width: '100%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -116,6 +124,8 @@ export default {
         'fade-in': 'fade-in 0.5s ease-out',
         'text-focus-in': 'text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both',
         'glitch': 'glitch 0.2s linear',
+        'scroll-text': 'scroll-text 20s linear infinite',
+        'fill-progress': 'fill-progress 1s ease-in-out forwards',
       },
     },
   },

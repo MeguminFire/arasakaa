@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { useUser } from '@/context/UserProvider';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
+import { SplashScreen } from '@/components/shared/SplashScreen';
 
 
 // Component for the navigation cards on the dashboard
@@ -68,10 +69,18 @@ function DashboardCard({
 }
 
 export default function DashboardPage() {
+  const [splashFinished, setSplashFinished] = useState(false);
   const [view, setView] = useState('loading'); // 'loading', 'intro', 'nameEntry', 'dashboard'
   const [newName, setNewName] = useState('');
   const { authUser, userProfile, loading, updateUserProfile } = useUser();
   const router = useRouter();
+
+  useEffect(() => {
+    const splashTimer = setTimeout(() => {
+      setSplashFinished(true);
+    }, 4000); // Animation is ~3.5s, give it a bit of buffer to fade out.
+    return () => clearTimeout(splashTimer);
+  }, []);
 
   useEffect(() => {
     // This effect runs once on mount to decide the initial view
@@ -115,6 +124,10 @@ export default function DashboardPage() {
         // The useEffect will handle switching to the dashboard view
     }
   };
+
+  if (!splashFinished) {
+    return <SplashScreen />;
+  }
 
   if (view === 'loading') {
     return null; // Render nothing on server and during initial client load to avoid hydration issues
