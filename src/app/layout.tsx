@@ -19,6 +19,7 @@ import {
   BookOpen,
   LogOut,
   Settings,
+  GraduationCap,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import { TitanLogo } from '@/components/shared/icons';
@@ -80,6 +81,18 @@ export default function RootLayout({
                     <Link href="/">
                       <LayoutDashboard />
                       <span>Dashboard</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    href="/learn"
+                    asChild
+                    tooltip="Learn"
+                  >
+                    <Link href="/learn">
+                      <GraduationCap />
+                      <span>Learn</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { quizzes, quizQuestions } from '@/lib/data';
 import PageHeader from '@/components/shared/page-header';
@@ -23,24 +23,62 @@ import {
   Lightbulb,
   Trophy,
   RotateCcw,
+  Loader2,
 } from 'lucide-react';
+import type { QuizQuestion } from '@/lib/types';
+
+// Function to shuffle an array
+const shuffleArray = (array: any[]) => {
+  return [...array].sort(() => Math.random() - 0.5);
+};
+
+const QUESTIONS_PER_QUIZ = 10;
 
 export default function QuizPage() {
   const params = useParams();
   const router = useRouter();
   const quizId = params.id as string;
   const quiz = useMemo(() => quizzes.find((q) => q.id === quizId), [quizId]);
-  const questions = useMemo(() => quizQuestions[quizId] || [], [quizId]);
 
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
+  useEffect(() => {
+    if (quizId) {
+      setIsLoading(true);
+      const allQuestions = quizQuestions[quizId] || [];
+      const shuffled = shuffleArray(allQuestions);
+      const selectedQuestions = shuffled.slice(0, QUESTIONS_PER_QUIZ);
+      setQuestions(selectedQuestions);
+
+      // Reset state when quiz changes
+      setCurrentQuestionIndex(0);
+      setSelectedAnswer(null);
+      setShowFeedback(false);
+      setScore(0);
+      setIsFinished(false);
+      setIsLoading(false);
+    }
+  }, [quizId]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-center">
+        <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+        <p className="text-lg font-semibold">Preparing your quiz...</p>
+        <p className="text-muted-foreground">Shuffling the questions for a unique challenge.</p>
+      </div>
+    );
+  }
+
   const currentQuestion = questions[currentQuestionIndex];
   const isCorrect = selectedAnswer === currentQuestion?.correctAnswer;
-  const progressValue = ((currentQuestionIndex + 1) / questions.length) * 100;
+  const progressValue = questions.length > 0 ? ((currentQuestionIndex + 1) / questions.length) * 100 : 0;
 
   const handleAnswerSubmit = () => {
     if (selectedAnswer === null) return;
@@ -61,6 +99,11 @@ export default function QuizPage() {
   };
 
   const handleRestart = () => {
+    // Re-shuffle and select questions
+    const allQuestions = quizQuestions[quizId] || [];
+    const shuffled = shuffleArray(allQuestions);
+    setQuestions(shuffled.slice(0, QUESTIONS_PER_QUIZ));
+    
     setCurrentQuestionIndex(0);
     setSelectedAnswer(null);
     setShowFeedback(false);
@@ -77,7 +120,7 @@ export default function QuizPage() {
     );
   }
 
-  if (questions.length === 0) {
+  if (questions.length === 0 && !isLoading) {
     return (
       <PageHeader
         title="No Questions"
@@ -85,7 +128,7 @@ export default function QuizPage() {
       />
     );
   }
-
+  
   if (isFinished) {
     return (
       <div className="flex flex-col items-center justify-center text-center space-y-4">
