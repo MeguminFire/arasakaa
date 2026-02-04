@@ -36,7 +36,7 @@ export default function GamesPage() {
             >
               <CardHeader>
                 <div className="flex items-start justify-between">
-                  <game.icon className="h-10 w-10 text-primary mb-4" />
+                  <game.icon className="h-8 w-8 text-primary mb-3" />
                   <div className="flex flex-col items-end gap-2">
                     <Badge variant="outline" className="capitalize">
                       {game.difficulty}
@@ -49,7 +49,7 @@ export default function GamesPage() {
                     )}
                   </div>
                 </div>
-                <CardTitle>{game.title}</CardTitle>
+                <CardTitle className="text-xl">{game.title}</CardTitle>
                 <CardDescription>{game.description}</CardDescription>
               </CardHeader>
               <CardFooter>

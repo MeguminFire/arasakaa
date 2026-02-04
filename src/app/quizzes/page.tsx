@@ -37,7 +37,7 @@ export default function QuizzesPage() {
             >
               <CardHeader>
                  <div className="flex items-start justify-between">
-                    <quiz.icon className="h-10 w-10 text-primary mb-4" />
+                    <quiz.icon className="h-8 w-8 text-primary mb-3" />
                     {isCompleted && (
                         <Badge variant="secondary" className="border-green-500 bg-green-500/10 text-green-400">
                             <CheckCircle className="mr-1 h-3 w-3" />
@@ -45,7 +45,7 @@ export default function QuizzesPage() {
                         </Badge>
                     )}
                 </div>
-                <CardTitle>{quiz.title}</CardTitle>
+                <CardTitle className="text-xl">{quiz.title}</CardTitle>
                 <CardDescription>{quiz.description}</CardDescription>
               </CardHeader>
               <CardFooter>
