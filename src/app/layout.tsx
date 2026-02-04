@@ -26,7 +26,7 @@ import UserAvatar from '@/components/shared/UserAvatar';
 
 
 export const metadata: Metadata = {
-  title: 'Troubleshoot Titans',
+  title: 'Glitch Guild',
   description: 'Games and quizzes about computer troubleshooting.',
 };
 
@@ -54,7 +54,7 @@ export default function RootLayout({
                 <div className="flex items-center gap-2">
                   <TitanLogo className="size-8 text-primary" />
                   <span className="text-xl font-headline">
-                    Troubleshoot Titans
+                    Glitch Guild
                   </span>
                 </div>
               </SidebarHeader>
