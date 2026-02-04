@@ -24,7 +24,6 @@ import { TitanLogo } from '@/components/shared/icons';
 import './globals.css';
 import { UserProvider } from '@/context/UserContext';
 import UserAvatar from '@/components/shared/UserAvatar';
-import { FirebaseProvider } from '@/firebase/provider';
 
 
 export const metadata: Metadata = {
@@ -49,7 +48,6 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark">
-        <FirebaseProvider>
           <UserProvider>
             <SidebarProvider>
               <Sidebar>
@@ -143,7 +141,6 @@ export default function RootLayout({
               </SidebarInset>
             </SidebarProvider>
           </UserProvider>
-        </FirebaseProvider>
         <Toaster />
       </body>
     </html>

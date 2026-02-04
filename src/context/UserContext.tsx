@@ -7,16 +7,21 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import { useAuth, useFirestore } from '@/firebase/hooks';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import type { UserProfile } from '@/lib/types';
-import { doc, setDoc, arrayUnion } from 'firebase/firestore';
-import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
+import { doc, setDoc, arrayUnion, type Firestore } from 'firebase/firestore';
+import { onAuthStateChanged, type User as FirebaseUser, type Auth } from 'firebase/auth';
+import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { firebaseConfig } from '@/firebase/config';
 
 // Define the shape of the context value
 interface UserContextType {
   authUser: FirebaseUser | null;
   userProfile: UserProfile | null;
+  auth: Auth | null;
+  db: Firestore | null;
   loading: boolean;
   updateUserProfile: (data: Partial<UserProfile>) => Promise<void>;
   addCompletedItem: (
@@ -29,16 +34,25 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const auth = useAuth();
-  const db = useFirestore();
+  const [auth, setAuth] = useState<Auth | null>(null);
+  const [db, setDb] = useState<Firestore | null>(null);
   const [authUser, setAuthUser] = useState<FirebaseUser | null>(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
+
+  // Initialize Firebase on client mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const app =
+        getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+      setAuth(getAuth(app));
+      setDb(getFirestore(app));
+    }
+  }, []);
+
 
   // Listen for auth state changes
   useEffect(() => {
     if (!auth) {
-      // Firebase auth is not initialized yet.
-      // We also set loading to true when auth becomes null (on logout)
       setLoadingAuth(true);
       return;
     }
@@ -106,6 +120,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     authUser,
     userProfile: userProfile ?? null,
+    auth,
+    db,
     loading: loadingAuth || profileLoading,
     updateUserProfile,
     addCompletedItem,
