@@ -75,8 +75,8 @@ export default function RootLayout({
       <body className="font-body antialiased dark">
         <FirebaseProvider>
           <UserProvider>
-            <div className="flex flex-col min-h-screen">
-              <header className="sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
+            <div className="flex flex-col h-screen">
+              <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
                   <Link href="/" className="flex items-center gap-2">
                       <TitanLogo className="size-8 text-primary" />
                       <span className="text-2xl font-headline">
@@ -84,8 +84,8 @@ export default function RootLayout({
                       </span>
                   </Link>
               </header>
-              <main className="flex-1 p-4 md:p-6 pb-24">{children}</main>
-               <footer className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/90 backdrop-blur-sm">
+              <main className="flex-1 p-4 md:p-6 overflow-y-auto">{children}</main>
+               <footer className="relative flex-shrink-0 border-t bg-background/90">
                   <nav className="flex h-16 items-center justify-center gap-6 md:gap-12 px-4">
                     {navItems.map((item) => (
                       <Link
