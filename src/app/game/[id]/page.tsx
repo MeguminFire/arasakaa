@@ -1,14 +1,13 @@
 'use client';
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { games } from '@/lib/data';
-import { getNewInteractiveScenario } from '@/lib/actions';
+import { games, scenarios } from '@/lib/data';
 import PageHeader from '@/components/shared/page-header';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CheckCircle2, XCircle, Lightbulb, Loader2, Trophy, RotateCcw, ChevronRight, ServerCrash } from 'lucide-react';
+import { CheckCircle2, XCircle, Lightbulb, Loader2, Trophy, RotateCcw, ChevronRight } from 'lucide-react';
 import type { GameScenario, Action, GameStep } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -22,11 +21,7 @@ export default function GamePage() {
   const gameId = params.id as string;
   
   const game = useMemo(() => games.find((g) => g.id === gameId), [gameId]);
-
-  // State for the dynamic scenario
-  const [scenario, setScenario] = useState<GameScenario | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const scenario: GameScenario | undefined = useMemo(() => (scenarios as Record<string, GameScenario>)[gameId], [gameId]);
 
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
@@ -35,29 +30,6 @@ export default function GamePage() {
   const [history, setHistory] = useState<{step: GameStep, action: Action}[]>([]);
   const [showHint, setShowHint] = useState(false);
   
-  const loadScenario = useCallback(async () => {
-    if (!game) return;
-    setIsLoading(true);
-    setError(null);
-    setScenario(null);
-
-    try {
-      const { icon, ...gameInfo } = game;
-      const newScenario = await getNewInteractiveScenario(gameInfo);
-      setScenario(newScenario);
-    } catch (e) {
-      console.error(e);
-      setError('Failed to generate a new mission scenario. The AI might be busy. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [game]);
-
-  useEffect(() => {
-    loadScenario();
-  }, [loadScenario]);
-
-
   useEffect(() => {
     if (isFinished && scenario) {
       addCompletedItem('game', gameId);
@@ -85,11 +57,13 @@ export default function GamePage() {
           setShowHint(false);
         }
       } else {
-        // Incorrect action, just show feedback and let user try again
-        setSelectedAction(null);
-        setSelectedActionIndex(null);
+        // Incorrect action, show feedback for 2.5s then let user try again.
+        setTimeout(() => {
+            setSelectedAction(null);
+            setSelectedActionIndex(null);
+        }, 2500);
       }
-    }, 2500);
+    }, 1500); // Shorter delay for a snappier feel
   };
   
   const handleRestart = () => {
@@ -99,36 +73,10 @@ export default function GamePage() {
       setSelectedActionIndex(null);
       setIsFinished(false);
       setShowHint(false);
-      // Load a new scenario for a truly new game
-      loadScenario();
   }
   
-  if (!game) {
-    return <PageHeader title="Game not found" description="This troubleshooting game does not exist." />;
-  }
-
-  if (isLoading) {
-      return (
-        <div className="flex flex-col items-center justify-center h-full text-center space-y-4 animate-fade-in">
-            <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            <h1 className="text-2xl font-headline font-bold">Generating Your Mission...</h1>
-            <p className="text-muted-foreground">Our top agents are crafting a unique scenario for you. Stand by.</p>
-        </div>
-      );
-  }
-
-  if (error || !scenario) {
-    return (
-         <div className="flex flex-col items-center justify-center h-full text-center space-y-4 animate-fade-in">
-            <ServerCrash className="h-12 w-12 text-destructive" />
-            <h1 className="text-2xl font-headline font-bold">Scenario Generation Failed</h1>
-            <p className="text-muted-foreground max-w-md">{error}</p>
-            <Button onClick={loadScenario}>
-                <RotateCcw className="mr-2 h-4 w-4" />
-                Retry Generation
-            </Button>
-        </div>
-    )
+  if (!game || !scenario) {
+    return <PageHeader title="Game not found" description="This troubleshooting game does not exist or has not been configured." />;
   }
   
   if (isFinished) {
@@ -243,19 +191,10 @@ export default function GamePage() {
             </Card>
         )}
 
-        {selectedAction && (
-          <Alert variant={selectedAction.isCorrect ? 'default' : 'destructive'} className={cn("border-2 animate-fade-in", {
-              'border-green-500 text-green-400': selectedAction.isCorrect,
-              'border-red-500 text-red-400': !selectedAction.isCorrect,
-          })}>
-            {selectedAction.isCorrect ? (
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
-            ) : (
-              <XCircle className="h-4 w-4 text-red-500" />
-            )}
-            <AlertTitle className="flex items-center gap-2">
-              {selectedAction.isCorrect ? "Correct Action" : 'Ineffective Action'}
-            </AlertTitle>
+        {selectedAction && !selectedAction.isCorrect && (
+          <Alert variant='destructive' className="border-2 animate-fade-in border-red-500 text-red-400">
+            <XCircle className="h-4 w-4 text-red-500" />
+            <AlertTitle className="flex items-center gap-2">Ineffective Action</AlertTitle>
             <AlertDescription>{selectedAction.feedback}</AlertDescription>
           </Alert>
         )}
