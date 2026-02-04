@@ -4,12 +4,11 @@ import { FirebaseContext, FirebaseContextValue } from './provider';
 
 export const useFirebase = (): FirebaseContextValue => {
   const context = useContext(FirebaseContext);
-  if (context === undefined) {
-    throw new Error('useFirebase must be used within a FirebaseProvider.');
-  }
-  return context;
+  // It's okay for context to be undefined on the server.
+  // We don't throw an error, and components should handle the `null` case.
+  return context ?? null;
 };
 
-export const useFirebaseApp = () => useFirebase()?.app;
-export const useAuth = () => useFirebase()?.auth;
-export const useFirestore = () => useFirebase()?.db;
+export const useFirebaseApp = () => useFirebase()?.app ?? null;
+export const useAuth = () => useFirebase()?.auth ?? null;
+export const useFirestore = () => useFirebase()?.db ?? null;

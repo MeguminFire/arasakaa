@@ -11,8 +11,7 @@ import { useAuth, useFirestore } from '@/firebase/hooks';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import type { UserProfile } from '@/lib/types';
 import { doc, setDoc, arrayUnion } from 'firebase/firestore';
-import { onAuthStateChanged, type User as FirebaseUser, type Auth } from 'firebase/auth';
-import type { Firestore } from 'firebase/firestore';
+import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 
 // Define the shape of the context value
 interface UserContextType {
@@ -39,6 +38,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!auth) {
       // Firebase auth is not initialized yet.
+      // We also set loading to true when auth becomes null (on logout)
+      setLoadingAuth(true);
       return;
     }
 
