@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { games, gameScenarios } from '@/lib/data';
+import { games } from '@/lib/data';
+import { getNewInteractiveScenario } from '@/lib/actions';
 import PageHeader from '@/components/shared/page-header';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CheckCircle2, XCircle, Lightbulb, Loader2, Trophy, RotateCcw, ChevronRight } from 'lucide-react';
+import { CheckCircle2, XCircle, Lightbulb, Loader2, Trophy, RotateCcw, ChevronRight, ServerCrash } from 'lucide-react';
 import type { GameScenario, Action } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -21,7 +22,11 @@ export default function GamePage() {
   const gameId = params.id as string;
   
   const game = useMemo(() => games.find((g) => g.id === gameId), [gameId]);
-  const scenario = useMemo(() => gameScenarios.find((s) => s.id === gameId), [gameId]);
+
+  // State for the dynamic scenario
+  const [scenario, setScenario] = useState<GameScenario | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
@@ -29,25 +34,47 @@ export default function GamePage() {
   const [isFinished, setIsFinished] = useState(false);
   const [history, setHistory] = useState<{step: typeof scenario.steps[0], action: Action}[]>([]);
   const [showHint, setShowHint] = useState(false);
+  
+  const loadScenario = useCallback(async () => {
+    if (!game) return;
+    setIsLoading(true);
+    setError(null);
+    setScenario(null);
+
+    try {
+      const newScenario = await getNewInteractiveScenario(game);
+      setScenario(newScenario);
+    } catch (e) {
+      console.error(e);
+      setError('Failed to generate a new mission scenario. The AI might be busy. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [game]);
 
   useEffect(() => {
-    if (isFinished) {
-      addCompletedItem('game', gameId);
+    loadScenario();
+  }, [loadScenario]);
+
+
+  useEffect(() => {
+    if (isFinished && scenario) {
+      addCompletedItem('game', scenario.id);
     }
-  }, [isFinished, gameId, addCompletedItem]);
+  }, [isFinished, scenario, addCompletedItem]);
 
   const handleActionClick = (action: Action, index: number) => {
-    if (selectedAction) return;
+    if (selectedAction || !scenario) return;
 
     setSelectedAction(action);
     setSelectedActionIndex(index);
     
-    const currentStep = scenario!.steps[currentStepIndex];
-    setHistory(prev => [...prev, { step: currentStep, action }]);
-
+    const currentStep = scenario.steps[currentStepIndex];
+    
     setTimeout(() => {
       if (action.isCorrect) {
-        const isLastStep = currentStepIndex === scenario!.steps.length - 1;
+        setHistory(prev => [...prev, { step: currentStep, action }]);
+        const isLastStep = currentStepIndex === scenario.steps.length - 1;
         if (isLastStep) {
           setIsFinished(true);
         } else {
@@ -57,7 +84,7 @@ export default function GamePage() {
           setShowHint(false);
         }
       } else {
-        // Incorrect action, allow user to try again
+        // Incorrect action, just show feedback and let user try again
         setSelectedAction(null);
         setSelectedActionIndex(null);
       }
@@ -71,15 +98,41 @@ export default function GamePage() {
       setSelectedActionIndex(null);
       setIsFinished(false);
       setShowHint(false);
+      // Load a new scenario for a truly new game
+      loadScenario();
   }
   
-  if (!game || !scenario) {
+  if (!game) {
     return <PageHeader title="Game not found" description="This troubleshooting game does not exist." />;
+  }
+
+  if (isLoading) {
+      return (
+        <div className="flex flex-col items-center justify-center h-full text-center space-y-4 animate-fade-in">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            <h1 className="text-2xl font-headline font-bold">Generating Your Mission...</h1>
+            <p className="text-muted-foreground">Our top agents are crafting a unique scenario for you. Stand by.</p>
+        </div>
+      );
+  }
+
+  if (error || !scenario) {
+    return (
+         <div className="flex flex-col items-center justify-center h-full text-center space-y-4 animate-fade-in">
+            <ServerCrash className="h-12 w-12 text-destructive" />
+            <h1 className="text-2xl font-headline font-bold">Scenario Generation Failed</h1>
+            <p className="text-muted-foreground max-w-md">{error}</p>
+            <Button onClick={loadScenario}>
+                <RotateCcw className="mr-2 h-4 w-4" />
+                Retry Generation
+            </Button>
+        </div>
+    )
   }
   
   if (isFinished) {
     return (
-         <div className="text-center max-w-3xl mx-auto space-y-6">
+         <div className="text-center max-w-3xl mx-auto space-y-6 animate-fade-in">
             <Trophy className="h-16 w-16 text-yellow-400 mx-auto" />
             <h1 className="text-3xl font-bold font-headline">Mission Complete, Titan!</h1>
             <p className="text-xl text-muted-foreground">
@@ -87,7 +140,7 @@ export default function GamePage() {
             </p>
             <Card className="text-left bg-card/80">
                 <CardHeader>
-                    <CardTitle>Debrief: Optimal Solution</CardTitle>
+                    <CardTitle>Debrief: Optimal Solution Path</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground">{scenario.finalSolution}</p>
@@ -190,7 +243,7 @@ export default function GamePage() {
         )}
 
         {selectedAction && (
-          <Alert variant={selectedAction.isCorrect ? 'default' : 'destructive'} className={cn("border-2", {
+          <Alert variant={selectedAction.isCorrect ? 'default' : 'destructive'} className={cn("border-2 animate-fade-in", {
               'border-green-500 text-green-400': selectedAction.isCorrect,
               'border-red-500 text-red-400': !selectedAction.isCorrect,
           })}>
@@ -208,5 +261,3 @@ export default function GamePage() {
     </div>
   );
 }
-
-  
