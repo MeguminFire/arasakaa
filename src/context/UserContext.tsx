@@ -1,111 +1,102 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import type { User } from '@/lib/types';
-import { user as defaultUser } from '@/lib/data';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { useUser as useFirebaseAuth, useFirestore, FirebaseProvider, initializeFirebase } from '@/firebase';
+import { useDoc } from '@/firebase/firestore/use-doc';
+import type { UserProfile } from '@/lib/types';
+import { doc, setDoc, arrayUnion } from 'firebase/firestore';
+import type { User as FirebaseUser } from 'firebase/auth';
 
 interface UserContextType {
-  user: User;
-  updateUser: (newUser: Partial<User>) => void;
-  completedGames: string[];
-  completedQuizzes: string[];
-  completedLessons: string[];
-  addCompletedItem: (type: 'game' | 'quiz' | 'lesson', id: string) => void;
+  authUser: FirebaseUser | null;
+  userProfile: UserProfile | null;
+  loading: boolean;
+  updateUserProfile: (data: Partial<UserProfile>) => Promise<void>;
+  addCompletedItem: (type: 'game' | 'quiz' | 'lesson', id: string) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User>(defaultUser);
-  const [completedGames, setCompletedGames] = useState<string[]>([]);
-  const [completedQuizzes, setCompletedQuizzes] = useState<string[]>([]);
-  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+const UserProviderContent = ({ children }: { children: ReactNode }) => {
+  const { user: authUser, loading: authLoading } = useFirebaseAuth();
+  const db = useFirestore();
+  
+  const userDocRef = authUser ? doc(db, 'users', authUser.uid) : null;
+  const { data: userProfile, loading: profileLoading } = useDoc<UserProfile>(userDocRef);
 
-  useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem('troubleshoot-user');
-      const storedGames = localStorage.getItem('completedGames');
-      const storedQuizzes = localStorage.getItem('completedQuizzes');
-      const storedLessons = localStorage.getItem('completedLessons');
+  const loading = authLoading || profileLoading;
 
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-      if (storedGames) {
-        setCompletedGames(JSON.parse(storedGames));
-      }
-      if (storedQuizzes) {
-        setCompletedQuizzes(JSON.parse(storedQuizzes));
-      }
-      if (storedLessons) {
-        setCompletedLessons(JSON.parse(storedLessons));
-      }
-    } catch (error) {
-      console.error("Failed to load data from localStorage", error);
-    }
-    setIsLoaded(true);
-  }, []);
-
-  const updateUser = (newUser: Partial<User>) => {
-    setUser(prevUser => {
-      const updatedUser = { ...prevUser, ...newUser };
-      try {
-        localStorage.setItem('troubleshoot-user', JSON.stringify(updatedUser));
-      } catch (error) {
-         console.error("Failed to save user to localStorage", error);
-      }
-      return updatedUser;
-    });
+  const updateUserProfile = async (data: Partial<UserProfile>) => {
+    if (!userDocRef) return;
+    
+    // When creating a user profile for the first time, ensure email is included.
+    const profileData = userProfile ? data : { ...data, email: authUser?.email };
+    await setDoc(userDocRef, profileData, { merge: true });
   };
+  
+  const addCompletedItem = async (type: 'game' | 'quiz' | 'lesson', id: string) => {
+    if (!userDocRef || !userProfile) return;
 
-  const addCompletedItem = (type: 'game' | 'quiz' | 'lesson', id: string) => {
-    if (type === 'game') {
-      setCompletedGames(prev => {
-        if (prev.includes(id)) return prev;
-        const newCompleted = [...prev, id];
-        try {
-            localStorage.setItem('completedGames', JSON.stringify(newCompleted));
-        } catch (error) {
-            console.error("Failed to save completed games to localStorage", error);
-        }
-        return newCompleted;
-      });
-    } else if (type === 'quiz') {
-      setCompletedQuizzes(prev => {
-        if (prev.includes(id)) return prev;
-        const newCompleted = [...prev, id];
-         try {
-            localStorage.setItem('completedQuizzes', JSON.stringify(newCompleted));
-        } catch (error) {
-            console.error("Failed to save completed quizzes to localStorage", error);
-        }
-        return newCompleted;
-      });
-    } else if (type === 'lesson') {
-        setCompletedLessons(prev => {
-            if (prev.includes(id)) return prev;
-            const newCompleted = [...prev, id];
-            try {
-                localStorage.setItem('completedLessons', JSON.stringify(newCompleted));
-            } catch (error) {
-                console.error("Failed to save completed lessons to localStorage", error);
-            }
-            return newCompleted;
-        });
+    let fieldToUpdate: keyof UserProfile | null = null;
+    let existingItems: string[] = [];
+
+    switch(type) {
+        case 'game':
+            fieldToUpdate = 'completedGames';
+            existingItems = userProfile.completedGames || [];
+            break;
+        case 'quiz':
+            fieldToUpdate = 'completedQuizzes';
+            existingItems = userProfile.completedQuizzes || [];
+            break;
+        case 'lesson':
+            fieldToUpdate = 'completedLessons';
+            existingItems = userProfile.completedLessons || [];
+            break;
+    }
+
+    if (fieldToUpdate && !existingItems.includes(id)) {
+        await setDoc(userDocRef, {
+            [fieldToUpdate]: arrayUnion(id)
+        }, { merge: true });
     }
   };
-
-  if (!isLoaded) {
-    return null; // Or a loading spinner
-  }
 
   return (
-    <UserContext.Provider value={{ user, updateUser, completedGames, completedQuizzes, completedLessons, addCompletedItem }}>
+    <UserContext.Provider value={{ authUser, userProfile: userProfile ?? null, loading, updateUserProfile, addCompletedItem }}>
       {children}
     </UserContext.Provider>
   );
+}
+
+
+export const UserProvider = ({ children }: { children: ReactNode }) => {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return (
+      <UserContext.Provider value={{
+        authUser: null,
+        userProfile: null,
+        loading: true,
+        updateUserProfile: async () => {},
+        addCompletedItem: async () => {},
+      }}>
+        {children}
+      </UserContext.Provider>
+    );
+  }
+
+  return (
+    <FirebaseProvider {...initializeFirebase()}>
+      <UserProviderContent>{children}</UserProviderContent>
+    </FirebaseProvider>
+  );
 };
+
 
 export const useUser = () => {
   const context = useContext(UserContext);

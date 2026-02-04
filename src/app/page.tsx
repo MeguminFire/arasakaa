@@ -16,6 +16,8 @@ import { TitanLogo } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/UserContext';
 import { Input } from '@/components/ui/input';
+import { useRouter } from 'next/navigation';
+
 
 // Component for the navigation cards on the dashboard
 function DashboardCard({
@@ -68,27 +70,49 @@ function DashboardCard({
 export default function DashboardPage() {
   const [view, setView] = useState('loading'); // 'loading', 'intro', 'nameEntry', 'dashboard'
   const [newName, setNewName] = useState('');
-  const { updateUser } = useUser();
+  const { authUser, userProfile, loading, updateUserProfile } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     // This effect runs once on mount to decide the initial view
-    if (sessionStorage.getItem('introCompleted')) {
-      setView('dashboard');
-    } else {
-      setView('intro');
+    if (loading) {
+      setView('loading');
+      return;
     }
-  }, []);
+
+    if (!authUser) {
+      if (sessionStorage.getItem('introCompleted')) {
+        // If they've seen the intro but are logged out, send to login
+        router.push('/login');
+      } else {
+        // First time visitor, show intro
+        setView('intro');
+      }
+      return;
+    }
+
+    if (authUser && !userProfile) {
+      // Logged in, but no profile yet (first time sign up)
+      setView('nameEntry');
+      return;
+    }
+    
+    if(authUser && userProfile) {
+        setView('dashboard');
+    }
+
+  }, [authUser, userProfile, loading, router]);
 
   const handleIntroFinish = () => {
-    setView('nameEntry');
+    sessionStorage.setItem('introCompleted', 'true');
+    router.push('/signup');
   };
 
-  const handleNameSubmit = (e: React.FormEvent) => {
+  const handleNameSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newName.trim()) {
-      updateUser({ name: newName.trim() });
-      sessionStorage.setItem('introCompleted', 'true');
-      setView('dashboard');
+    if (newName.trim() && authUser) {
+        await updateUserProfile({ name: newName.trim() });
+        // The useEffect will handle switching to the dashboard view
     }
   };
 
@@ -155,7 +179,7 @@ export default function DashboardPage() {
                  <div className="p-8 rounded-lg border-2 border-primary/50 bg-card/50 backdrop-blur-sm space-y-6">
                     <UserPlus className="h-16 w-16 mx-auto text-primary" />
                     <h1 className="font-headline text-3xl md:text-4xl font-bold">Choose Your Callsign</h1>
-                    <p className="text-muted-foreground">Every agent in the Guild needs a name. What will yours be?</p>
+                    <p className="text-muted-foreground">Welcome to the Guild. Every agent needs a name. What will yours be?</p>
                     <form onSubmit={handleNameSubmit} className="flex flex-col gap-4">
                         <Input 
                             value={newName}

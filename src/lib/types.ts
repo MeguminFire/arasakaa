@@ -1,7 +1,20 @@
+import { User as FirebaseUser } from 'firebase/auth';
+
 export type User = {
+  uid: string;
   name: string;
+  email: string | null;
   avatar: string;
 };
+
+export type UserProfile = {
+  name: string;
+  email: string;
+  avatar: string;
+  completedGames: string[];
+  completedQuizzes: string[];
+  completedLessons: string[];
+}
 
 export type StatCard = {
   label: string;

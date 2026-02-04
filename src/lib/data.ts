@@ -34,6 +34,8 @@ import {
 import { getPlaceholderImage } from './placeholder-images';
 
 export const user: User = {
+  uid: 'default-user',
+  email: 'jett.runner.default@example.com',
   name: 'Jett Runner',
   avatar: '',
 };
@@ -100,6 +102,8 @@ export const leaderboard: LeaderboardEntry[] = [
     {
     rank: 1,
     user: {
+      uid: 'lead-1',
+      email: 'glitch@example.com',
       name: 'Glitch',
       avatar: '',
     },
@@ -109,6 +113,8 @@ export const leaderboard: LeaderboardEntry[] = [
   {
     rank: 2,
     user: {
+      uid: 'lead-2',
+      email: '8bit@example.com',
       name: '8-Bit',
       avatar: '',
     },
@@ -118,6 +124,8 @@ export const leaderboard: LeaderboardEntry[] = [
   {
     rank: 3,
     user: {
+      uid: 'lead-3',
+      email: 'trinity@example.com',
       name: 'Trinity',
       avatar: '',
     },
@@ -506,7 +514,9 @@ export const forumPosts: ForumPost[] = [
     {
         id: 'post-1',
         user: {
+            uid: 'forum-user-1',
             name: 'Cypher',
+            email: 'cypher@example.com',
             avatar: '',
         },
         title: 'My new custom build keeps getting BSOD with MEMORY_MANAGEMENT error.',
@@ -534,7 +544,9 @@ export const forumPosts: ForumPost[] = [
     {
         id: 'post-2',
         user: {
+            uid: 'forum-user-2',
             name: 'Echo',
+            email: 'echo@example.com',
             avatar: '',
         },
         title: 'Dell XPS 15 trackpad is randomly freezing and jumping.',

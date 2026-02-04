@@ -20,29 +20,52 @@ import { leaderboard as defaultLeaderboard } from '@/lib/data';
 import { Trophy } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
 import { useMemo } from 'react';
+import type { User, LeaderboardEntry } from '@/lib/types';
 
 export default function Leaderboard() {
-  const { user } = useUser();
+  const { userProfile } = useUser();
 
   const leaderboard = useMemo(() => {
-     const userInLeaderboard = defaultLeaderboard.some(entry => entry.user.email === user.email);
-     if (userInLeaderboard) {
-        return defaultLeaderboard.map(entry => entry.user.email === user.email ? {...entry, user: user} : entry)
-     }
-     
-     const userEntry = {
-         rank: 1,
-         user: user,
-         score: 2280, // default score for now
-         time: '03:10', // default time for now
-     };
-     const otherEntries = defaultLeaderboard
-        .filter(entry => entry.user.email !== 'jett.runner.default@example.com')
-        .map((entry, index) => ({...entry, rank: index + 2}));
+    if (!userProfile) return defaultLeaderboard.slice(0, 4);
 
-     return [userEntry, ...otherEntries].slice(0, 4);
+    const userInLeaderboard = defaultLeaderboard.some(entry => entry.user.email === userProfile.email);
+    let updatedLeaderboard: LeaderboardEntry[];
 
-  }, [user]);
+    if (userInLeaderboard) {
+      updatedLeaderboard = defaultLeaderboard.map(entry => {
+        if (entry.user.email === userProfile.email) {
+          const user: User = {
+            uid: userProfile.uid,
+            name: userProfile.name,
+            email: userProfile.email,
+            avatar: userProfile.avatar,
+          };
+          return { ...entry, user: user };
+        }
+        return entry;
+      });
+    } else {
+      const userEntry: LeaderboardEntry = {
+        rank: 1, // Will be re-ranked
+        user: {
+          uid: userProfile.uid,
+          name: userProfile.name,
+          email: userProfile.email,
+          avatar: userProfile.avatar,
+        },
+        score: 2280, // default score for now
+        time: '03:10', // default time for now
+      };
+      updatedLeaderboard = [userEntry, ...defaultLeaderboard];
+    }
+
+    // Sort by score and re-assign rank
+    return updatedLeaderboard
+      .sort((a, b) => b.score - a.score)
+      .map((entry, index) => ({ ...entry, rank: index + 1 }))
+      .slice(0, 4);
+
+  }, [userProfile]);
 
   return (
     <Card>
@@ -72,7 +95,7 @@ export default function Leaderboard() {
                   <div className="flex items-center gap-3">
                     <Avatar className="h-9 w-9">
                       <AvatarImage src={entry.user.avatar} alt={entry.user.name} />
-                      <AvatarFallback>{entry.user.name.charAt(0)}</AvatarFallback>
+                      <AvatarFallback>{entry.user.name?.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div>
                       <p className="font-medium">{entry.user.name}</p>

@@ -1,0 +1,39 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Represents a user's profile information.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The user's display name." },
+        "email": { "type": "string", "description": "The user's email." },
+        "avatar": { "type": "string", "description": "Data URI of the user's avatar." },
+        "completedGames": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "An array of completed game IDs."
+        },
+        "completedQuizzes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "An array of completed quiz IDs."
+        },
+        "completedLessons": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "An array of completed lesson IDs."
+        }
+      },
+      "required": ["name", "email"]
+    }
+  },
+  "auth": {
+    "providers": ["email"]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Stores user profile data, keyed by their authentication UID."
+    }
+  }
+}
