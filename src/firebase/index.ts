@@ -6,14 +6,11 @@ import { firebaseConfig } from '@/firebase/config';
 
 import { useDoc } from './firestore/use-doc';
 
-export interface FirebaseContextValue {
-  app: FirebaseApp | null;
-  auth: Auth | null;
-  db: Firestore | null;
+export interface FirebaseInstances {
+  app: FirebaseApp;
+  auth: Auth;
+  db: Firestore;
 }
-
-
-type FirebaseInstances = FirebaseContextValue;
 
 let firebaseInstances: FirebaseInstances | null = null;
 
@@ -36,4 +33,3 @@ export function initializeFirebase(): FirebaseInstances | null {
 }
 
 export { useDoc };
-export type { FirebaseContextValue };

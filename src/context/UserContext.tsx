@@ -7,7 +7,7 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import { initializeFirebase } from '@/firebase';
+import { useAuth, useFirestore } from '@/firebase/hooks';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import type { UserProfile } from '@/lib/types';
 import { doc, setDoc, arrayUnion } from 'firebase/firestore';
@@ -16,8 +16,6 @@ import type { Firestore } from 'firebase/firestore';
 
 // Define the shape of the context value
 interface UserContextType {
-  auth: Auth | null;
-  db: Firestore | null;
   authUser: FirebaseUser | null;
   userProfile: UserProfile | null;
   loading: boolean;
@@ -32,30 +30,21 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [auth, setAuth] = useState<Auth | null>(null);
-  const [db, setDb] = useState<Firestore | null>(null);
+  const auth = useAuth();
+  const db = useFirestore();
   const [authUser, setAuthUser] = useState<FirebaseUser | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  // Initialize Firebase on the client side
-  useEffect(() => {
-    const instances = initializeFirebase();
-    if (instances) {
-      setAuth(instances.auth);
-      setDb(instances.db);
-    }
-  }, []);
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
   // Listen for auth state changes
   useEffect(() => {
     if (!auth) {
-      setLoading(false);
+      // Firebase auth is not initialized yet.
       return;
     }
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setAuthUser(user);
-      setLoading(false);
+      setLoadingAuth(false);
     });
 
     // Cleanup subscription on unmount
@@ -114,11 +103,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const value = {
-    auth,
-    db,
     authUser,
     userProfile: userProfile ?? null,
-    loading: loading || profileLoading,
+    loading: loadingAuth || profileLoading,
     updateUserProfile,
     addCompletedItem,
   };
@@ -129,16 +116,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 export const useUser = (): UserContextType => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    // This happens on server-side rendering, return a default "loading" state
-    return {
-      auth: null,
-      db: null,
-      authUser: null,
-      userProfile: null,
-      loading: true,
-      updateUserProfile: async () => {},
-      addCompletedItem: async () => {},
-    };
+    throw new Error('useUser must be used within a UserProvider');
   }
   return context;
 };
