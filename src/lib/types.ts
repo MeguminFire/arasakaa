@@ -59,16 +59,10 @@ export type QuizQuestion = {
 };
 
 // New types for the interactive game
-export type Result = {
-  text: string;
-  isCorrectPath: boolean;
-  isSolution: boolean;
-  nextStepIndex?: number;
-};
-
 export type Action = {
   text: string;
-  result: Result;
+  isCorrect: boolean;
+  feedback: string;
 };
 
 export type GameStep = {

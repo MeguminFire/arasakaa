@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CheckCircle2, XCircle, Lightbulb, Loader2, Trophy, RotateCcw, ChevronRight } from 'lucide-react';
 import { getNewInteractiveScenario } from '@/lib/actions';
-import type { InteractiveScenarioOutput, GameStep, Action, Result } from '@/lib/types';
+import type { InteractiveScenarioOutput, GameStep, Action } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { TitanLogo } from '@/components/shared/icons';
@@ -22,24 +22,24 @@ export default function GamePage() {
 
   const [scenario, setScenario] = useState<InteractiveScenarioOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentStepIndex, setCurrentStepIndex] = useState<number | null>(null);
-  const [lastResult, setLastResult] = useState<Result | null>(null);
+  const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
+  const [selectedAction, setSelectedAction] = useState<Action | null>(null);
   const [selectedActionIndex, setSelectedActionIndex] = useState<number | null>(null);
   const [isFinished, setIsFinished] = useState(false);
-  const [history, setHistory] = useState<{step: GameStep, action: Action, result: Result}[]>([]);
+  const [history, setHistory] = useState<{step: GameStep, action: Action}[]>([]);
 
   const fetchNewScenario = useCallback(() => {
     if (game) {
       setIsLoading(true);
       setScenario(null);
       setHistory([]);
+      setCurrentStepIndex(0);
+      setSelectedAction(null);
+      setSelectedActionIndex(null);
+      setIsFinished(false);
       getNewInteractiveScenario({ topic: game.topic, difficulty: game.difficulty })
         .then((newScenario) => {
           setScenario(newScenario);
-          setCurrentStepIndex(0);
-          setLastResult(null);
-          setSelectedActionIndex(null);
-          setIsFinished(false);
         })
         .catch(console.error)
         .finally(() => setIsLoading(false));
@@ -51,23 +51,30 @@ export default function GamePage() {
   }, [fetchNewScenario]);
 
   const handleActionClick = (action: Action, index: number) => {
-    if (!scenario || selectedActionIndex !== null) return;
+    if (selectedAction) return;
 
+    setSelectedAction(action);
     setSelectedActionIndex(index);
-    const result = action.result;
-    setLastResult(result);
     
-    const currentStep = scenario.steps[currentStepIndex!];
-    setHistory(prev => [...prev, { step: currentStep, action, result }]);
+    const currentStep = scenario!.steps[currentStepIndex];
+    setHistory(prev => [...prev, { step: currentStep, action }]);
 
     setTimeout(() => {
-        setSelectedActionIndex(null);
-        if (result.isSolution) {
-            setIsFinished(true);
+      if (action.isCorrect) {
+        const isLastStep = currentStepIndex === scenario!.steps.length - 1;
+        if (isLastStep) {
+          setIsFinished(true);
         } else {
-            setCurrentStepIndex(result.nextStepIndex ?? currentStepIndex);
+          setCurrentStepIndex(prev => prev + 1);
+          setSelectedAction(null);
+          setSelectedActionIndex(null);
         }
-    }, 2500); // Wait 2.5 seconds to show feedback before moving to next step
+      } else {
+        // Incorrect action, allow user to try again
+        setSelectedAction(null);
+        setSelectedActionIndex(null);
+      }
+    }, 2500);
   };
   
   const handleRestart = () => {
@@ -88,7 +95,7 @@ export default function GamePage() {
     );
   }
 
-  if (!scenario || currentStepIndex === null) {
+  if (!scenario) {
     return <PageHeader title="Error" description="Could not load the game scenario. Please try again." />;
   }
   
@@ -149,7 +156,7 @@ export default function GamePage() {
                 </Card>
                  <div className="flex items-center gap-4 text-accent">
                     <ChevronRight className="h-6 w-6" />
-                    <p className="font-code text-sm animate-pulse">{h.result.text}</p>
+                    <p className="font-code text-sm animate-pulse">{h.action.feedback}</p>
                 </div>
             </div>
         ))}
@@ -167,8 +174,8 @@ export default function GamePage() {
                         key={index}
                         variant={selectedActionIndex === index ? 'secondary' : 'outline'}
                         className={cn('w-full justify-start text-left h-auto whitespace-normal p-4', {
-                            'border-green-500 bg-green-500/10 text-green-400': selectedActionIndex === index && lastResult?.isCorrectPath,
-                            'border-red-500 bg-red-500/10 text-red-400': selectedActionIndex === index && !lastResult?.isCorrectPath,
+                            'border-green-500 bg-green-500/10 text-green-400': selectedActionIndex === index && selectedAction?.isCorrect,
+                            'border-red-500 bg-red-500/10 text-red-400': selectedActionIndex === index && selectedAction && !selectedAction.isCorrect,
                             'cursor-wait': selectedActionIndex !== null
                         })}
                         onClick={() => handleActionClick(action, index)}
@@ -182,21 +189,21 @@ export default function GamePage() {
             </Card>
         )}
 
-        {selectedActionIndex !== null && lastResult && (
-          <Alert variant={lastResult.isCorrectPath ? 'default' : 'destructive'} className={cn("border-2", {
-              'border-green-500 text-green-400': lastResult.isCorrectPath,
-              'border-red-500 text-red-400': !lastResult.isCorrectPath,
+        {selectedAction && (
+          <Alert variant={selectedAction.isCorrect ? 'default' : 'destructive'} className={cn("border-2", {
+              'border-green-500 text-green-400': selectedAction.isCorrect,
+              'border-red-500 text-red-400': !selectedAction.isCorrect,
           })}>
-            {lastResult.isCorrectPath ? (
+            {selectedAction.isCorrect ? (
               <CheckCircle2 className="h-4 w-4 text-green-500" />
             ) : (
               <XCircle className="h-4 w-4 text-red-500" />
             )}
             <AlertTitle className="flex items-center gap-2">
-              {lastResult.isCorrectPath ? "Good Call" : 'Ineffective Action'}
+              {selectedAction.isCorrect ? "Correct Action" : 'Ineffective Action'}
             </AlertTitle>
             <AlertDescription>
-                {lastResult.text}
+                {selectedAction.feedback}
             </AlertDescription>
           </Alert>
         )}
