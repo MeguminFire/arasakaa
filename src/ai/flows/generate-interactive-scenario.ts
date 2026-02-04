@@ -11,7 +11,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const InteractiveScenarioInputSchema = z.object({
+const InteractiveScenarioInputSchema = z.object({
   topic: z
     .string()
     .describe('The specific computer troubleshooting topic to generate a scenario for.'),
@@ -41,7 +41,7 @@ const GameStepSchema = z.object({
   results: z.record(z.string(), ResultSchema).describe("A map where the key is an action ID from the 'actions' array and the value is the result of that action."),
 });
 
-export const InteractiveScenarioOutputSchema = z.object({
+const InteractiveScenarioOutputSchema = z.object({
   title: z.string().describe("The title of the overall scenario (e.g., 'The Computer Won't Start')."),
   initialSituation: z.string().describe("The initial problem description given to the player from the 'customer' perspective."),
   startStepId: z.string().describe("The ID of the starting step, which must be a key in the 'steps' object."),
