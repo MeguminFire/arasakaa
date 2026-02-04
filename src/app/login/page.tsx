@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,13 +11,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { LogIn, Loader2 } from 'lucide-react';
-import { TitanLogo, GoogleIcon } from '@/components/shared/icons';
+import { TitanLogo } from '@/components/shared/icons';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
   const auth = useAuth();
@@ -52,36 +51,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    if (!auth) {
-        toast({
-            variant: 'destructive',
-            title: 'Sign In Failed',
-            description: 'Authentication service is not available. Please try again later.',
-        });
-        return;
-    }
-    setIsGoogleLoading(true);
-    const provider = new GoogleAuthProvider();
-    try {
-        await signInWithPopup(auth, provider);
-        toast({
-            title: 'Sign In Successful',
-            description: 'Welcome to the Glitch Guild!',
-        });
-        router.push('/');
-    } catch (error: any) {
-        console.error('Google Sign In error:', error);
-        toast({
-            variant: 'destructive',
-            title: 'Sign In Failed',
-            description: error.message || 'Could not sign in with Google.',
-        });
-    } finally {
-        setIsGoogleLoading(false);
-    }
-  }
-
   return (
     <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
       <Card className="w-full max-w-sm">
@@ -110,7 +79,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  disabled={isLoading || isGoogleLoading}
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -128,38 +97,18 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  disabled={isLoading || isGoogleLoading}
+                  disabled={isLoading}
                 />
               </div>
             </div>
 
             <div>
-              <Button type="submit" className="w-full" disabled={isLoading || isGoogleLoading}>
+              <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <LogIn className="mr-2 h-4 w-4" />}
                 {isLoading ? 'Logging in...' : 'Log in'}
               </Button>
             </div>
           </form>
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                </span>
-            </div>
-          </div>
-
-          <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={isLoading || isGoogleLoading}>
-            {isGoogleLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-                <GoogleIcon className="mr-2 h-4 w-4" />
-            )}
-            Google
-          </Button>
         </CardContent>
       </Card>
     </div>
