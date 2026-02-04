@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { games, gameScenarios } from '@/lib/data';
 import PageHeader from '@/components/shared/page-header';
@@ -11,7 +11,7 @@ import { CheckCircle2, XCircle, Lightbulb, Loader2, Trophy, RotateCcw, ChevronRi
 import type { GameScenario, Action } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { TitanLogo } from '@/components/shared/icons';
+import { Progress } from '@/components/ui/progress';
 
 export default function GamePage() {
   const params = useParams();
@@ -26,6 +26,16 @@ export default function GamePage() {
   const [selectedActionIndex, setSelectedActionIndex] = useState<number | null>(null);
   const [isFinished, setIsFinished] = useState(false);
   const [history, setHistory] = useState<{step: typeof scenario.steps[0], action: Action}[]>([]);
+  const [showHint, setShowHint] = useState(false);
+
+  useEffect(() => {
+    if (isFinished) {
+      const completed = JSON.parse(localStorage.getItem('completedGames') || '[]');
+      if (!completed.includes(gameId)) {
+        localStorage.setItem('completedGames', JSON.stringify([...completed, gameId]));
+      }
+    }
+  }, [isFinished, gameId]);
 
   const handleActionClick = (action: Action, index: number) => {
     if (selectedAction) return;
@@ -45,6 +55,7 @@ export default function GamePage() {
           setCurrentStepIndex(prev => prev + 1);
           setSelectedAction(null);
           setSelectedActionIndex(null);
+          setShowHint(false);
         }
       } else {
         // Incorrect action, allow user to try again
@@ -60,6 +71,7 @@ export default function GamePage() {
       setSelectedAction(null);
       setSelectedActionIndex(null);
       setIsFinished(false);
+      setShowHint(false);
   }
   
   if (!game || !scenario) {
@@ -100,7 +112,14 @@ export default function GamePage() {
   return (
     <div className="space-y-6">
        <PageHeader title={scenario.title} description={`Mission: Resolve a "${game.title}" scenario.`}>
-           <Badge variant="outline" className="capitalize border-accent text-accent">{game.difficulty}</Badge>
+           <div className='w-full md:w-64 space-y-2'>
+                <div className="flex justify-between text-sm font-medium">
+                    <span className="text-primary">Progress</span>
+                    <span>Step {currentStepIndex + 1} of {scenario.steps.length}</span>
+                </div>
+                <Progress value={((currentStepIndex + 1) / scenario.steps.length) * 100} />
+                <Badge variant="outline" className="capitalize border-accent text-accent">{game.difficulty}</Badge>
+           </div>
        </PageHeader>
         
         <Card className="bg-card/50">
@@ -135,6 +154,21 @@ export default function GamePage() {
                 <CardDescription>{currentStep.description}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
+                {currentStep.hint && (
+                    <div className="flex justify-end">
+                        <Button variant="outline" size="sm" onClick={() => setShowHint(true)} disabled={showHint}>
+                            <Lightbulb className="mr-2 h-4 w-4" />
+                            Get a Hint
+                        </Button>
+                    </div>
+                )}
+                 {showHint && currentStep.hint && (
+                    <Alert className="border-yellow-500/50 text-yellow-300">
+                        <Lightbulb className="h-4 w-4 text-yellow-400" />
+                        <AlertTitle>Hint</AlertTitle>
+                        <AlertDescription>{currentStep.hint}</AlertDescription>
+                    </Alert>
+                 )}
                 <p className="text-sm font-bold text-primary">Choose your next action:</p>
                 {currentStep.actions.map((action, index) => (
                     <Button
@@ -168,12 +202,4 @@ export default function GamePage() {
             )}
             <AlertTitle className="flex items-center gap-2">
               {selectedAction.isCorrect ? "Correct Action" : 'Ineffective Action'}
-            </AlertTitle>
-            <AlertDescription>
-                {selectedAction.feedback}
-            </AlertDescription>
-          </Alert>
-        )}
-    </div>
-  );
-}
+            </Aler<ctrl63>
