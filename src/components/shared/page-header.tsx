@@ -14,7 +14,7 @@ export default function PageHeader({
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+        <h1 className="text-2xl font-bold tracking-tight font-headline">{title}</h1>
         {description && (
           <p className="text-muted-foreground">{description}</p>
         )}

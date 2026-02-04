@@ -1,126 +1,113 @@
-import PageHeader from '@/components/shared/page-header';
-import { user, stats, progress, titles } from '@/lib/data';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { ArrowUp, ArrowDown } from 'lucide-react';
-import Leaderboard from '@/components/shared/leaderboard';
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { GraduationCap, Gamepad2, BookOpen, ArrowRight, Zap } from 'lucide-react';
+import { TitanLogo } from '@/components/shared/icons';
+import { cn } from '@/lib/utils';
+
+// Component for the navigation cards on the dashboard
+function DashboardCard({ href, icon: Icon, title, description, className }: { href: string, icon: React.ElementType, title: string, description: string, className?: string }) {
+  return (
+    <Link href={href} className={cn("block group", className)}>
+      <div className="relative h-full w-full p-4 md:p-6 rounded-lg border-2 border-primary/50 bg-card/50 backdrop-blur-sm transition-all duration-300 transform hover:border-primary hover:bg-card/80 hover:scale-105">
+        <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10"></div>
+        <div className="relative z-10 flex flex-col h-full">
+            <Icon className="h-12 w-12 text-primary group-hover:text-accent transition-colors" />
+            <h2 className="mt-4 font-headline text-2xl md:text-3xl font-bold text-foreground group-hover:text-accent transition-colors">{title}</h2>
+            <p className="mt-2 text-muted-foreground flex-grow">{description}</p>
+            <div className="mt-4 flex items-center font-semibold text-primary group-hover:text-accent transition-colors">
+              <span>Engage</span>
+              <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
+            </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 export default function DashboardPage() {
+  const [showIntro, setShowIntro] = useState(true);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    if (localStorage.getItem('introSeen')) {
+      setShowIntro(false);
+    }
+  }, []);
+
+  const handleStart = () => {
+    setShowIntro(false);
+    if (isClient) {
+      localStorage.setItem('introSeen', 'true');
+    }
+  };
+
+  if (!isClient) {
+    // Render nothing or a loader on the server to avoid hydration mismatch
+    return null;
+  }
+
+  if (showIntro) {
+    return (
+      <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4 text-center animate-fade-in">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="relative">
+          <Zap className="absolute -top-8 -left-8 h-16 w-16 text-primary/50 -rotate-12" />
+          <Zap className="absolute -bottom-8 -right-8 h-16 w-16 text-accent/50 rotate-12" />
+          <div className="p-8 rounded-lg border-2 border-primary/50 bg-card/50 backdrop-blur-sm">
+            <TitanLogo className="h-16 w-16 mx-auto text-primary" />
+            <h1 className="mt-6 font-headline text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+              Troubleshoot Titans
+            </h1>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+              Welcome, challenger. Sharpen your tech instincts. Diagnose, solve, and conquer real-world IT scenarios. Your training begins now.
+            </p>
+            <Button
+              onClick={handleStart}
+              size="lg"
+              className="mt-8 font-bold text-lg font-headline tracking-wider group bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground transform hover:scale-105 transition-all duration-300 shadow-[0_0_20px_hsl(var(--primary))] hover:shadow-[0_0_30px_hsl(var(--accent))]"
+            >
+              <span className="group-hover:tracking-widest transition-all duration-300">START</span>
+              <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-2 transition-transform duration-300" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-1 gap-6">
-      <PageHeader
-        title={`Welcome back, ${user.name}!`}
-        description="Here's a snapshot of your troubleshooting prowess."
-      />
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.label}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {stat.label}
-              </CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              {stat.change && (
-                <p className="text-xs text-muted-foreground flex items-center">
-                  {stat.changeType === 'increase' ? (
-                    <ArrowUp className="h-3 w-3 text-green-500 mr-1" />
-                  ) : (
-                    <ArrowDown className="h-3 w-3 text-red-500 mr-1" />
-                  )}
-                  {stat.change} from last week
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Progress Overview</CardTitle>
-            <CardDescription>
-              Your completion status for games and quizzes.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Activity</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead className="text-right">Completion</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {progress.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell className="font-medium">{item.name}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={item.type === 'Game' ? 'default' : 'secondary'}
-                        className="capitalize"
-                      >
-                        {item.type}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="flex items-center justify-end gap-2">
-                      <span className="text-sm text-muted-foreground w-8 text-right">
-                        {item.completion}%
-                      </span>
-                      <Progress value={item.completion} className="w-24" />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Earned Titles</CardTitle>
-            <CardDescription>
-              Your collection of special achievements.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4 md:grid-cols-3">
-            {titles
-              .filter((title) => title.earned)
-              .map((title) => (
-                <div
-                  key={title.id}
-                  className="flex flex-col items-center gap-2 rounded-lg border p-4 text-center"
-                >
-                  <title.icon className="h-8 w-8 text-accent" />
-                  <span className="text-sm font-medium">{title.name}</span>
-                </div>
-              ))}
-          </CardContent>
-        </Card>
-      </div>
-      
-      <Leaderboard />
-
+    <div className="flex flex-col items-center justify-center h-full animate-fade-in space-y-8 p-4">
+        <div className="text-center">
+            <h1 className="font-headline text-4xl md:text-5xl font-bold text-foreground">Main Hub</h1>
+            <p className="mt-2 text-muted-foreground text-lg">Choose your path, titan.</p>
+        </div>
+        <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
+            <DashboardCard 
+              href="/learn"
+              icon={GraduationCap}
+              title="Learn"
+              description="Master troubleshooting theory. Knowledge is your primary weapon."
+              className="md:col-span-1"
+            />
+            <DashboardCard 
+              href="/games"
+              icon={Gamepad2}
+              title="Games"
+              description="Apply your skills in simulated, real-world scenarios. Experience is everything."
+              className="md:col-span-1"
+            />
+             <DashboardCard 
+              href="/quizzes"
+              icon={BookOpen}
+              title="Quizzes"
+              description="Test your knowledge with rapid-fire questions. Precision is key."
+              className="md:col-span-2"
+            />
+        </div>
     </div>
   );
 }

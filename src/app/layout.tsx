@@ -54,18 +54,15 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-body antialiased dark">
         <SidebarProvider>
           <Sidebar>
             <SidebarHeader>
               <div className="flex items-center gap-2">
-                <TitanLogo className="size-8" />
-                <span className="text-xl font-semibold">
+                <TitanLogo className="size-8 text-primary" />
+                <span className="text-xl font-headline">
                   Troubleshoot Titans
                 </span>
               </div>
@@ -129,7 +126,7 @@ export default function RootLayout({
                     variant="ghost"
                     className="flex h-auto w-full items-center justify-start gap-2 p-2"
                   >
-                    <Avatar className="size-8">
+                    <Avatar className="size-8 border-2 border-primary/50">
                       <AvatarImage src={user.avatar} alt={user.name} />
                       <AvatarFallback>
                         {user.name.charAt(0)}
