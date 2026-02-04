@@ -74,7 +74,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     if (!userDocRef) return;
     const profileData = !userProfile
       ? {
-          ...data,
           name: data.name || authUser?.displayName || 'New User',
           avatar: data.avatar || '',
         }

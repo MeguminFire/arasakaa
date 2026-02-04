@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { User as UserIcon, Upload, Loader2 } from 'lucide-react';
+import { User as UserIcon, Upload, Loader2, Mail } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
 
@@ -77,7 +77,7 @@ export default function ProfilePage() {
           <CardHeader>
             <CardTitle>Edit Profile</CardTitle>
             <CardDescription>
-              Choose your callsign and upload a custom avatar.
+              Choose your callsign and upload a custom avatar. Your email address cannot be changed.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
@@ -112,6 +112,19 @@ export default function ProfilePage() {
                   className="pl-10"
                   placeholder="Enter your name"
                   disabled={isSaving}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <div className="relative">
+                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="email"
+                  value={authUser?.email ?? ''}
+                  disabled
+                  className="pl-10"
                 />
               </div>
             </div>
