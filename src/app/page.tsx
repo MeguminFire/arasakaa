@@ -38,14 +38,14 @@ function DashboardCard({ href, icon: Icon, title, description, className }: { hr
 
 
 export default function DashboardPage() {
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-    // Use sessionStorage to only show intro on first visit per session
-    if (sessionStorage.getItem('introSeen')) {
-      setShowIntro(false);
+    // Only show intro if it hasn't been seen this session
+    if (!sessionStorage.getItem('introSeen')) {
+      setShowIntro(true);
     }
   }, []);
 
@@ -63,25 +63,35 @@ export default function DashboardPage() {
 
   if (showIntro) {
     return (
-      <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4 text-center animate-fade-in">
+      <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4 text-center scanline-overlay overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="relative">
-          <Zap className="absolute -top-8 -left-8 h-16 w-16 text-primary/50 -rotate-12" />
-          <Zap className="absolute -bottom-8 -right-8 h-16 w-16 text-accent/50 rotate-12" />
+          <Zap className="absolute -top-8 -left-8 h-16 w-16 text-primary/50 -rotate-12 opacity-0 animate-text-focus-in" style={{ animationDelay: '2s', animationFillMode: 'forwards' }}/>
+          <Zap className="absolute -bottom-8 -right-8 h-16 w-16 text-accent/50 rotate-12 opacity-0 animate-text-focus-in" style={{ animationDelay: '2s', animationFillMode: 'forwards' }}/>
           <div className="p-8 rounded-lg border-2 border-primary/50 bg-card/50 backdrop-blur-sm">
-            <TitanLogo className="h-16 w-16 mx-auto text-primary" />
-            <h1 className="mt-6 font-headline text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+            <TitanLogo 
+              className="h-16 w-16 mx-auto text-primary opacity-0 animate-text-focus-in" 
+              style={{ animationDelay: '200ms', animationFillMode: 'forwards' }} 
+            />
+            <h1 
+              className="mt-6 font-headline text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent opacity-0 animate-text-focus-in"
+              style={{ animationDelay: '600ms', animationFillMode: 'forwards' }}
+            >
               Troubleshoot Titans
             </h1>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+            <p 
+              className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground opacity-0 animate-text-focus-in"
+              style={{ animationDelay: '1200ms', animationFillMode: 'forwards' }}
+            >
               Welcome, challenger. Sharpen your tech instincts. Diagnose, solve, and conquer real-world IT scenarios. Your training begins now.
             </p>
             <Button
               onClick={handleStart}
               size="lg"
-              className="mt-8 font-bold text-lg font-headline tracking-wider group bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground transform hover:scale-105 transition-all duration-300 shadow-[0_0_20px_hsl(var(--primary))] hover:shadow-[0_0_30px_hsl(var(--accent))]"
+              style={{ animationDelay: '1800ms', animationFillMode: 'forwards' }}
+              className="mt-8 font-bold text-lg font-headline tracking-wider group bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground transform hover:scale-105 transition-all duration-300 shadow-[0_0_20px_hsl(var(--primary))] hover:shadow-[0_0_30px_hsl(var(--accent))] opacity-0 animate-text-focus-in"
             >
-              <span className="group-hover:tracking-widest transition-all duration-300">START</span>
+              <span className="group-hover:tracking-widest transition-all duration-300">INITIALIZE</span>
               <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-2 transition-transform duration-300" />
             </Button>
           </div>

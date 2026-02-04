@@ -91,11 +91,27 @@ export default {
           from: { opacity: '0' },
           to: { opacity: '1' },
         },
+        'text-focus-in': {
+          '0%': {
+            filter: 'blur(8px)',
+            opacity: '0',
+          },
+          '100%': {
+            filter: 'blur(0px)',
+            opacity: '1',
+          },
+        },
+        'scanline': {
+          '0%': { top: '-10%' },
+          '100%': { top: '110%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in': 'fade-in 0.5s ease-out',
+        'text-focus-in': 'text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both',
+        'scanline': 'scanline 3s linear infinite',
       },
     },
   },

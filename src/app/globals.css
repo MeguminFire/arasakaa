@@ -13,7 +13,7 @@
     --popover: 220 20% 5%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 54 96% 49%;
+    --primary: 60 95% 55%;
     --primary-foreground: 220 20% 5%;
 
     --secondary: 220 20% 12%;
@@ -28,13 +28,13 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 54 96% 30%;
-    --input: 54 96% 30%;
-    --ring: 54 96% 49%;
+    --border: 60 95% 35%;
+    --input: 60 95% 35%;
+    --ring: 60 95% 55%;
 
     --radius: 0.5rem;
 
-    --chart-1: 54 96% 49%;
+    --chart-1: 60 95% 55%;
     --chart-2: 320 100% 55%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
@@ -44,11 +44,11 @@
     --sidebar-background: 220 20% 6%;
     --sidebar-foreground: 210 40% 98%;
     --sidebar-border: 220 20% 12%;
-    --sidebar-primary: 54 96% 49%;
+    --sidebar-primary: 60 95% 55%;
     --sidebar-primary-foreground: 220 20% 5%;
     --sidebar-accent: 220 20% 15%;
-    --sidebar-accent-foreground: 54 96% 49%;
-    --sidebar-ring: 54 96% 49%;
+    --sidebar-accent-foreground: 60 95% 55%;
+    --sidebar-ring: 60 95% 55%;
   }
 
   .dark {
@@ -62,7 +62,7 @@
     --popover: 220 20% 5%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 54 96% 49%;
+    --primary: 60 95% 55%;
     --primary-foreground: 220 20% 5%;
 
     --secondary: 220 20% 12%;
@@ -77,19 +77,19 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 54 96% 30%;
-    --input: 54 96% 30%;
-    --ring: 54 96% 49%;
+    --border: 60 95% 35%;
+    --input: 60 95% 35%;
+    --ring: 60 95% 55%;
     
     /* Sidebar specific */
     --sidebar-background: 220 20% 6%;
     --sidebar-foreground: 210 40% 98%;
     --sidebar-border: 220 20% 12%;
-    --sidebar-primary: 54 96% 49%;
+    --sidebar-primary: 60 95% 55%;
     --sidebar-primary-foreground: 220 20% 5%;
     --sidebar-accent: 220 20% 15%;
-    --sidebar-accent-foreground: 54 96% 49%;
-    --sidebar-ring: 54 96% 49%;
+    --sidebar-accent-foreground: 60 95% 55%;
+    --sidebar-ring: 60 95% 55%;
   }
 }
 
@@ -104,5 +104,19 @@
     background-image: linear-gradient(to right, hsl(var(--primary) / 0.1) 1px, transparent 1px),
       linear-gradient(to bottom, hsl(var(--primary) / 0.1) 1px, transparent 1px);
     background-size: 2rem 2rem;
+  }
+}
+
+@layer components {
+  .scanline-overlay::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: hsl(var(--primary) / 0.2);
+    box-shadow: 0 0 1em hsl(var(--primary) / 0.4);
+    animation: scanline 4s linear infinite;
+    will-change: top;
   }
 }
