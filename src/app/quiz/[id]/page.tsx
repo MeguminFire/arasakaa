@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { quizzes, quizQuestions } from '@/lib/data';
 import PageHeader from '@/components/shared/page-header';
@@ -53,12 +53,21 @@ export default function QuizPage() {
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   
-  const startNewQuiz = () => {
+  const startNewQuiz = useCallback(() => {
+    if (!quizId) return;
     setIsLoading(true);
+    // Ensure we have a fresh set of questions every time
     const allQuestions = quizQuestions[quizId] || [];
     const shuffled = shuffleArray(allQuestions);
     const selectedQuestions = shuffled.slice(0, QUESTIONS_PER_QUIZ);
-    setQuestions(selectedQuestions);
+    
+    // Shuffle the options for each question as well
+    const questionsWithShuffledOptions = selectedQuestions.map(q => ({
+      ...q,
+      options: shuffleArray(q.options)
+    }));
+    
+    setQuestions(questionsWithShuffledOptions);
 
     // Reset state
     setCurrentQuestionIndex(0);
@@ -67,13 +76,11 @@ export default function QuizPage() {
     setScore(0);
     setIsFinished(false);
     setIsLoading(false);
-  }
+  }, [quizId]);
 
   useEffect(() => {
-    if (quizId) {
-      startNewQuiz();
-    }
-  }, [quizId]);
+    startNewQuiz();
+  }, [startNewQuiz]);
 
   if (isLoading) {
     return (

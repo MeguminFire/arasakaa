@@ -20,6 +20,7 @@ import {
   LogOut,
   Settings,
   Cpu,
+  GraduationCap,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import { TitanLogo } from '@/components/shared/icons';
@@ -90,6 +91,18 @@ export default function RootLayout({
                     <Link href="/components">
                       <Cpu />
                       <span>Components</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    href="/learn"
+                    asChild
+                    tooltip="Learn"
+                  >
+                    <Link href="/learn">
+                      <GraduationCap />
+                      <span>Learn</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

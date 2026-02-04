@@ -2,22 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { getPlaceholderImage } from '@/lib/placeholder-images';
 import { GraduationCap, Gamepad2, BookOpen, ArrowRight, Zap } from 'lucide-react';
 import { TitanLogo } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 // Component for the navigation cards on the dashboard
 function DashboardCard({ href, icon: Icon, title, description, className }: { href?: string, icon: React.ElementType, title: string, description: string, className?: string }) {
@@ -55,7 +43,8 @@ export default function DashboardPage() {
 
   useEffect(() => {
     setIsClient(true);
-    if (localStorage.getItem('introSeen')) {
+    // Use sessionStorage to only show intro on first visit per session
+    if (sessionStorage.getItem('introSeen')) {
       setShowIntro(false);
     }
   }, []);
@@ -63,7 +52,7 @@ export default function DashboardPage() {
   const handleStart = () => {
     setShowIntro(false);
     if (isClient) {
-      localStorage.setItem('introSeen', 'true');
+      sessionStorage.setItem('introSeen', 'true');
     }
   };
 
@@ -108,146 +97,13 @@ export default function DashboardPage() {
             <p className="mt-2 text-muted-foreground text-lg">Choose your path, titan.</p>
         </div>
         <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="md:col-span-1">
-                  <DashboardCard 
-                    icon={GraduationCap}
-                    title="Learn"
-                    description="Master troubleshooting theory. Knowledge is your primary weapon."
-                  />
-                </div>
-              </DialogTrigger>
-              <DialogContent className="max-w-4xl h-[90vh]">
-                <DialogHeader>
-                  <DialogTitle className="text-3xl font-headline">Troubleshooting Fundamentals</DialogTitle>
-                  <DialogDescription>Master the art of diagnosing and solving computer problems.</DialogDescription>
-                </DialogHeader>
-                <ScrollArea className="h-full w-full pr-4">
-                  <div className="space-y-6">
-                    <Card>
-                      <CardContent className="p-0">
-                        <div className="relative h-48 w-full">
-                          <Image
-                            src={getPlaceholderImage('learn-hero')?.imageUrl ?? ''}
-                            alt="Abstract technology background"
-                            data-ai-hint="technology abstract"
-                            fill
-                            className="object-cover rounded-t-lg"
-                          />
-                        </div>
-                      </CardContent>
-                      <CardHeader>
-                        <h2 className="text-2xl font-bold font-headline">What is Troubleshooting?</h2>
-                      </CardHeader>
-                      <CardContent className="space-y-4 text-muted-foreground">
-                        <p>
-                          Troubleshooting is a logical, systematic search for the source of a problem in order to solve it, and make the product or process operational again. It's a skill that combines technical knowledge, critical thinking, and a bit of detective work.
-                        </p>
-                        <p>
-                          Instead of randomly trying solutions, a skilled troubleshooter follows a structured process to isolate the cause of the problem and implement a reliable fix.
-                        </p>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardHeader>
-                        <h2 className="text-2xl font-bold font-headline">Watch & Learn: Troubleshooting Theory</h2>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-muted-foreground mb-4">
-                          This video from Professor Messer provides an excellent overview of the troubleshooting methodology used by professionals.
-                        </p>
-                        <div className="aspect-video w-full">
-                          <iframe
-                            className="h-full w-full rounded-lg"
-                            src="https://www.youtube.com/embed/p6_n2tV362s"
-                            title="YouTube video player: A+ | Troubleshooting Theory"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          ></iframe>
-                        </div>
-                      </CardContent>
-                    </Card>
-                    
-                    <Card>
-                      <CardHeader>
-                        <h2 className="text-2xl font-bold font-headline">The 6 Steps of Troubleshooting</h2>
-                      </CardHeader>
-                      <CardContent className="space-y-8">
-                          <div className="flex flex-col md:flex-row gap-6 items-center">
-                              <div className="w-full md:w-2/3 space-y-4">
-                                  <div className="p-4 border rounded-lg bg-card/50">
-                                      <h3 className="font-semibold text-lg text-primary">1. Identify the problem</h3>
-                                      <p className="text-muted-foreground">Gather information from the user. What exactly is happening? When did it start? Were there any recent changes?</p>
-                                  </div>
-                                  <div className="p-4 border rounded-lg bg-card/50">
-                                      <h3 className="font-semibold text-lg text-primary">2. Establish a theory of probable cause</h3>
-                                      <p className="text-muted-foreground">Based on the symptoms, form a hypothesis. Start with the most obvious and simplest potential causes.</p>
-                                  </div>
-                              </div>
-                              <div className="w-full md:w-1/3">
-                                  <Image
-                                    src={getPlaceholderImage('learn-step-1-2')?.imageUrl ?? ''}
-                                    alt="A person thinking or gathering information"
-                                    data-ai-hint="thinking person"
-                                    width={400}
-                                    height={300}
-                                    className="rounded-lg object-cover"
-                                  />
-                              </div>
-                          </div>
-                          <div className="flex flex-col md:flex-row gap-6 items-center">
-                              <div className="w-full md:w-2/3 space-y-4">
-                                  <div className="p-4 border rounded-lg bg-card/50">
-                                      <h3 className="font-semibold text-lg text-primary">3. Test the theory to determine cause</h3>
-                                      <p className="text-muted-foreground">Test your hypothesis. If the theory is that a cable is loose, check the cable. If confirmed, move on. If not, form a new theory.</p>
-                                  </div>
-                                  <div className="p-4 border rounded-lg bg-card/50">
-                                      <h3 className="font-semibold text-lg text-primary">4. Establish a plan of action and implement it</h3>
-                                      <p className="text-muted-foreground">Once the cause is known, create a plan to fix it. This might involve repairing a component, changing a setting, or installing software.</p>
-                                  </div>
-                              </div>
-                              <div className="w-full md:w-1/3">
-                                  <Image
-                                    src={getPlaceholderImage('learn-step-3-4')?.imageUrl ?? ''}
-                                    alt="Testing a theory with tools"
-                                    data-ai-hint="testing tools"
-                                    width={400}
-                                    height={300}
-                                    className="rounded-lg object-cover"
-                                  />
-                              </div>
-                          </div>
-                          <div className="flex flex-col md:flex-row gap-6 items-center">
-                              <div className="w-full md:w-2/3 space-y-4">
-                                  <div className="p-4 border rounded-lg bg-card/50">
-                                      <h3 className="font-semibold text-lg text-primary">5. Verify full system functionality</h3>
-                                      <p className="text-muted-foreground">After implementing the solution, test everything to make sure the problem is gone and that you haven't created a new one.</p>
-                                  </div>
-                                  <div className="p-4 border rounded-lg bg-card/50">
-                                      <h3 className="font-semibold text-lg text-primary">6. Document findings, actions, and outcomes</h3>
-                                      <p className="text-muted-foreground">Record what you did. This helps with future issues and builds a knowledge base for you and your team.</p>
-                                  </div>
-                              </div>
-                              <div className="w-full md:w-1/3">
-                                  <Image
-                                    src={getPlaceholderImage('learn-step-5-6')?.imageUrl ?? ''}
-                                    alt="Verifying a working computer and documenting"
-                                    data-ai-hint="working computer"
-                                    width={400}
-                                    height={300}
-                                    className="rounded-lg object-cover"
-                                  />
-                              </div>
-                          </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </ScrollArea>
-              </DialogContent>
-            </Dialog>
-
+            <DashboardCard 
+              href="/learn"
+              icon={GraduationCap}
+              title="Learn"
+              description="Master troubleshooting theory. Knowledge is your primary weapon."
+              className="md:col-span-1"
+            />
             <DashboardCard 
               href="/games"
               icon={Gamepad2}

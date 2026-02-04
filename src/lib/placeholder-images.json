@@ -37,28 +37,22 @@
       "imageHint": "professional portrait"
     },
     {
-      "id": "learn-hero",
-      "description": "Abstract technology background",
-      "imageUrl": "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWNobm9sb2d5JTIwYWJzdHJhY3R8ZW58MHx8fHwxNzcwMTA2NjUyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "technology abstract"
+      "id": "learn-hero-cyberpunk",
+      "description": "A futuristic city at night, reflecting the cyberpunk theme.",
+      "imageUrl": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwY2l0eSUyMG5pZ2h0fGVufDB8fHx8MTc3MDM0ODc4NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic city"
     },
     {
-      "id": "learn-step-1-2",
-      "description": "A person thinking or gathering information.",
-      "imageUrl": "https://images.unsplash.com/photo-1526916027372-0c0852cef5d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dGhpbmtpbmclMjBwZXJzb258ZW58MHx8fHwxNzcwMTYxNzEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "thinking person"
+      "id": "learn-flowchart",
+      "description": "A holographic interface displaying a complex flowchart.",
+      "imageUrl": "https://images.unsplash.com/photo-1678846914518-8d343de1312e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob2xvZ3JhcGhpYyUyMGludGVyZmFjZXxlbnwwfHx8fDE3NzAzNDg4Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "holographic interface"
     },
     {
-      "id": "learn-step-3-4",
-      "description": "Testing a theory with tools.",
-      "imageUrl": "https://images.unsplash.com/photo-1758101755915-462eddc23f57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx0ZXN0aW5nJTIwdG9vbHN8ZW58MHx8fHwxNzcwMTY5NDA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "testing tools"
-    },
-    {
-      "id": "learn-step-5-6",
-      "description": "Verifying a working computer and documenting.",
-      "imageUrl": "https://images.unsplash.com/photo-1508780709619-79562169bc64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3b3JraW5nJTIwY29tcHV0ZXJ8ZW58MHx8fHwxNzcwMTY5NDA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "working computer"
+      "id": "learn-implementation",
+      "description": "A cyberpunk workshop filled with advanced tools.",
+      "imageUrl": "https://images.unsplash.com/photo-1611492570395-3053805c1979?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjeWJlcnB1bmslMjB3b3Jrc2hvcHxlbnwwfHx8fDE3NzAzNDg4NTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyberpunk workshop"
     },
     {
       "id": "component-cpu",
@@ -75,7 +69,7 @@
     {
       "id": "component-mobo",
       "description": "A computer motherboard.",
-      "imageUrl": "https://images.unsplash.com/photo-1562976540-1502c2145186?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjb21wdXRlciUyMG1vdGhlcmJvYXJkfGVufDB8fHx8MTc3MDE2OTA1NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1593640495253-23193691314b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjb21wdXRlciUyMG1vdGhlcmJvYXJkfGVufDB8fHx8MTc3MDE2OTA1NHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "computer motherboard"
     },
     {
