@@ -63,17 +63,15 @@ export type Result = {
   text: string;
   isCorrectPath: boolean;
   isSolution: boolean;
-  nextStepId?: string;
+  nextStepIndex?: number;
 };
 
 export type Action = {
-  id: string;
   text: string;
   result: Result;
 };
 
 export type GameStep = {
-  id: string;
   title: string;
   description: string;
   actions: Action[];
@@ -82,7 +80,6 @@ export type GameStep = {
 export type InteractiveScenarioOutput = {
   title: string;
   initialSituation: string;
-  startStepId: string;
-  steps: Record<string, GameStep>;
+  steps: GameStep[];
   finalSolution: string;
 };

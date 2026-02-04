@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
@@ -23,9 +22,9 @@ export default function GamePage() {
 
   const [scenario, setScenario] = useState<InteractiveScenarioOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentStepId, setCurrentStepId] = useState<string | null>(null);
+  const [currentStepIndex, setCurrentStepIndex] = useState<number | null>(null);
   const [lastResult, setLastResult] = useState<Result | null>(null);
-  const [selectedActionId, setSelectedActionId] = useState<string | null>(null);
+  const [selectedActionIndex, setSelectedActionIndex] = useState<number | null>(null);
   const [isFinished, setIsFinished] = useState(false);
   const [history, setHistory] = useState<{step: GameStep, action: Action, result: Result}[]>([]);
 
@@ -37,9 +36,9 @@ export default function GamePage() {
       getNewInteractiveScenario({ topic: game.topic, difficulty: game.difficulty })
         .then((newScenario) => {
           setScenario(newScenario);
-          setCurrentStepId(newScenario.startStepId);
+          setCurrentStepIndex(0);
           setLastResult(null);
-          setSelectedActionId(null);
+          setSelectedActionIndex(null);
           setIsFinished(false);
         })
         .catch(console.error)
@@ -51,22 +50,22 @@ export default function GamePage() {
     fetchNewScenario();
   }, [fetchNewScenario]);
 
-  const handleActionClick = (action: Action) => {
-    if (!scenario || selectedActionId) return;
+  const handleActionClick = (action: Action, index: number) => {
+    if (!scenario || selectedActionIndex !== null) return;
 
-    setSelectedActionId(action.id);
+    setSelectedActionIndex(index);
     const result = action.result;
     setLastResult(result);
     
-    const currentStep = scenario.steps[currentStepId!];
+    const currentStep = scenario.steps[currentStepIndex!];
     setHistory(prev => [...prev, { step: currentStep, action, result }]);
 
     setTimeout(() => {
-        setSelectedActionId(null);
+        setSelectedActionIndex(null);
         if (result.isSolution) {
             setIsFinished(true);
         } else {
-            setCurrentStepId(result.nextStepId || currentStepId);
+            setCurrentStepIndex(result.nextStepIndex ?? currentStepIndex);
         }
     }, 2500); // Wait 2.5 seconds to show feedback before moving to next step
   };
@@ -89,7 +88,7 @@ export default function GamePage() {
     );
   }
 
-  if (!scenario || !currentStepId) {
+  if (!scenario || currentStepIndex === null) {
     return <PageHeader title="Error" description="Could not load the game scenario. Please try again." />;
   }
   
@@ -122,7 +121,7 @@ export default function GamePage() {
     )
   }
   
-  const currentStep = scenario.steps[currentStepId];
+  const currentStep = scenario.steps[currentStepIndex];
 
   return (
     <div className="space-y-6">
@@ -163,19 +162,19 @@ export default function GamePage() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-sm font-bold text-primary">Choose your next action:</p>
-                {currentStep.actions.map((action) => (
+                {currentStep.actions.map((action, index) => (
                     <Button
-                        key={action.id}
-                        variant={selectedActionId === action.id ? 'secondary' : 'outline'}
+                        key={index}
+                        variant={selectedActionIndex === index ? 'secondary' : 'outline'}
                         className={cn('w-full justify-start text-left h-auto whitespace-normal p-4', {
-                            'border-green-500 bg-green-500/10 text-green-400': selectedActionId === action.id && lastResult?.isCorrectPath,
-                            'border-red-500 bg-red-500/10 text-red-400': selectedActionId === action.id && !lastResult?.isCorrectPath,
-                            'cursor-wait': selectedActionId
+                            'border-green-500 bg-green-500/10 text-green-400': selectedActionIndex === index && lastResult?.isCorrectPath,
+                            'border-red-500 bg-red-500/10 text-red-400': selectedActionIndex === index && !lastResult?.isCorrectPath,
+                            'cursor-wait': selectedActionIndex !== null
                         })}
-                        onClick={() => handleActionClick(action)}
-                        disabled={!!selectedActionId}
+                        onClick={() => handleActionClick(action, index)}
+                        disabled={selectedActionIndex !== null}
                     >
-                        {selectedActionId === action.id && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        {selectedActionIndex === index && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {action.text}
                     </Button>
                 ))}
@@ -183,7 +182,7 @@ export default function GamePage() {
             </Card>
         )}
 
-        {selectedActionId && lastResult && (
+        {selectedActionIndex !== null && lastResult && (
           <Alert variant={lastResult.isCorrectPath ? 'default' : 'destructive'} className={cn("border-2", {
               'border-green-500 text-green-400': lastResult.isCorrectPath,
               'border-red-500 text-red-400': !lastResult.isCorrectPath,

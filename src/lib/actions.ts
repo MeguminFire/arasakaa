@@ -11,8 +11,8 @@ export const getNewInteractiveScenario = async (input: InteractiveScenarioInput)
   for (let i = 0; i < 3; i++) {
     try {
       const scenario = await generateInteractiveScenario(input);
-      // Basic validation
-      if (scenario && scenario.steps && scenario.steps[scenario.startStepId]) {
+      // Basic validation: ensure there is a scenario with at least one step.
+      if (scenario && scenario.steps && scenario.steps.length > 0) {
         return scenario;
       }
     } catch (e) {
