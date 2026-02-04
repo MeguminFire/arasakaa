@@ -39,20 +39,20 @@
     {
       "id": "learn-hero-cyberpunk",
       "description": "A futuristic city at night, reflecting the cyberpunk theme.",
-      "imageUrl": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwY2l0eSUyMG5pZ2h0fGVufDB8fHx8MTc3MDM0ODc4NHww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "futuristic city"
+      "imageUrl": "https://images.unsplash.com/photo-1623387341388-1a9cbf113c23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjeWJlcnB1bmslMjBjaXR5fGVufDB8fHx8MTc3MDQ0NTY4MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyberpunk city"
     },
     {
       "id": "learn-flowchart",
-      "description": "A holographic interface displaying a complex flowchart.",
-      "imageUrl": "https://images.unsplash.com/photo-1678846914518-8d343de1312e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob2xvZ3JhcGhpYyUyMGludGVyZmFjZXxlbnwwfHx8fDE3NzAzNDg4Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "holographic interface"
+      "description": "A holographic interface displaying complex data.",
+      "imageUrl": "https://images.unsplash.com/photo-1634733301494-0a4a7c135c91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob2xvZ3JhbSUyMGRhdGF8ZW58MHx8fHwxNzcwNDQ1NzgwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hologram data"
     },
     {
       "id": "learn-implementation",
-      "description": "A cyberpunk workshop filled with advanced tools.",
-      "imageUrl": "https://images.unsplash.com/photo-1611492570395-3053805c1979?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjeWJlcnB1bmslMjB3b3Jrc2hvcHxlbnwwfHx8fDE3NzAzNDg4NTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "cyberpunk workshop"
+      "description": "A retro-futuristic collection of cyberpunk equipment.",
+      "imageUrl": "https://images.unsplash.com/photo-1550745165-9bc0b252726a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjeWJlcnB1bmslMjBlcXVpcG1lbnR8ZW58MHx8fHwxNzcwNDQ1ODMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyberpunk equipment"
     },
     {
       "id": "component-cpu",
@@ -69,7 +69,7 @@
     {
       "id": "component-mobo",
       "description": "A computer motherboard.",
-      "imageUrl": "https://images.unsplash.com/photo-1593640495253-23193691314b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjb21wdXRlciUyMG1vdGhlcmJvYXJkfGVufDB8fHx8MTc3MDE2OTA1NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wdXRlciUyMG1vdGhlcmJvYXJkfGVufDB8fHx8MTc3MDQ0NTYxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "computer motherboard"
     },
     {

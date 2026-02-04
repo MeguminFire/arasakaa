@@ -2,6 +2,8 @@ import Image from 'next/image';
 import PageHeader from '@/components/shared/page-header';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { getPlaceholderImage } from '@/lib/placeholder-images';
+import { Button } from '@/components/ui/button';
+import { Youtube } from 'lucide-react';
 
 export default function LearnPage() {
   return (
@@ -44,19 +46,20 @@ export default function LearnPage() {
         <CardHeader>
           <CardTitle>Watch & Learn: Professional Troubleshooting Theory</CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground mb-4">
+        <CardContent className="flex flex-col items-center justify-center">
+          <p className="text-muted-foreground mb-4 text-center">
             This video from Professor Messer provides an excellent overview of the troubleshooting methodology used by CompTIA A+ certified professionals.
           </p>
-          <div className="aspect-video w-full border-2 border-primary/50 rounded-lg overflow-hidden">
-            <iframe
-              className="h-full w-full"
-              src="https://www.youtube.com/embed/p6_n2tV362s"
-              title="YouTube video player: A+ | Troubleshooting Theory"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
+          <Button asChild size="lg">
+            <a 
+                href="https://www.youtube.com/watch?v=p6_n2tV362s" 
+                target="_blank" 
+                rel="noopener noreferrer"
+            >
+                <Youtube className="mr-2 h-5 w-5" />
+                Watch on YouTube
+            </a>
+          </Button>
         </CardContent>
       </Card>
       
