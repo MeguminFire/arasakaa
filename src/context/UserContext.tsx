@@ -1,7 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode } from 'react';
-import { useUser as useFirebaseAuth, useFirestore, FirebaseProvider, initializeFirebase } from '@/firebase';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { useUser as useFirebaseAuth, useFirestore, FirebaseProvider, initializeFirebase, FirebaseContextValue } from '@/firebase';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import type { UserProfile } from '@/lib/types';
 import { doc, setDoc, arrayUnion } from 'firebase/firestore';
@@ -79,9 +79,16 @@ const uninitializedUserContext: UserContextType = {
 
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const firebaseInstances = initializeFirebase();
+  const [instances, setInstances] = useState<FirebaseContextValue | null>(null);
 
-  if (!firebaseInstances) {
+  useEffect(() => {
+    // This effect runs only on the client, preventing SSR issues.
+    setInstances(initializeFirebase());
+  }, []);
+
+  // While Firebase is initializing on the client, we provide an uninitialized context.
+  // This prevents hooks like useAuth() from throwing errors on the server.
+  if (!instances) {
      return (
       <UserContext.Provider value={uninitializedUserContext}>
         {children}
@@ -90,7 +97,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <FirebaseProvider {...firebaseInstances}>
+    <FirebaseProvider {...instances}>
       <UserProviderContent>{children}</UserProviderContent>
     </FirebaseProvider>
   );

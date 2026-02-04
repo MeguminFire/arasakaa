@@ -10,15 +10,12 @@ import {
   useFirebaseApp,
   useFirestore,
   useAuth,
+  FirebaseContextValue,
 } from './provider';
 import { useUser } from './auth/use-user';
 import { useDoc } from './firestore/use-doc';
 
-type FirebaseInstances = {
-  app: FirebaseApp;
-  auth: Auth;
-  db: Firestore;
-};
+type FirebaseInstances = FirebaseContextValue;
 
 let firebaseInstances: FirebaseInstances | null = null;
 
@@ -49,3 +46,4 @@ export {
   useUser,
   useDoc,
 };
+export type { FirebaseContextValue };

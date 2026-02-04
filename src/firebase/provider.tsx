@@ -19,9 +19,9 @@ export const useFirebase = () => {
   return useContext(FirebaseContext);
 };
 
-export const useFirebaseApp = () => useFirebase()?.app;
-export const useAuth = () => useFirebase()?.auth;
-export const useFirestore = () => useFirebase()?.db;
+export const useFirebaseApp = () => useFirebase()?.app ?? null;
+export const useAuth = () => useFirebase()?.auth ?? null;
+export const useFirestore = () => useFirebase()?.db ?? null;
 
 export function FirebaseProvider({
   children,
@@ -35,3 +35,5 @@ export function FirebaseProvider({
     </FirebaseContext.Provider>
   );
 }
+
+export type { FirebaseContextValue };
