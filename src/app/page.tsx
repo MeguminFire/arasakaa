@@ -205,7 +205,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-full animate-fade-in space-y-8 p-4">
+    <div className="flex flex-col items-center justify-center animate-fade-in space-y-8 p-4">
       <div className="text-center">
         <h1 className="font-headline text-4xl md:text-5xl font-bold text-foreground">
           Main Hub
