@@ -21,12 +21,18 @@ const TroubleshootingScenarioInputSchema = z.object({
 });
 export type TroubleshootingScenarioInput = z.infer<typeof TroubleshootingScenarioInputSchema>;
 
+const TroubleshootingStepSchema = z.object({
+  stepTitle: z.string().describe('A title for this step of the troubleshooting process (e.g., "Initial Assessment", "Checking Connections").'),
+  correctStep: z.string().describe('The single best action to take at this step.'),
+  incorrectOptions: z.array(z.string()).describe('A list of 2 plausible but incorrect or inefficient actions for this step.'),
+});
+
 const TroubleshootingScenarioOutputSchema = z.object({
   scenario: z
     .string()
     .describe('A detailed description of the computer troubleshooting scenario.'),
-  steps: z.array(z.string()).describe('The expected steps to resolve the issue.'),
-  solution: z.string().describe('The final solution to the troubleshooting scenario.'),
+  steps: z.array(TroubleshootingStepSchema).describe('An array of troubleshooting steps, each with a title, one correct option, and several incorrect options.'),
+  solution: z.string().describe('The final solution to the troubleshooting scenario, explaining why the steps were correct.'),
 });
 export type TroubleshootingScenarioOutput = z.infer<typeof TroubleshootingScenarioOutputSchema>;
 
@@ -42,16 +48,19 @@ const prompt = ai.definePrompt({
   output: {schema: TroubleshootingScenarioOutputSchema},
   prompt: `You are an expert in creating computer troubleshooting scenarios for a game.
 
-  Create a troubleshooting scenario based on the following topic and difficulty:
+Create a troubleshooting scenario based on the following topic and difficulty:
 
-  Topic: {{{topic}}}
-  Difficulty: {{{difficulty}}}
+Topic: {{{topic}}}
+Difficulty: {{{difficulty}}}
 
-  The scenario should be detailed and engaging. Provide the expected steps to resolve the issue and the final solution.
+The scenario should be detailed and engaging. The game is turn-based. For each step of the troubleshooting process, provide:
+1.  A \`stepTitle\` that describes the current phase of the investigation (e.g., "Initial Assessment", "Checking Connections").
+2.  A \`correctStep\` which is the single best action to take.
+3.  A list of 2 \`incorrectOptions\` which are plausible but wrong or inefficient actions.
 
-  Ensure that the scenario, steps, and solution are clear and concise.
+Finally, provide an overall \`solution\` description that summarizes the correct actions and explains why they solve the problem.
 
-  Output the scenario in JSON format.
+Ensure the output is in JSON format.
   `,
 });
 

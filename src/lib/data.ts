@@ -168,7 +168,7 @@ export const games: Game[] = [
     title: 'The Case of the Slow Computer',
     description: 'A computer that was once fast is now sluggish. Find the bottleneck.',
     topic: 'Slow computer performance',
-    difficulty: 'medium',
+    difficulty: 'easy',
     icon: Cpu,
   },
   {
@@ -176,7 +176,7 @@ export const games: Game[] = [
     title: 'The Mysterious Wi-Fi Disconnect',
     description: 'A laptop keeps disconnecting from the Wi-Fi. Ensure a stable connection.',
     topic: 'Intermittent Wi-Fi connection',
-    difficulty: 'medium',
+    difficulty: 'easy',
     icon: Router,
   },
   {
@@ -184,7 +184,7 @@ export const games: Game[] = [
     title: 'The Blue Screen of Dread',
     description: 'A PC is crashing with a Blue Screen of Death. Identify the faulty component.',
     topic: 'Blue Screen of Death (BSOD)',
-    difficulty: 'hard',
+    difficulty: 'easy',
     icon: ShieldCheck,
   },
 ];

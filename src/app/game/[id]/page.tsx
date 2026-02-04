@@ -2,40 +2,50 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { games } from '@/lib/data';
 import PageHeader from '@/components/shared/page-header';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CheckCircle2, XCircle, Lightbulb, Loader2, RotateCcw, Undo } from 'lucide-react';
-import { getGameFeedback, getNewScenario } from '@/lib/actions';
+import { CheckCircle2, XCircle, Lightbulb, Loader2, Trophy, RotateCcw } from 'lucide-react';
+import { getNewScenario } from '@/lib/actions';
 import Leaderboard from '@/components/shared/leaderboard';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+import { Progress } from '@/components/ui/progress';
+
+type TroubleshootingStep = {
+  stepTitle: string;
+  correctStep: string;
+  incorrectOptions: string[];
+};
 
 type Scenario = {
   scenario: string;
-  steps: string[];
+  steps: TroubleshootingStep[];
   solution: string;
 };
 
-type Feedback = {
-  feedback: string;
-  isCorrect: boolean;
+// Function to shuffle an array
+const shuffleArray = (array: any[]) => {
+  return [...array].sort(() => Math.random() - 0.5);
 };
+
 
 export default function GamePage() {
   const params = useParams();
+  const router = useRouter();
   const gameId = params.id as string;
   const game = useMemo(() => games.find((g) => g.id === gameId), [gameId]);
 
   const [scenario, setScenario] = useState<Scenario | null>(null);
-  const [shuffledSteps, setShuffledSteps] = useState<string[]>([]);
-  const [userSteps, setUserSteps] = useState<string[]>([]);
-  const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isChecking, setIsChecking] = useState(false);
+  
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<{isCorrect: boolean} | null>(null);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     if (game) {
@@ -43,50 +53,60 @@ export default function GamePage() {
       getNewScenario({ topic: game.topic, difficulty: game.difficulty })
         .then((newScenario) => {
           setScenario(newScenario);
-          // Shuffle the steps for the user to select from
-          setShuffledSteps([...newScenario.steps].sort(() => Math.random() - 0.5));
+          setCurrentStepIndex(0);
+          setSelectedOption(null);
           setFeedback(null);
-          setUserSteps([]);
+          setIsFinished(false);
         })
         .finally(() => setIsLoading(false));
     }
   }, [game]);
 
-  const handleStepSelect = (step: string) => {
-    if (userSteps.includes(step)) return;
-    setUserSteps((prev) => [...prev, step]);
-  };
-  
-  const handleUndo = () => {
-    setUserSteps(prev => prev.slice(0, -1));
-  }
+  useEffect(() => {
+    if (scenario && scenario.steps && scenario.steps[currentStepIndex]) {
+      const currentStep = scenario.steps[currentStepIndex];
+      if (currentStep) {
+        setShuffledOptions(shuffleArray([currentStep.correctStep, ...currentStep.incorrectOptions]));
+      }
+    }
+  }, [scenario, currentStepIndex]);
 
-  const handleReset = () => {
-    setUserSteps([]);
+  const handleOptionSelect = (option: string) => {
+    if (feedback) return;
+    setSelectedOption(option);
   };
 
-  const handleSubmit = async () => {
-    if (!scenario) return;
-    setIsChecking(true);
+  const handleSubmit = () => {
+    if (!selectedOption || !scenario) return;
+    const isCorrect = selectedOption === scenario.steps[currentStepIndex].correctStep;
+    setFeedback({ isCorrect });
+  };
+
+  const handleNext = () => {
     setFeedback(null);
-    try {
-      const result = await getGameFeedback({
-        problemDescription: scenario.scenario,
-        userSteps: userSteps,
-        expectedSolution: scenario.solution,
-      });
-      setFeedback(result);
-    } catch (error) {
-      console.error('Error getting feedback:', error);
-      setFeedback({
-        feedback: 'An error occurred while checking your solution. Please try again.',
-        isCorrect: false,
-      });
-    } finally {
-      setIsChecking(false);
+    setSelectedOption(null);
+    if (currentStepIndex < scenario.steps.length - 1) {
+      setCurrentStepIndex(prev => prev + 1);
+    } else {
+      setIsFinished(true);
     }
   };
-
+  
+  const handleRestart = () => {
+     if (game) {
+      setIsLoading(true);
+      getNewScenario({ topic: game.topic, difficulty: game.difficulty })
+        .then((newScenario) => {
+          setScenario(newScenario);
+          setCurrentStepIndex(0);
+          setSelectedOption(null);
+          setFeedback(null);
+          setIsFinished(false);
+        })
+        .finally(() => setIsLoading(false));
+    }
+  }
+  
   if (!game) {
     return (
       <PageHeader
@@ -114,6 +134,38 @@ export default function GamePage() {
       />
     );
   }
+  
+  if (isFinished) {
+    return (
+         <div className="text-center max-w-2xl mx-auto space-y-6">
+            <Trophy className="h-16 w-16 text-yellow-400 mx-auto" />
+            <h1 className="text-3xl font-bold">Scenario Complete!</h1>
+            <p className="text-xl text-muted-foreground">
+              Great job! You've successfully resolved the issue.
+            </p>
+            <Card className="text-left">
+                <CardHeader>
+                    <CardTitle>Solution Summary</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">{scenario.solution}</p>
+                </CardContent>
+            </Card>
+            <div className="flex gap-4 justify-center">
+              <Button onClick={handleRestart}>
+                <RotateCcw className="mr-2 h-4 w-4" />
+                Play Again
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/games')}>
+                See Other Games
+              </Button>
+            </div>
+        </div>
+    )
+  }
+  
+  const currentStep = scenario.steps[currentStepIndex];
+  const progressValue = ((currentStepIndex + 1) / scenario.steps.length) * 100;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -122,58 +174,51 @@ export default function GamePage() {
             <Badge variant="outline" className="capitalize">{game.difficulty}</Badge>
         </PageHeader>
         
+        <div className="space-y-2">
+            <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-primary">Progress</span>
+                <span className="text-sm text-muted-foreground">Step {currentStepIndex + 1} of {scenario.steps.length}</span>
+            </div>
+            <Progress value={progressValue} />
+        </div>
+
         <Card>
           <CardHeader>
             <CardTitle>The Situation</CardTitle>
             <CardDescription>{scenario.scenario}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-semibold mb-2">Your Selected Steps</h3>
-                <div className="p-4 bg-muted rounded-lg min-h-[150px] border">
-                  {userSteps.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">Select steps from the right panel in the correct order.</p>
-                  ) : (
-                    <ol className="list-decimal list-inside space-y-2">
-                      {userSteps.map((step, index) => (
-                        <li key={index} className="text-sm">{step}</li>
-                      ))}
-                    </ol>
-                  )}
-                </div>
-                <div className="flex gap-2 mt-2">
-                    <Button variant="outline" size="sm" onClick={handleUndo} disabled={userSteps.length === 0}>
-                        <Undo className="mr-2 h-4 w-4" /> Undo
-                    </Button>
-                    <Button variant="destructive" size="sm" onClick={handleReset} disabled={userSteps.length === 0}>
-                        <RotateCcw className="mr-2 h-4 w-4" /> Reset
-                    </Button>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2">Available Steps</h3>
-                <div className="space-y-2">
-                  {shuffledSteps.map((step) => (
-                    <Button
-                      key={step}
-                      variant="outline"
-                      className="w-full justify-start text-left h-auto"
-                      onClick={() => handleStepSelect(step)}
-                      disabled={userSteps.includes(step)}
-                    >
-                      {step}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </div>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>{currentStep.stepTitle}</CardTitle>
+            <CardDescription>What would you do next?</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {shuffledOptions.map((option) => (
+                <Button
+                    key={option}
+                    variant={selectedOption === option ? 'secondary' : 'outline'}
+                    className={`w-full justify-start text-left h-auto whitespace-normal ${
+                        feedback && option === currentStep.correctStep ? 'border-green-500 bg-green-500/10' : ''
+                    } ${
+                        feedback && selectedOption === option && !feedback.isCorrect ? 'border-red-500 bg-red-500/10' : ''
+                    }`}
+                    onClick={() => handleOptionSelect(option)}
+                    disabled={!!feedback}
+                >
+                    {option}
+                </Button>
+            ))}
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button onClick={handleSubmit} disabled={userSteps.length === 0 || isChecking}>
-              {isChecking && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isChecking ? 'Checking...' : 'Submit Solution'}
-            </Button>
+             {feedback ? (
+                <Button onClick={handleNext}>
+                  {currentStepIndex < scenario.steps.length - 1 ? 'Next Step' : 'Finish'}
+                </Button>
+             ) : (
+                <Button onClick={handleSubmit} disabled={!selectedOption}>Submit</Button>
+             )}
           </CardFooter>
         </Card>
 
@@ -185,20 +230,16 @@ export default function GamePage() {
               <XCircle className="h-4 w-4" />
             )}
             <AlertTitle className="flex items-center gap-2">
-              {feedback.isCorrect ? 'Correct Solution!' : 'Incorrect Solution'}
+              {feedback.isCorrect ? "That's correct!" : 'Not quite...'}
             </AlertTitle>
-            <AlertDescription>{feedback.feedback}</AlertDescription>
+            <AlertDescription>
+                {feedback.isCorrect ? "Good choice. Proceed to the next step." : "That's not the most effective step right now. Try another option."}
+            </AlertDescription>
             {!feedback.isCorrect && (
-                <>
-                <Separator className="my-3"/>
-                <div className="flex items-start gap-2 text-sm">
+                 <div className="flex items-start gap-2 text-sm mt-3">
                   <Lightbulb className="h-4 w-4 mt-0.5 shrink-0 text-yellow-500"/>
-                  <div>
-                    <h4 className="font-semibold">Correct Solution</h4>
-                    <p className="text-muted-foreground">{scenario.solution}</p>
-                  </div>
+                  <p className="text-muted-foreground">The correct answer was: <strong>{currentStep.correctStep}</strong></p>
                 </div>
-                </>
             )}
           </Alert>
         )}
