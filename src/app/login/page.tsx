@@ -29,7 +29,7 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       toast({
         title: 'Login Successful',
-        description: 'Welcome back to Titan Tek!',
+        description: 'Welcome back to Arasaka!',
       });
       router.push('/');
     } catch (error: any) {
@@ -56,7 +56,7 @@ export default function LoginPage() {
       await signInWithPopup(auth, provider);
       toast({
         title: 'Login Successful',
-        description: 'Welcome to Titan Tek!',
+        description: 'Welcome to Arasaka!',
       });
       router.push('/');
     } catch (error: any) {
