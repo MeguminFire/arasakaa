@@ -7,6 +7,7 @@ import type {
   Game,
   Quiz,
   QuizQuestion,
+  GameScenario,
 } from './types';
 import {
   Cpu,
@@ -177,6 +178,146 @@ export const games: Game[] = [
     icon: ShieldCheck,
   },
 ];
+
+export const gameScenarios: GameScenario[] = [
+  {
+    id: '1',
+    title: "The Uncooperative Printer",
+    initialSituation: "A user reports, 'I can't print my document! I've tried sending it three times and nothing happens. The printer is on, I can see the little green light!'",
+    finalSolution: "The problem was a simple paper jam combined with a stalled print queue. The optimal path was to first check the physical status of the printer (power, paper), then clear the software-side print queue in Windows, which allowed new print jobs to process correctly.",
+    steps: [
+      {
+        title: "Initial Check",
+        description: "You're at the user's desk. The printer is on, but it's making a quiet, repetitive clicking noise. What's your first move?",
+        actions: [
+          { text: "Check the printer's physical status (paper, ink, screen messages).", isCorrect: true, feedback: "Good call. You open the printer tray and immediately spot a crumpled piece of paper caught in the feed mechanism. You carefully remove the paper jam." },
+          { text: "Immediately restart the user's computer.", isCorrect: false, feedback: "Restarting the computer might solve some issues, but it's better to check the hardware first. The computer restarts, but the printing problem persists." },
+          { text: "Reinstall the printer driver.", isCorrect: false, feedback: "A bit premature. While drivers can be an issue, it's best to rule out physical problems first. Reinstalling the driver has no effect." }
+        ]
+      },
+      {
+        title: "Software Glitch",
+        description: "After clearing the paper jam, the printer is no longer making noise, but the document still isn't printing. The user's original three print jobs seem to be stuck somewhere.",
+        actions: [
+          { text: "Open the Windows print queue and cancel all pending documents.", isCorrect: true, feedback: "Excellent. You open 'Devices and Printers', find the print queue, and see three 'Error - Printing' documents. You cancel them all. The queue is now clear." },
+          { text: "Unplug the printer and plug it back in.", isCorrect: false, feedback: "Power cycling the printer is a good step, but in this case, the stalled jobs are in the computer's queue. The printer restarts, but the jobs are still stuck." },
+          { text: "Tell the user to try printing again.", isCorrect: false, feedback: "The new print job just gets stuck behind the three errored ones. Nothing new comes out." }
+        ]
+      },
+      {
+        title: "Final Confirmation",
+        description: "The paper jam is cleared and the print queue is empty. It's time to see if the problem is truly solved.",
+        actions: [
+          { text: "Ask the user to print a single test page.", isCorrect: true, feedback: "Success! The test page prints out perfectly. You've resolved the issue." },
+          { text: "Assume it's fixed and walk away.", isCorrect: false, feedback: "Never assume! Verification is a key step. The user might have another issue you haven't addressed." }
+        ]
+      }
+    ]
+  },
+  {
+    id: '2',
+    title: "The Case of the Slow Computer",
+    initialSituation: "A designer complains, 'My computer is so slow! It takes forever to open Photoshop, and even moving windows around feels laggy. This started happening a few days ago.'",
+    finalSolution: "The computer's performance was being crippled by too many resource-heavy applications launching at startup and a recently installed, suspicious browser extension that was consuming CPU in the background. The solution was to clean up the startup programs using Task Manager and remove the malware.",
+    steps: [
+      {
+        title: "Resource Analysis",
+        description: "The user's desktop is cluttered with icons. You need to figure out what's consuming the system resources.",
+        actions: [
+          { text: "Open the Task Manager to check CPU, Memory, and Disk usage.", isCorrect: true, feedback: "Smart move. Task Manager shows Memory usage is high (90%), and a process named 'WebBooster.exe' is constantly using 30% of the CPU." },
+          { text: "Immediately run a virus scan.", isCorrect: false, feedback: "A good instinct, but it's better to see what's happening in real-time first. A full scan could take a while." },
+          { text: "Suggest upgrading the RAM.", isCorrect: false, feedback: "Throwing hardware at a problem isn't always the answer. You need to diagnose the cause first. The high memory usage could be a symptom, not the root problem." }
+        ]
+      },
+      {
+        title: "Identify the Culprit",
+        description: "You've identified a suspicious process, 'WebBooster.exe', and noted that many non-essential applications are running. What's the plan?",
+        actions: [
+          { text: "Go to the 'Startup' tab in Task Manager and disable unnecessary applications.", isCorrect: true, feedback: "Good. You disable several cloud storage sync tools and 'bloatware' from the manufacturer. You then locate 'WebBooster.exe', right-click, and open its file location. It's in a strange folder, confirming your suspicion it's malware." },
+          { text: "Right-click and 'End Task' on every application using a lot of memory.", isCorrect: false, feedback: "This might provide temporary relief, but the problem will return on the next reboot if they are startup items." },
+          { text: "Ignore 'WebBooster.exe' and focus only on the known applications.", isCorrect: false, feedback: "Ignoring a suspicious, high-resource process is a mistake. It's the most likely cause of the sudden slowdown." }
+        ]
+      },
+      {
+        title: "Eradication and Verification",
+        description: "You've disabled the startup bloat and located the malware. Now it's time to clean the system and confirm the fix.",
+        actions: [
+          { text: "Run a full malware scan to remove 'WebBooster.exe' and any other threats, then reboot.", isCorrect: true, feedback: "Perfect. The antivirus finds and quarantines the malware. After a reboot, you open Task Manager again. CPU and Memory usage are now at normal levels. Photoshop opens quickly. The mission is a success." },
+          { text: "Manually delete the 'WebBooster.exe' file.", isCorrect: false, feedback: "Risky. Malware often has multiple components. Simply deleting the .exe might not remove it entirely. A proper scan is safer and more thorough." }
+        ]
+      }
+    ]
+  },
+  {
+    id: '3',
+    title: "Mysterious Wi-Fi Drops",
+    initialSituation: "'My laptop keeps disconnecting from the Wi-Fi!' a user exclaims. 'It works for a few minutes, then the internet is gone. I have to disconnect and reconnect to make it work again.'",
+    finalSolution: "The issue was caused by an outdated and corrupted Wi-Fi network adapter driver. The correct troubleshooting path was to identify that only one device was affected, then attempt to update, and ultimately reinstall, the driver for that specific device.",
+    steps: [
+      {
+        title: "Isolate the Problem",
+        description: "The user's laptop shows a Wi-Fi connection, but a yellow triangle indicates 'No Internet'. What's the first thing you verify?",
+        actions: [
+          { text: "Check if other devices (like your phone) can connect to the same Wi-Fi network.", isCorrect: true, feedback: "Crucial first step. Your phone connects to the Wi-Fi and accesses the internet just fine. This proves the network itself is working and the problem is likely with the user's laptop." },
+          { text: "Immediately restart the office's main Wi-Fi router.", isCorrect: false, feedback: "This would affect everyone in the office. Since you haven't confirmed the problem is the network, this is a disruptive and likely unnecessary step." },
+          { text: "Tell the user to move closer to the Wi-Fi router.", isCorrect: false, feedback: "While signal strength can be an issue, the user said it works for a few minutes before dropping. This suggests a software or hardware issue, not just a weak signal." }
+        ]
+      },
+      {
+        title: "Driver Investigation",
+        description: "You've confirmed the issue is isolated to the laptop. The connection is unstable, suggesting a software or hardware fault on the device.",
+        actions: [
+          { text: "Open Device Manager and check the status of the Network Adapter.", isCorrect: true, feedback: "You navigate to Device Manager and see a small yellow warning icon next to the 'Intel Wi-Fi 6' adapter. This is a clear sign of a driver issue." },
+          { text: "Run the Windows Network Troubleshooter.", isCorrect: false, feedback: "The troubleshooter runs for a few minutes and inconclusively suggests 'Try restarting the router,' which you've already ruled out as the main problem." },
+          { text: "Run `ipconfig /release` and `ipconfig /renew` in the command prompt.", isCorrect: false, feedback: "This is a good step for IP address conflicts, but the issue is more likely a faulty driver given the symptoms and that other devices work fine." }
+        ]
+      },
+      {
+        title: "Implement the Fix",
+        description: "Device Manager indicates a problem with the Wi-Fi driver. How do you resolve it?",
+        actions: [
+          { text: "Right-click the adapter, choose 'Uninstall device' (and check the box to delete the driver software), then reboot the laptop.", isCorrect: true, feedback: "This is the correct procedure. Upon rebooting, Windows automatically finds the hardware and installs a fresh, working driver. The Wi-Fi connection is now stable and fast. Problem solved." },
+          { text: "Right-click the adapter and choose 'Update driver'.", isCorrect: false, feedback: "You try this first, but Windows reports 'The best drivers for your device are already installed.' This doesn't fix the corruption issue." }
+        ]
+      }
+    ]
+  },
+  {
+    id: '4',
+    title: "The Blue Screen of Dread",
+    initialSituation: "A user panics. 'I was working on a huge spreadsheet and my computer just crashed! It showed a scary blue screen with a sad face. Now it restarts, but I'm afraid it will happen again.'",
+    finalSolution: "The Blue Screen of Death was caused by a faulty stick of RAM. By analyzing the error message (MEMORY_MANAGEMENT) and running the built-in Windows Memory Diagnostic tool, the faulty hardware was identified.",
+    steps: [
+      {
+        title: "Information Gathering",
+        description: "The user has rebooted, and things seem normal for now. You need to find out what caused the crash.",
+        actions: [
+          { text: "Ask the user for the specific 'Stop Code' shown on the blue screen.", isCorrect: true, feedback: "The user luckily snapped a photo with their phone. The stop code is 'MEMORY_MANAGEMENT'. This is a massive clue, pointing directly towards a RAM issue." },
+          { text: "Check if the computer feels hot.", isCorrect: false, feedback: "Overheating can cause crashes, but it's not the most direct investigation. The specific error code is more important." },
+          { text: "Assume it was a one-time glitch and tell the user to keep working.", isCorrect: false, feedback: "Ignoring a BSOD is a recipe for disaster and data loss. These errors almost always indicate an underlying problem that needs to be addressed." }
+        ]
+      },
+      {
+        title: "Formulate a Theory",
+        description: "The 'MEMORY_MANAGEMENT' stop code strongly suggests a problem with the computer's RAM. How do you test this theory?",
+        actions: [
+          { text: "Use the Windows Memory Diagnostic tool to test the RAM.", isCorrect: true, feedback: "This is the correct, non-invasive next step. You schedule the diagnostic to run on the next reboot. The user is informed it will take some time." },
+          { text: "Open the computer and start re-seating the RAM sticks.", isCorrect: false, feedback: "This is a physical step that should be taken only after a software diagnostic confirms a hardware fault. It's invasive and might not be necessary." },
+          { text: "Update the graphics card driver.", isCorrect: false, feedback: "While faulty drivers are a common cause of BSODs, the specific error code points to memory, not the GPU." }
+        ]
+      },
+      {
+        title: "Confirm and Resolve",
+        description: "After the reboot, the Windows Memory Diagnostic tool runs. A few minutes in, it reports 'Hardware problems were detected'.",
+        actions: [
+          { text: "Document the error, power down the PC, and replace the faulty RAM stick.", isCorrect: true, feedback: "With the diagnostic confirming the theory, you now have a clear plan. You replace the bad RAM with a new stick, and the computer boots up and runs without any further crashes. You've conquered the Blue Screen of Dread." },
+          { text: "Reinstall Windows.", isCorrect: false, feedback: "This is a drastic 'scorched earth' approach. It won't fix a hardware problem. The BSOD would almost certainly reappear after the reinstallation." }
+        ]
+      }
+    ]
+  }
+];
+
 
 export const quizzes: Quiz[] = [
   {

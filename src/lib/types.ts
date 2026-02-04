@@ -58,7 +58,7 @@ export type QuizQuestion = {
   explanation: string;
 };
 
-// New types for the interactive game
+// Types for the hardcoded interactive game
 export type Action = {
   text: string;
   isCorrect: boolean;
@@ -71,7 +71,8 @@ export type GameStep = {
   actions: Action[];
 };
 
-export type InteractiveScenarioOutput = {
+export type GameScenario = {
+  id: string;
   title: string;
   initialSituation: string;
   steps: GameStep[];
