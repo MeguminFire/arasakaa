@@ -142,7 +142,7 @@ export default function DashboardPage() {
               className="mt-6 font-headline text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent opacity-0 animate-text-focus-in"
               style={{ animationDelay: '600ms', animationFillMode: 'forwards' }}
             >
-              Glitch Guild
+              Titan Tek
             </h1>
             <p
               className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground opacity-0 animate-text-focus-in"
@@ -179,7 +179,7 @@ export default function DashboardPage() {
                  <div className="p-8 rounded-lg border-2 border-primary/50 bg-card/50 backdrop-blur-sm space-y-6">
                     <UserPlus className="h-16 w-16 mx-auto text-primary" />
                     <h1 className="font-headline text-3xl md:text-4xl font-bold">Choose Your Callsign</h1>
-                    <p className="text-muted-foreground">Welcome to the Guild. Every agent needs a name. What will yours be?</p>
+                    <p className="text-muted-foreground">Welcome to Titan Tek. Every agent needs a name. What will yours be?</p>
                     <form onSubmit={handleNameSubmit} className="flex flex-col gap-4">
                         <Input 
                             value={newName}
@@ -194,7 +194,7 @@ export default function DashboardPage() {
                             size="lg"
                             className="font-bold text-lg font-headline tracking-wider group bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground transform hover:scale-105 transition-all duration-300 shadow-[0_0_20px_hsl(var(--primary))] hover:shadow-[0_0_30px_hsl(var(--accent))]"
                         >
-                            <span className="group-hover:tracking-widest transition-all duration-300">Join the Guild</span>
+                            <span className="group-hover:tracking-widest transition-all duration-300">Join the Ranks</span>
                             <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-2 transition-transform duration-300" />
                         </Button>
                     </form>
@@ -239,7 +239,7 @@ export default function DashboardPage() {
         <DashboardCard
           href="/forum"
           icon={MessagesSquare}
-          title="Guild Hall"
+          title="Community Forum"
           description="Ask for help, share your knowledge, and connect with other titans in the community forum."
           className="md:col-span-2"
         />

@@ -27,10 +27,9 @@ export default function UserAvatar() {
 
   if (!authUser || !userProfile) {
     return (
-      <Button asChild variant="outline" className="w-full justify-start">
-        <Link href="/login">
-          <LogIn className="mr-2 h-4 w-4" />
-          Log In
+      <Button asChild variant="outline" size="icon">
+        <Link href="/login" aria-label="Log In">
+          <LogIn className="h-5 w-5" />
         </Link>
       </Button>
     );
@@ -41,17 +40,14 @@ export default function UserAvatar() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="flex h-auto w-full items-center justify-start gap-2 p-2"
+          className="relative h-10 w-10 rounded-full"
         >
-          <Avatar className="size-8 border-2 border-primary/50">
+          <Avatar className="h-10 w-10 border-2 border-primary/50">
             <AvatarImage src={userProfile.avatar} alt={userProfile.name} />
             <AvatarFallback>
               {userProfile.name?.charAt(0) || 'G'}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col items-start">
-            <span className="text-sm font-medium">{userProfile.name}</span>
-          </div>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>

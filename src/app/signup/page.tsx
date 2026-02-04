@@ -29,7 +29,7 @@ export default function SignUpPage() {
       await createUserWithEmailAndPassword(auth, email, password);
       toast({
         title: 'Account Created',
-        description: 'Welcome to the Glitch Guild! You will be redirected.',
+        description: 'Welcome to Titan Tek! You will be redirected.',
       });
       // On successful creation, Firebase automatically signs the user in.
       // The main page's useEffect will detect this and show the name entry screen.
@@ -62,7 +62,7 @@ export default function SignUpPage() {
         await signInWithPopup(auth, provider);
         toast({
             title: 'Account Created',
-            description: 'Welcome to the Glitch Guild!',
+            description: 'Welcome to Titan Tek!',
         });
         router.push('/');
     } catch (error: any) {

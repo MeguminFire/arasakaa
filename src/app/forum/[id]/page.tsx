@@ -42,7 +42,7 @@ export default function ForumPostPage() {
     <div className="space-y-8">
       <PageHeader title={post.title}>
         <Button variant="outline" asChild>
-          <Link href="/forum">Back to Guild Hall</Link>
+          <Link href="/forum">Back to Community Forum</Link>
         </Button>
       </PageHeader>
 

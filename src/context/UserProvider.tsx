@@ -34,7 +34,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!auth) return;
+        if (!auth) {
+            // Firebase might not be initialized yet
+            if (loading) {
+                const timer = setTimeout(() => setLoading(false), 1000); // Prevent infinite loading state
+                return () => clearTimeout(timer);
+            }
+            return;
+        }
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setAuthUser(user);
             if (!user) {
@@ -43,7 +50,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             }
         });
         return () => unsubscribe();
-    }, [auth]);
+    }, [auth, loading]);
 
     useEffect(() => {
         if (authUser && db) {
@@ -53,6 +60,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                 setLoading(false);
             });
             return () => unsubscribe();
+        } else if (!authUser) {
+            // If user is logged out, we're not loading anymore.
+            setLoading(false);
         }
     }, [authUser, db]);
 

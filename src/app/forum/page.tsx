@@ -41,7 +41,7 @@ export default function ForumPage() {
         setTimeout(() => {
             toast({
                 title: "Post Submitted!",
-                description: "Your query has been posted to the Glitch Guild forum.",
+                description: "Your query has been posted to the forum.",
             });
             setIsSubmitting(false);
         }, 1500);
@@ -49,12 +49,12 @@ export default function ForumPage() {
     
     return (
         <div className="space-y-8 w-full">
-            <PageHeader title="Guild Hall" description="Ask questions, share solutions, and connect with the community." />
+            <PageHeader title="Community Forum" description="Ask questions, share solutions, and connect with the community." />
 
              <Card className="bg-card/50">
                 <CardHeader>
                     <CardTitle>Post a New Query</CardTitle>
-                    <CardDescription>Having trouble? Ask the guild for help. Fill out the details below.</CardDescription>
+                    <CardDescription>Having trouble? Ask the community for help. Fill out the details below.</CardDescription>
                 </CardHeader>
                 <form onSubmit={handlePostSubmit}>
                     <CardContent className="space-y-6">
@@ -120,7 +120,7 @@ export default function ForumPage() {
                     </CardContent>
                     <CardFooter>
                         <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Posting...' : 'Post to Guild'}
+                            {isSubmitting ? 'Posting...' : 'Post to Forum'}
                             <Send className="ml-2 h-4 w-4"/>
                         </Button>
                     </CardFooter>
