@@ -202,4 +202,10 @@ export default function GamePage() {
             )}
             <AlertTitle className="flex items-center gap-2">
               {selectedAction.isCorrect ? "Correct Action" : 'Ineffective Action'}
-            </Aler<ctrl63>
+            </AlertTitle>
+            <AlertDescription>{selectedAction.feedback}</AlertDescription>
+          </Alert>
+        )}
+    </div>
+  );
+}
