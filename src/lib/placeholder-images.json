@@ -3,91 +3,91 @@
     {
       "id": "avatar-1",
       "description": "User avatar 1",
-      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzAxMzM3NzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1590086782792-42dd2350140d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzAxMzM3NzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
       "id": "avatar-2",
       "description": "User avatar 2",
-      "imageUrl": "https://images.unsplash.com/flagged/photo-1595514191830-3e96a518989b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGVyc29uJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzcwMTMzNzcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzAxMzM3NzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
       "id": "avatar-3",
       "description": "User avatar 3",
-      "imageUrl": "https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc3MDExMjU4OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc3MDExMjU4OHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "woman portrait"
     },
     {
       "id": "avatar-4",
       "description": "User avatar 4",
-      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzAwNzk1MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzAwNzk1MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "man portrait"
     },
     {
       "id": "avatar-5",
       "description": "User avatar 5",
-      "imageUrl": "https://images.unsplash.com/photo-1634795776422-5a85c8e0f1ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBnbGFzc2VzfGVufDB8fHx8MTc3MDExNjA0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1750223642533-1b74b17edae8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjBnbGFzc2VzfGVufDB8fHx8MTc3MDExNjA0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person glasses"
     },
     {
       "id": "avatar-user",
       "description": "Main user avatar",
-      "imageUrl": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzAxMDgyMTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzAxMDgyMTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "professional portrait"
     },
     {
       "id": "learn-hero",
       "description": "A person learning about technology on a tablet.",
-      "imageUrl": "https://images.unsplash.com/photo-1588702547919-26089e690ecc?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkeSUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzcxNTI0MDU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1645363308298-3a949c8bfd86?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxsZWFybmluZyUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzcwMDk0OTUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "learning technology"
     },
     {
       "id": "learn-steps",
       "description": "A flowchart diagram illustrating a process.",
-      "imageUrl": "https://images.unsplash.com/photo-1557672172-298e090bd0f1?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmbG93Y2hhcnR8ZW58MHx8fHwxNzcxNTI0MTM0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1769738360873-3ba6cac0b308?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmbG93Y2hhcnQlMjBkaWFncmFtfGVufDB8fHx8MTc3MDExNDU1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "flowchart diagram"
     },
     {
       "id": "learn-tools",
       "description": "A set of computer repair tools.",
-      "imageUrl": "https://images.unsplash.com/photo-1620706857370-e1b9770e8bbe?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMHRvb2xzfGVufDB8fHx8MTc3MTUyNDIwNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1581090122087-bdc8968e525f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wdXRlciUyMHRvb2xzfGVufDB8fHx8MTc3MDE2OTA1M3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "computer tools"
     },
     {
       "id": "component-cpu",
       "description": "A close-up of a computer CPU.",
-      "imageUrl": "https://images.unsplash.com/photo-1591799264318-7e6e74e3dce9?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMHByb2Nlc3NvcnxlbnwwfHx8fDE3NzE1OTI0ODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1672165407865-424aadab20cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21wdXRlciUyMHByb2Nlc3NvcnxlbnwwfHx8fDE3NzAxNjkwNTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "computer processor"
     },
     {
       "id": "component-ram",
       "description": "A stick of computer RAM.",
-      "imageUrl": "https://images.unsplash.com/photo-1592424002-15282654d212?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMHJhbXxlbnwwfHx8fDE3NzE1OTI1MTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1562976540-1502c2145186?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21wdXRlciUyMHJhbXxlbnwwfHx8fDE3NzAxMzIzNTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "computer ram"
     },
     {
       "id": "component-mobo",
       "description": "A computer motherboard.",
-      "imageUrl": "https://images.unsplash.com/photo-1555618423-69b40a585704?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMG1vdGhlcmJvYXJkfGVufDB8fHx8MTc3E1OTI1NDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1562976540-1502c2145186?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjb21wdXRlciUyMG1vdGhlcmJvYXJkfGVufDB8fHx8MTc3MDE2OTA1NHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "computer motherboard"
     },
     {
       "id": "component-gpu",
       "description": "A powerful graphics card.",
-      "imageUrl": "https://images.unsplash.com/photo-1627221307525-4b9095679c9c?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxncmFwaGljcyUyMGNhcmR8ZW58MHx8fHwxNzcxNTkyNTgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxncmFwaGljcyUyMGNhcmR8ZW58MHx8fHwxNzcwMTY5MDU0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "graphics card"
     },
     {
       "id": "component-storage",
       "description": "A solid-state drive (SSD).",
-      "imageUrl": "https://images.unsplash.com/photo-1593432333019-688326e0f7a7?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2xpZCUyMHN0YXRlJTIwZHJpdmV8ZW58MHx8fHwxNzcxNTkyNjEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1709660850064-0ec82e1a6b5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2xpZCUyMHN0YXRlJTIwZHJpdmV8ZW58MHx8fHwxNzcwMTY5MDU0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "solid state drive"
     },
     {
       "id": "component-psu",
       "description": "A computer power supply unit.",
-      "imageUrl": "https://images.unsplash.com/photo-1618330939319-3351951f7d54?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3dlciUyMHN1cHBseSUyMHVuaXR8ZW58MHx8fHwxNzcxNTkyNjM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1675893857450-783969c8922f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3dlciUyMHN1cHBseSUyMHVuaXR8ZW58MHx8fHwxNzcwMTY5MDUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "power supply unit"
     }
   ]
