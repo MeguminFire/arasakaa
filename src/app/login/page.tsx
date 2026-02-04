@@ -11,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { LogIn, Loader2 } from 'lucide-react';
 import { TitanLogo } from '@/components/shared/icons';
-import { useUser } from '@/context/UserProvider';
+import { auth } from '@/firebase';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -19,18 +19,9 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const { auth } = useUser();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!auth) {
-      toast({
-        variant: 'destructive',
-        title: 'Login Failed',
-        description: 'Authentication service is not available. Please try again later.',
-      });
-      return;
-    }
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -103,7 +94,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <Button type="submit" className="w-full" disabled={isLoading || !auth}>
+              <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <LogIn className="mr-2 h-4 w-4" />}
                 {isLoading ? 'Logging in...' : 'Log in'}
               </Button>

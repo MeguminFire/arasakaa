@@ -14,14 +14,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LogOut, Settings, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { signOut } from 'firebase/auth';
+import { auth } from '@/firebase';
 
 export default function UserAvatar() {
-  const { userProfile, authUser, auth } = useUser();
+  const { userProfile, authUser } = useUser();
 
   const handleLogout = async () => {
-    if (auth) {
-      await signOut(auth);
-    }
+    await signOut(auth);
   };
 
   if (!authUser || !userProfile) {
@@ -72,7 +71,7 @@ export default function UserAvatar() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout} disabled={!auth}>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>

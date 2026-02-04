@@ -1,4 +1,2 @@
-'use client';
-
-// This file is no longer needed and has been intentionally left blank.
-// The logic has been moved into src/context/UserContext.tsx for a more robust setup.
+// This file is obsolete and no longer used.
+// The logic has been consolidated into src/context/UserProvider.tsx.
