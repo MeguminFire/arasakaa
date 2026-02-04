@@ -66,8 +66,6 @@ export default function ProfilePage() {
       </div>
   }
 
-  const username = authUser?.email?.split('@')[0] || '';
-
   return (
     <div className="space-y-6">
       <PageHeader
@@ -79,7 +77,7 @@ export default function ProfilePage() {
           <CardHeader>
             <CardTitle>Edit Profile</CardTitle>
             <CardDescription>
-              Choose your callsign and upload a custom avatar. Your username cannot be changed.
+              Choose your callsign and upload a custom avatar. Your email address cannot be changed.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
@@ -119,12 +117,12 @@ export default function ProfilePage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="email">Email</Label>
               <div className="relative">
                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="username"
-                  value={username}
+                  id="email"
+                  value={authUser?.email || ''}
                   disabled
                   className="pl-10"
                 />

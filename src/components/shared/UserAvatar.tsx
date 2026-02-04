@@ -36,8 +36,6 @@ export default function UserAvatar() {
     );
   }
 
-  const username = authUser?.email?.split('@')[0] || '';
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -60,9 +58,9 @@ export default function UserAvatar() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{userProfile.name}</p>
-            {username && (
+            {authUser.email && (
               <p className="text-xs leading-none text-muted-foreground">
-                {username}
+                {authUser.email}
               </p>
             )}
           </div>
