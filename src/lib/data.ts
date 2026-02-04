@@ -35,7 +35,6 @@ import { getPlaceholderImage } from './placeholder-images';
 
 export const user: User = {
   name: 'Jett Runner',
-  email: 'jett.runner.default@example.com',
   avatar: '',
 };
 
@@ -103,7 +102,6 @@ export const leaderboard: LeaderboardEntry[] = [
     user: {
       name: 'Glitch',
       avatar: '',
-      email: 'glitch@example.com'
     },
     score: 2150,
     time: '03:45',
@@ -113,7 +111,6 @@ export const leaderboard: LeaderboardEntry[] = [
     user: {
       name: '8-Bit',
       avatar: '',
-      email: '8bit@example.com'
     },
     score: 2010,
     time: '04:12',
@@ -123,7 +120,6 @@ export const leaderboard: LeaderboardEntry[] = [
     user: {
       name: 'Trinity',
       avatar: '',
-      email: 'trinity@example.com'
     },
     score: 1980,
     time: '04:30',
@@ -512,7 +508,6 @@ export const forumPosts: ForumPost[] = [
         user: {
             name: 'Cypher',
             avatar: '',
-            email: 'cypher@example.com'
         },
         title: 'My new custom build keeps getting BSOD with MEMORY_MANAGEMENT error.',
         content: 'Hey everyone, I just finished my first PC build. Specs: Ryzen 7 7800X3D, RTX 4080, 32GB DDR5 6000MHz RAM. It boots up fine, but whenever I try to run a game for more than 10 minutes, I get a Blue Screen of Death with the "MEMORY_MANAGEMENT" stop code. I\'ve tried reseating the RAM, but it didn\'t help. Is it a bad stick? Or could it be a setting in the BIOS I missed? Any help is appreciated!',
@@ -541,7 +536,6 @@ export const forumPosts: ForumPost[] = [
         user: {
             name: 'Echo',
             avatar: '',
-            email: 'echo@example.com'
         },
         title: 'Dell XPS 15 trackpad is randomly freezing and jumping.',
         content: 'My Dell XPS 15 (2023 model) is having a really annoying trackpad issue. About every 5 minutes, the cursor will either completely freeze for a few seconds, or it will jump to a random corner of the screen. Using a USB mouse works perfectly fine. I\'ve already updated all the drivers through Dell\'s website and Windows Update. Has anyone else experienced this? Is it a known hardware fault?',
