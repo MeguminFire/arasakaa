@@ -1,26 +1,33 @@
 'use client';
 
-import { useFirebase } from '@/firebase/provider';
-import type { UserProfile } from '@/lib/types';
 import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { doc, onSnapshot, setDoc, arrayUnion } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
+import type { UserProfile } from '@/lib/types';
+import { getApps, initializeApp, getApp, type FirebaseApp } from 'firebase/app';
+import { getAuth, type Auth } from 'firebase/auth';
+import { getFirestore, type Firestore } from 'firebase/firestore';
+import { firebaseConfig } from '@/firebase/config';
 
 type UserContextValue = {
     authUser: FirebaseUser | null;
     userProfile: UserProfile | null;
     loading: boolean;
+    auth: Auth | null;
+    db: Firestore | null;
     updateUserProfile: (data: Partial<UserProfile>) => Promise<void>;
     addCompletedItem: (
         type: 'game' | 'quiz' | 'lesson',
         id: string
     ) => Promise<void>;
-}
+};
 
 const UserContext = createContext<UserContextValue>({
     authUser: null,
     userProfile: null,
     loading: true,
+    auth: null,
+    db: null,
     updateUserProfile: async () => {},
     addCompletedItem: async () => {},
 });
@@ -28,12 +35,22 @@ const UserContext = createContext<UserContextValue>({
 export const useUser = () => useContext(UserContext);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-    const { auth, db } = useFirebase();
+    const [auth, setAuth] = useState<Auth | null>(null);
+    const [db, setDb] = useState<Firestore | null>(null);
     const [authUser, setAuthUser] = useState<FirebaseUser | null>(null);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+        const authInstance = getAuth(app);
+        const dbInstance = getFirestore(app);
+        setAuth(authInstance);
+        setDb(dbInstance);
+    }, []);
+
+    useEffect(() => {
+        if (!auth) return;
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setAuthUser(user);
             if (!user) {
@@ -45,7 +62,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }, [auth]);
 
     useEffect(() => {
-        if (authUser) {
+        if (authUser && db) {
             const userDocRef = doc(db, 'users', authUser.uid);
             const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
                 setUserProfile(docSnap.exists() ? (docSnap.data() as UserProfile) : null);
@@ -107,7 +124,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         }
       };
 
-    const value = { authUser, userProfile, loading, updateUserProfile, addCompletedItem };
+    const value = { authUser, userProfile, loading, auth, db, updateUserProfile, addCompletedItem };
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

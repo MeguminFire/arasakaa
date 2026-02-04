@@ -11,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { LogIn, Loader2 } from 'lucide-react';
 import { TitanLogo } from '@/components/shared/icons';
-import { useFirebase } from '@/firebase/provider';
+import { useUser } from '@/context/UserProvider';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -19,7 +19,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const { auth } = useFirebase();
+  const { auth } = useUser();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
