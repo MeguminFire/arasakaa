@@ -15,6 +15,7 @@ import { TitanLogo } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/UserContext';
 import { Input } from '@/components/ui/input';
+import Forum from '@/components/shared/forum';
 
 // Component for the navigation cards on the dashboard
 function DashboardCard({
@@ -212,6 +213,7 @@ export default function DashboardPage() {
           className="md:col-span-2"
         />
       </div>
+      <Forum />
     </div>
   );
 }

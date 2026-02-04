@@ -8,6 +8,7 @@ import type {
   Lesson,
   QuizQuestion,
   GameScenario,
+  ForumPost,
 } from './types';
 import {
   Cpu,
@@ -733,3 +734,36 @@ export const quizQuestions: { [key: string]: QuizQuestion[] } = {
     }
   ]
 };
+
+export const forumPosts: ForumPost[] = [
+    {
+        id: 'post-1',
+        user: {
+            name: 'Cypher',
+            avatar: getPlaceholderImage('avatar-6')?.imageUrl ?? '',
+            email: 'cypher@example.com'
+        },
+        title: 'My new custom build keeps getting BSOD with MEMORY_MANAGEMENT error.',
+        content: 'Hey everyone, I just finished my first PC build. Specs: Ryzen 7 7800X3D, RTX 4080, 32GB DDR5 6000MHz RAM. It boots up fine, but whenever I try to run a game for more than 10 minutes, I get a Blue Screen of Death with the "MEMORY_MANAGEMENT" stop code. I\'ve tried reseating the RAM, but it didn\'t help. Is it a bad stick? Or could it be a setting in the BIOS I missed? Any help is appreciated!',
+        deviceType: 'Desktop PC',
+        brand: 'Custom Build',
+        createdAt: '2 hours ago',
+        replies: 12,
+        views: 88,
+    },
+    {
+        id: 'post-2',
+        user: {
+            name: 'Echo',
+            avatar: getPlaceholderImage('avatar-7')?.imageUrl ?? '',
+            email: 'echo@example.com'
+        },
+        title: 'Dell XPS 15 trackpad is randomly freezing and jumping.',
+        content: 'My Dell XPS 15 (2023 model) is having a really annoying trackpad issue. About every 5 minutes, the cursor will either completely freeze for a few seconds, or it will jump to a random corner of the screen. Using a USB mouse works perfectly fine. I\'ve already updated all the drivers through Dell\'s website and Windows Update. Has anyone else experienced this? Is it a known hardware fault?',
+        deviceType: 'Laptop',
+        brand: 'Dell',
+        createdAt: '1 day ago',
+        replies: 5,
+        views: 256,
+    }
+];

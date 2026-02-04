@@ -80,3 +80,15 @@ export type GameScenario = {
   steps: GameStep[];
   finalSolution: string;
 };
+
+export type ForumPost = {
+  id: string;
+  user: User;
+  title: string;
+  content: string;
+  deviceType: string;
+  brand: string;
+  createdAt: string;
+  replies: number;
+  views: number;
+};
