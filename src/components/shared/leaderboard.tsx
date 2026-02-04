@@ -20,52 +20,39 @@ import { leaderboard as defaultLeaderboard } from '@/lib/data';
 import { Trophy } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
 import { useMemo } from 'react';
-import type { User, LeaderboardEntry } from '@/lib/types';
+import type { LeaderboardEntry } from '@/lib/types';
 
 export default function Leaderboard() {
-  const { userProfile } = useUser();
+  const { authUser, userProfile } = useUser();
 
   const leaderboard = useMemo(() => {
-    if (!userProfile) return defaultLeaderboard.slice(0, 4);
-
-    const userInLeaderboard = defaultLeaderboard.some(entry => entry.user.email === userProfile.email);
-    let updatedLeaderboard: LeaderboardEntry[];
-
-    if (userInLeaderboard) {
-      updatedLeaderboard = defaultLeaderboard.map(entry => {
-        if (entry.user.email === userProfile.email) {
-          const user: User = {
-            uid: userProfile.uid,
-            name: userProfile.name,
-            email: userProfile.email,
-            avatar: userProfile.avatar,
-          };
-          return { ...entry, user: user };
-        }
-        return entry;
-      });
-    } else {
-      const userEntry: LeaderboardEntry = {
-        rank: 1, // Will be re-ranked
-        user: {
-          uid: userProfile.uid,
-          name: userProfile.name,
-          email: userProfile.email,
-          avatar: userProfile.avatar,
-        },
-        score: 2280, // default score for now
-        time: '03:10', // default time for now
-      };
-      updatedLeaderboard = [userEntry, ...defaultLeaderboard];
+    let board = [...defaultLeaderboard];
+    
+    if (authUser && userProfile) {
+      const userInBoard = board.some(p => p.user.uid === authUser.uid);
+      if (userInBoard) {
+        board = board.map(p => {
+          if (p.user.uid === authUser.uid) {
+            return { ...p, user: { ...p.user, name: userProfile.name, avatar: userProfile.avatar } };
+          }
+          return p;
+        });
+      } else {
+        board.push({
+          rank: 0,
+          user: { uid: authUser.uid, name: userProfile.name, avatar: userProfile.avatar },
+          score: 2280, // A default score
+          time: "03:10",
+        });
+      }
     }
 
-    // Sort by score and re-assign rank
-    return updatedLeaderboard
+    return board
       .sort((a, b) => b.score - a.score)
-      .map((entry, index) => ({ ...entry, rank: index + 1 }))
+      .map((p, i) => ({ ...p, rank: i + 1 }))
       .slice(0, 4);
-
-  }, [userProfile]);
+      
+  }, [authUser, userProfile]);
 
   return (
     <Card>

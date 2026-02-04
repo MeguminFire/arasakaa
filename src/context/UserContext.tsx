@@ -1,7 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode } from 'react';
-import { useUser as useFirebaseAuth, useFirestore } from '@/firebase';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { useUser as useFirebaseAuth, useFirestore, initializeFirebase, FirebaseProvider, FirebaseContextValue } from '@/firebase';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import type { UserProfile } from '@/lib/types';
 import { doc, setDoc, arrayUnion } from 'firebase/firestore';
@@ -17,7 +17,9 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
+// This new internal provider handles the actual user data logic.
+// It will only be rendered after Firebase has been initialized on the client.
+function AuthUserProvider({ children }: { children: ReactNode }) {
   const { user: authUser, loading: authLoading } = useFirebaseAuth();
   const db = useFirestore();
   
@@ -29,9 +31,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const updateUserProfile = async (data: Partial<UserProfile>) => {
     if (!userDocRef) return;
     
-    // When creating a user profile for the first time, ensure name is included from auth if available.
+    // When creating a user profile for the first time, ensure name and avatar are initialized.
     const profileData = !userProfile 
-      ? { ...data, name: data.name || authUser?.displayName || 'New User' } 
+      ? { ...data, name: data.name || authUser?.displayName || 'New User', avatar: data.avatar || '' } 
       : data;
       
     await setDoc(userDocRef, profileData, { merge: true });
@@ -64,19 +66,42 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }, { merge: true });
     }
   };
+  
+  const value = { authUser, userProfile: userProfile ?? null, loading, updateUserProfile, addCompletedItem };
 
   return (
-    <UserContext.Provider value={{ authUser, userProfile: userProfile ?? null, loading, updateUserProfile, addCompletedItem }}>
+    <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
   );
 }
 
 
+export const UserProvider = ({ children }: { children: ReactNode }) => {
+  const [instances, setInstances] = useState<FirebaseContextValue | null>(null);
+
+  useEffect(() => {
+    // This effect runs only on the client, after the initial render.
+    // This is the correct place to initialize client-side libraries like Firebase.
+    setInstances(initializeFirebase());
+  }, []);
+
+  // On the server and during the initial client render, instances will be null.
+  // We provide a null context, which our custom hooks are designed to handle gracefully.
+  return (
+    <FirebaseProvider app={instances?.app ?? null} auth={instances?.auth ?? null} db={instances?.db ?? null}>
+        <AuthUserProvider>
+            {children}
+        </AuthUserProvider>
+    </FirebaseProvider>
+  );
+};
+
+
 export const useUser = (): UserContextType => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    // This can happen on server render, provide a safe fallback.
+    // This provides a safe fallback for server rendering or before the context is available.
     return {
       authUser: null,
       userProfile: null,

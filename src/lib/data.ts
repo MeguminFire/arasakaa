@@ -101,7 +101,7 @@ export const leaderboard: LeaderboardEntry[] = [
     {
     rank: 1,
     user: {
-      uid: 'lead-1',
+      uid: 'lead-1-uid',
       name: 'Glitch',
       avatar: '',
     },
@@ -111,7 +111,7 @@ export const leaderboard: LeaderboardEntry[] = [
   {
     rank: 2,
     user: {
-      uid: 'lead-2',
+      uid: 'lead-2-uid',
       name: '8-Bit',
       avatar: '',
     },
@@ -121,7 +121,7 @@ export const leaderboard: LeaderboardEntry[] = [
   {
     rank: 3,
     user: {
-      uid: 'lead-3',
+      uid: 'lead-3-uid',
       name: 'Trinity',
       avatar: '',
     },
