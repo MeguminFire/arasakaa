@@ -30,6 +30,8 @@ import {
   FileX,
   Terminal,
   MessagesSquare,
+  ShieldAlert,
+  FileUp,
 } from 'lucide-react';
 import { getPlaceholderImage } from './placeholder-images';
 
@@ -178,6 +180,22 @@ export const games: Game[] = [
     topic: 'Software Installation Issues',
     difficulty: 'hard',
     icon: FileX,
+  },
+  {
+    id: '7',
+    title: 'Virus Vanguard',
+    description: 'A user suspects they have a virus. Identify the malware symptoms and clean the system.',
+    topic: 'Malware Removal',
+    difficulty: 'medium',
+    icon: ShieldAlert,
+  },
+  {
+    id: '8',
+    title: 'Data Recovery Dash',
+    description: 'A user has accidentally deleted a critical project folder. Attempt to recover the lost files.',
+    topic: 'Data Recovery',
+    difficulty: 'hard',
+    icon: FileUp,
   },
 ];
 
@@ -719,5 +737,61 @@ export const scenarios: Record<string, GameScenario> = {
       }
     ],
     finalSolution: 'The software installation was being blocked by the antivirus program. By checking the Application log in Windows Event Viewer, the conflict was identified. The solution was to temporarily disable the antivirus, run the installation, and then immediately re-enable the protection.'
+  },
+  '7': {
+    id: '7',
+    title: 'Virus Vanguard',
+    initialSituation: "A user's browser homepage has been changed to a suspicious search engine, and pop-up ads are appearing constantly. The computer is also running slower than usual.",
+    steps: [
+        {
+            title: 'Step 1: First Response',
+            description: "The user is logged in. What's your immediate action to prevent further damage?",
+            hint: "Isolate the patient before you operate.",
+            actions: [
+                { text: 'Disconnect the computer from the network.', isCorrect: true, feedback: "Good call. Isolating the machine prevents the malware from spreading or communicating with its command center." },
+                { text: 'Run a full system scan with the installed antivirus.', isCorrect: false, feedback: "Not yet. If the malware is sophisticated, it might evade the current AV or block it. Isolation is the priority." },
+                { text: 'Restart the computer.', isCorrect: false, feedback: "This won't remove the malware and may allow it to embed itself deeper into the system on startup." }
+            ]
+        },
+        {
+            title: 'Step 2: Cleanup',
+            description: "The computer is offline. You need to scan for and remove the malware. What's the most reliable method?",
+            hint: "Starting in a minimal environment prevents malware from hiding.",
+            actions: [
+                { text: "Boot into Safe Mode with Networking and run a scan with a reputable on-demand anti-malware tool (like Malwarebytes).", isCorrect: true, feedback: "Correct. Safe Mode prevents most malware from running, allowing your scanner to find and remove it effectively. You find and quarantine several adware and spyware threats." },
+                { text: "Just run the built-in Windows Defender scan in normal mode.", isCorrect: false, feedback: "This might work for simple threats, but active malware can sometimes hide from scanners in a normal Windows session. Safe Mode is more thorough." },
+                { text: "Manually delete suspicious files from Program Files.", isCorrect: false, feedback: "This is very risky. You could easily delete critical system files, and you're unlikely to find all parts of the malware." }
+            ]
+        }
+    ],
+    finalSolution: "The system was infected with adware. The solution was to first disconnect it from the network, then boot into Safe Mode to run a scan with a dedicated anti-malware tool, which successfully removed the threats. Finally, browser settings were reset to their defaults."
+  },
+  '8': {
+    id: '8',
+    title: 'Data Recovery Dash',
+    initialSituation: "A frantic user calls you. They accidentally held Shift+Delete on a folder named 'Q4_Project_Finals', permanently bypassing the Recycle Bin. The folder was on their desktop.",
+    steps: [
+        {
+            title: 'Step 1: Immediate Action',
+            description: "What is the absolute first and most important instruction you give to the user?",
+            hint: "To recover data, you must prevent it from being overwritten.",
+            actions: [
+                { text: 'Stop using the computer immediately.', isCorrect: true, feedback: "Crucial first step. Any further disk activity (like browsing the web or saving files) could overwrite the sectors where the 'deleted' data resides, making recovery impossible." },
+                { text: 'Try to find the folder using Windows Search.', isCorrect: false, feedback: "The file data is no longer indexed by the file system, so search won't find it. This also creates more disk activity." },
+                { text: 'Run System Restore.', isCorrect: false, feedback: "System Restore does not affect personal files like documents and would not bring the folder back. It also writes to the disk, which is dangerous." }
+            ]
+        },
+        {
+            title: 'Step 2: Recovery Method',
+            description: "The user has stopped working. You need to use software to scan for the deleted file data. What is the correct approach?",
+            hint: "Don't write any new data to the drive you're trying to recover from.",
+            actions: [
+                { text: "Use a portable data recovery tool (like Recuva Portable) run from a separate USB drive.", isCorrect: true, feedback: "This is the correct professional method. Running the tool from a USB stick prevents you from installing software on the affected drive, which could overwrite the very data you're trying to save." },
+                { text: "Download and install a data recovery program onto the user's C: drive.", isCorrect: false, feedback: "This is a critical mistake. Installing the program could overwrite the deleted files, making them permanently unrecoverable." },
+                { text: "Run `chkdsk /f` to check for file system errors.", isCorrect: false, feedback: "`chkdsk` is for fixing file system errors, not for recovering deleted files. It heavily writes to the disk and could destroy the data." }
+            ]
+        }
+    ],
+    finalSolution: "The key to recovering shift-deleted files is to immediately stop using the drive to prevent data overwriting. The correct procedure was to use a portable data recovery application run from a USB drive to scan the user's main drive for the deleted file signatures and restore them to a different drive (the USB stick)."
   }
 };
