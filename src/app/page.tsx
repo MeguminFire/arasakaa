@@ -211,7 +211,7 @@ export default function DashboardPage() {
           Main Hub
         </h1>
         <p className="mt-2 text-muted-foreground text-lg">
-          Choose your path, titan.
+          Choose your path, Netrunner.
         </p>
       </div>
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
