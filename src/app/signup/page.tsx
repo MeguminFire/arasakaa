@@ -14,7 +14,7 @@ import { TitanLogo } from '@/components/shared/icons';
 import { auth } from '@/firebase';
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -24,7 +24,8 @@ export default function SignUpPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const emailForFirebase = `${username}@example.com`;
+      await createUserWithEmailAndPassword(auth, emailForFirebase, password);
       toast({
         title: 'Account Created',
         description: 'Welcome to the Glitch Guild! You will be redirected.',
@@ -34,10 +35,18 @@ export default function SignUpPage() {
       router.push('/');
     } catch (error: any) {
       console.error('Sign up error:', error);
+      let errorMessage = error.message || 'An unexpected error occurred.';
+      if (error.code === 'auth/email-already-in-use') {
+          errorMessage = 'This username is already taken. Please choose another one.';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'The password is too weak. Please use at least 6 characters.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'The username is not valid. Please avoid special characters.';
+      }
       toast({
         variant: 'destructive',
         title: 'Sign Up Failed',
-        description: error.message || 'An unexpected error occurred.',
+        description: errorMessage,
       });
     } finally {
       setIsLoading(false);
@@ -62,16 +71,16 @@ export default function SignUpPage() {
         <CardContent>
           <form onSubmit={handleSignUp} className="space-y-6">
             <div>
-              <Label htmlFor="email">Email address</Label>
+              <Label htmlFor="username">Username</Label>
               <div className="mt-2">
                 <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   disabled={isLoading}
                 />
               </div>

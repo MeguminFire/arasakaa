@@ -37,7 +37,7 @@ export default function ProfilePage() {
       await updateUserProfile({ name: name.trim() });
       toast({
         title: "Profile Updated",
-        description: "Your name has been successfully changed.",
+        description: "Your callsign has been successfully changed.",
       });
       setIsSaving(false);
     }
@@ -66,6 +66,8 @@ export default function ProfilePage() {
       </div>
   }
 
+  const username = authUser?.email?.split('@')[0] || '';
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -77,7 +79,7 @@ export default function ProfilePage() {
           <CardHeader>
             <CardTitle>Edit Profile</CardTitle>
             <CardDescription>
-              Choose your callsign and upload a custom avatar. Your email address cannot be changed.
+              Choose your callsign and upload a custom avatar. Your username cannot be changed.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
@@ -102,7 +104,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">Callsign</Label>
               <div className="relative">
                  <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -110,19 +112,19 @@ export default function ProfilePage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="pl-10"
-                  placeholder="Enter your name"
+                  placeholder="Enter your callsign"
                   disabled={isSaving}
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="username">Username</Label>
               <div className="relative">
                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="email"
-                  value={authUser?.email ?? ''}
+                  id="username"
+                  value={username}
                   disabled
                   className="pl-10"
                 />
