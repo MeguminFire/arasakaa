@@ -53,6 +53,42 @@
       "description": "A set of computer repair tools.",
       "imageUrl": "https://images.unsplash.com/photo-1620706857370-e1b9770e8bbe?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMHRvb2xzfGVufDB8fHx8MTc3MTUyNDIwNnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "computer tools"
+    },
+    {
+      "id": "component-cpu",
+      "description": "A close-up of a computer CPU.",
+      "imageUrl": "https://images.unsplash.com/photo-1591799264318-7e6e74e3dce9?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMHByb2Nlc3NvcnxlbnwwfHx8fDE3NzE1OTI0ODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "computer processor"
+    },
+    {
+      "id": "component-ram",
+      "description": "A stick of computer RAM.",
+      "imageUrl": "https://images.unsplash.com/photo-1592424002-15282654d212?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMHJhbXxlbnwwfHx8fDE3NzE1OTI1MTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "computer ram"
+    },
+    {
+      "id": "component-mobo",
+      "description": "A computer motherboard.",
+      "imageUrl": "https://images.unsplash.com/photo-1555618423-69b40a585704?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMG1vdGhlcmJvYXJkfGVufDB8fHx8MTc3E1OTI1NDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "computer motherboard"
+    },
+    {
+      "id": "component-gpu",
+      "description": "A powerful graphics card.",
+      "imageUrl": "https://images.unsplash.com/photo-1627221307525-4b9095679c9c?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxncmFwaGljcyUyMGNhcmR8ZW58MHx8fHwxNzcxNTkyNTgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "graphics card"
+    },
+    {
+      "id": "component-storage",
+      "description": "A solid-state drive (SSD).",
+      "imageUrl": "https://images.unsplash.com/photo-1593432333019-688326e0f7a7?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2xpZCUyMHN0YXRlJTIwZHJpdmV8ZW58MHx8fHwxNzcxNTkyNjEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "solid state drive"
+    },
+    {
+      "id": "component-psu",
+      "description": "A computer power supply unit.",
+      "imageUrl": "https://images.unsplash.com/photo-1618330939319-3351951f7d54?ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3dlciUyMHN1cHBseSUyMHVuaXR8ZW58MHx8fHwxNzcxNTkyNjM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "power supply unit"
     }
   ]
 }

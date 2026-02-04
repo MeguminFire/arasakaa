@@ -18,6 +18,7 @@ const TroubleshootingScenarioInputSchema = z.object({
   difficulty: z
     .enum(['easy', 'medium', 'hard'])
     .describe('The difficulty level of the troubleshooting scenario.'),
+  seed: z.string().describe('A random seed to ensure scenario uniqueness.'),
 });
 export type TroubleshootingScenarioInput = z.infer<typeof TroubleshootingScenarioInputSchema>;
 

@@ -26,9 +26,14 @@ type Scenario = {
   solution: string;
 };
 
-// Function to shuffle an array
+// Fisher-Yates shuffle algorithm
 const shuffleArray = (array: any[]) => {
-  return [...array].sort(() => Math.random() - 0.5);
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
 };
 
 
@@ -47,10 +52,10 @@ export default function GamePage() {
   const [feedback, setFeedback] = useState<{isCorrect: boolean} | null>(null);
   const [isFinished, setIsFinished] = useState(false);
 
-  useEffect(() => {
+  const fetchNewScenario = () => {
     if (game) {
       setIsLoading(true);
-      getNewScenario({ topic: game.topic, difficulty: game.difficulty })
+      getNewScenario({ topic: game.topic, difficulty: game.difficulty, seed: Date.now().toString() })
         .then((newScenario) => {
           setScenario(newScenario);
           setCurrentStepIndex(0);
@@ -60,6 +65,10 @@ export default function GamePage() {
         })
         .finally(() => setIsLoading(false));
     }
+  }
+
+  useEffect(() => {
+    fetchNewScenario();
   }, [game]);
 
   useEffect(() => {
@@ -93,18 +102,7 @@ export default function GamePage() {
   };
   
   const handleRestart = () => {
-     if (game) {
-      setIsLoading(true);
-      getNewScenario({ topic: game.topic, difficulty: game.difficulty })
-        .then((newScenario) => {
-          setScenario(newScenario);
-          setCurrentStepIndex(0);
-          setSelectedOption(null);
-          setFeedback(null);
-          setIsFinished(false);
-        })
-        .finally(() => setIsLoading(false));
-    }
+     fetchNewScenario();
   }
   
   if (!game) {

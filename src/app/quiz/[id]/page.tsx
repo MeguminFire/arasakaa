@@ -27,9 +27,14 @@ import {
 } from 'lucide-react';
 import type { QuizQuestion } from '@/lib/types';
 
-// Function to shuffle an array
+// Fisher-Yates shuffle algorithm
 const shuffleArray = (array: any[]) => {
-  return [...array].sort(() => Math.random() - 0.5);
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
 };
 
 const QUESTIONS_PER_QUIZ = 10;
@@ -47,22 +52,26 @@ export default function QuizPage() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  
+  const startNewQuiz = () => {
+    setIsLoading(true);
+    const allQuestions = quizQuestions[quizId] || [];
+    const shuffled = shuffleArray(allQuestions);
+    const selectedQuestions = shuffled.slice(0, QUESTIONS_PER_QUIZ);
+    setQuestions(selectedQuestions);
+
+    // Reset state
+    setCurrentQuestionIndex(0);
+    setSelectedAnswer(null);
+    setShowFeedback(false);
+    setScore(0);
+    setIsFinished(false);
+    setIsLoading(false);
+  }
 
   useEffect(() => {
     if (quizId) {
-      setIsLoading(true);
-      const allQuestions = quizQuestions[quizId] || [];
-      const shuffled = shuffleArray(allQuestions);
-      const selectedQuestions = shuffled.slice(0, QUESTIONS_PER_QUIZ);
-      setQuestions(selectedQuestions);
-
-      // Reset state when quiz changes
-      setCurrentQuestionIndex(0);
-      setSelectedAnswer(null);
-      setShowFeedback(false);
-      setScore(0);
-      setIsFinished(false);
-      setIsLoading(false);
+      startNewQuiz();
     }
   }, [quizId]);
 
@@ -99,16 +108,7 @@ export default function QuizPage() {
   };
 
   const handleRestart = () => {
-    // Re-shuffle and select questions
-    const allQuestions = quizQuestions[quizId] || [];
-    const shuffled = shuffleArray(allQuestions);
-    setQuestions(shuffled.slice(0, QUESTIONS_PER_QUIZ));
-    
-    setCurrentQuestionIndex(0);
-    setSelectedAnswer(null);
-    setShowFeedback(false);
-    setScore(0);
-    setIsFinished(false);
+    startNewQuiz();
   };
 
   if (!quiz) {
