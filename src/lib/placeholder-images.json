@@ -38,21 +38,27 @@
     },
     {
       "id": "learn-hero",
-      "description": "A person learning about technology on a tablet.",
-      "imageUrl": "https://images.unsplash.com/photo-1645363308298-3a949c8bfd86?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxsZWFybmluZyUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzcwMDk0OTUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "learning technology"
+      "description": "Abstract technology background",
+      "imageUrl": "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWNobm9sb2d5JTIwYWJzdHJhY3R8ZW58MHx8fHwxNzcwMTA2NjUyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "technology abstract"
     },
     {
-      "id": "learn-steps",
-      "description": "A flowchart diagram illustrating a process.",
-      "imageUrl": "https://images.unsplash.com/photo-1769738360873-3ba6cac0b308?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmbG93Y2hhcnQlMjBkaWFncmFtfGVufDB8fHx8MTc3MDExNDU1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "flowchart diagram"
+      "id": "learn-step-1-2",
+      "description": "A person thinking or gathering information.",
+      "imageUrl": "https://images.unsplash.com/photo-1526916027372-0c0852cef5d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dGhpbmtpbmclMjBwZXJzb258ZW58MHx8fHwxNzcwMTYxNzEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "thinking person"
     },
     {
-      "id": "learn-tools",
-      "description": "A set of computer repair tools.",
-      "imageUrl": "https://images.unsplash.com/photo-1581090122087-bdc8968e525f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wdXRlciUyMHRvb2xzfGVufDB8fHx8MTc3MDE2OTA1M3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "computer tools"
+      "id": "learn-step-3-4",
+      "description": "Testing a theory with tools.",
+      "imageUrl": "https://images.unsplash.com/photo-1758101755915-462eddc23f57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx0ZXN0aW5nJTIwdG9vbHN8ZW58MHx8fHwxNzcwMTY5NDA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "testing tools"
+    },
+    {
+      "id": "learn-step-5-6",
+      "description": "Verifying a working computer and documenting.",
+      "imageUrl": "https://images.unsplash.com/photo-1508780709619-79562169bc64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3b3JraW5nJTIwY29tcHV0ZXJ8ZW58MHx8fHwxNzcwMTY5NDA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "working computer"
     },
     {
       "id": "component-cpu",

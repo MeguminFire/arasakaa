@@ -19,7 +19,6 @@ import {
   BookOpen,
   LogOut,
   Settings,
-  GraduationCap,
   Cpu,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
@@ -91,18 +90,6 @@ export default function RootLayout({
                     <Link href="/components">
                       <Cpu />
                       <span>Components</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    href="/learn"
-                    asChild
-                    tooltip="Learn"
-                  >
-                    <Link href="/learn">
-                      <GraduationCap />
-                      <span>Learn</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
