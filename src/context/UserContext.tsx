@@ -9,7 +9,8 @@ interface UserContextType {
   updateUser: (newUser: Partial<User>) => void;
   completedGames: string[];
   completedQuizzes: string[];
-  addCompletedItem: (type: 'game' | 'quiz', id: string) => void;
+  completedLessons: string[];
+  addCompletedItem: (type: 'game' | 'quiz' | 'lesson', id: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -18,6 +19,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User>(defaultUser);
   const [completedGames, setCompletedGames] = useState<string[]>([]);
   const [completedQuizzes, setCompletedQuizzes] = useState<string[]>([]);
+  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -25,6 +27,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       const storedUser = localStorage.getItem('troubleshoot-user');
       const storedGames = localStorage.getItem('completedGames');
       const storedQuizzes = localStorage.getItem('completedQuizzes');
+      const storedLessons = localStorage.getItem('completedLessons');
 
       if (storedUser) {
         setUser(JSON.parse(storedUser));
@@ -34,6 +37,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       }
       if (storedQuizzes) {
         setCompletedQuizzes(JSON.parse(storedQuizzes));
+      }
+      if (storedLessons) {
+        setCompletedLessons(JSON.parse(storedLessons));
       }
     } catch (error) {
       console.error("Failed to load data from localStorage", error);
@@ -53,7 +59,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const addCompletedItem = (type: 'game' | 'quiz', id: string) => {
+  const addCompletedItem = (type: 'game' | 'quiz' | 'lesson', id: string) => {
     if (type === 'game') {
       setCompletedGames(prev => {
         if (prev.includes(id)) return prev;
@@ -65,7 +71,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }
         return newCompleted;
       });
-    } else {
+    } else if (type === 'quiz') {
       setCompletedQuizzes(prev => {
         if (prev.includes(id)) return prev;
         const newCompleted = [...prev, id];
@@ -76,6 +82,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }
         return newCompleted;
       });
+    } else if (type === 'lesson') {
+        setCompletedLessons(prev => {
+            if (prev.includes(id)) return prev;
+            const newCompleted = [...prev, id];
+            try {
+                localStorage.setItem('completedLessons', JSON.stringify(newCompleted));
+            } catch (error) {
+                console.error("Failed to save completed lessons to localStorage", error);
+            }
+            return newCompleted;
+        });
     }
   };
 
@@ -84,7 +101,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <UserContext.Provider value={{ user, updateUser, completedGames, completedQuizzes, addCompletedItem }}>
+    <UserContext.Provider value={{ user, updateUser, completedGames, completedQuizzes, completedLessons, addCompletedItem }}>
       {children}
     </UserContext.Provider>
   );
@@ -97,5 +114,3 @@ export const useUser = () => {
   }
   return context;
 };
-
-  

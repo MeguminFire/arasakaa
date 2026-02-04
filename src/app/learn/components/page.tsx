@@ -1,7 +1,14 @@
+'use client';
+
 import Image from 'next/image';
+import Link from 'next/link';
 import PageHeader from '@/components/shared/page-header';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { getPlaceholderImage } from '@/lib/placeholder-images';
+import { Button } from '@/components/ui/button';
+import { CheckCircle, BookOpen } from 'lucide-react';
+import { useUser } from '@/context/UserContext';
+import { useToast } from '@/hooks/use-toast';
 
 const componentsData = [
   {
@@ -42,9 +49,27 @@ const componentsData = [
   },
 ];
 
-export default function ComponentsPage() {
+const LESSON_ID = '1';
+const QUIZ_ID = '2';
+
+export default function ComponentsLessonPage() {
+  const { addCompletedItem, completedLessons } = useUser();
+  const { toast } = useToast();
+  const isCompleted = completedLessons.includes(LESSON_ID);
+
+  const handleMarkAsComplete = () => {
+    addCompletedItem('lesson', LESSON_ID);
+    toast({
+      title: 'Lesson Completed!',
+      description: 'You\'ve marked "Anatomy of a Computer" as complete.',
+      action: (
+        <CheckCircle className="text-green-500" />
+      ),
+    });
+  };
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in">
       <PageHeader
         title="Anatomy of a Computer"
         description="Understand the core components that make a computer work."
@@ -71,6 +96,25 @@ export default function ComponentsPage() {
           </Card>
         ))}
       </div>
+
+       <Card>
+        <CardHeader>
+            <CardTitle>Lesson Complete?</CardTitle>
+            <CardDescription>Once you feel you understand the components, mark this lesson as complete and test your knowledge with the quiz.</CardDescription>
+        </CardHeader>
+        <CardFooter className="gap-4">
+            <Button onClick={handleMarkAsComplete} disabled={isCompleted}>
+                <CheckCircle className="mr-2 h-4 w-4" />
+                {isCompleted ? 'Completed' : 'Mark as Complete'}
+            </Button>
+            <Button variant="outline" asChild>
+                <Link href={`/quiz/${QUIZ_ID}`}>
+                    <BookOpen className="mr-2 h-4 w-4" />
+                    Take the Hardware Quiz
+                </Link>
+            </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

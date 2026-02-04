@@ -16,7 +16,7 @@ export type StatCard = {
 export type ProgressItem = {
   id: string;
   name:string;
-  type: 'Game' | 'Quiz';
+  type: 'Game' | 'Quiz' | 'Lesson';
   completion: number;
 };
 
@@ -51,6 +51,15 @@ export type Quiz = {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
+export type Lesson = {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  quizId: string;
+};
+
 export type QuizQuestion = {
   question: string;
   options: string[];
@@ -79,5 +88,3 @@ export type GameScenario = {
   steps: GameStep[];
   finalSolution: string;
 };
-
-  

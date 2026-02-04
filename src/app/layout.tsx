@@ -16,7 +16,6 @@ import {
   LayoutDashboard,
   Gamepad2,
   BookOpen,
-  Cpu,
   GraduationCap,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
@@ -70,18 +69,6 @@ export default function RootLayout({
                       <Link href="/">
                         <LayoutDashboard />
                         <span>Dashboard</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      href="/components"
-                      asChild
-                      tooltip="Components"
-                    >
-                      <Link href="/components">
-                        <Cpu />
-                        <span>Components</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -141,5 +128,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-  

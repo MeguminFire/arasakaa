@@ -45,7 +45,7 @@
     {
       "id": "learn-flowchart",
       "description": "A holographic interface displaying complex data.",
-      "imageUrl": "https://images.unsplash.com/photo-1634733301494-0a4a7c135c91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob2xvZ3JhbSUyMGRhdGF8ZW58MHx8fHwxNzcwNDQ1NzgwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1634733301nN0EwYXBpZnx8ZW58MHx8fHwxNzcwNDQ1NzgwfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "hologram data"
     },
     {
@@ -57,38 +57,56 @@
     {
       "id": "component-cpu",
       "description": "A close-up of a computer CPU.",
-      "imageUrl": "https://images.unsplash.com/photo-1672165407865-424aadab20cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21wdXRlciUyMHByb2Nlc3NvcnxlbnwwfHx8fDE3NzAxNjkwNTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1591799264318-7e6e74e3c8ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
       "imageHint": "computer processor"
     },
     {
       "id": "component-ram",
       "description": "A stick of computer RAM.",
-      "imageUrl": "https://images.unsplash.com/photo-1562976540-1502c2145186?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21wdXRlciUyMHJhbXxlbnwwfHx8fDE3NzAxMzIzNTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1592373863829-37e028043639?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
       "imageHint": "computer ram"
     },
     {
       "id": "component-mobo",
       "description": "A computer motherboard.",
-      "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wdXRlciUyMG1vdGhlcmJvYXJkfGVufDB8fHx8MTc3MDQ0NTYxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
       "imageHint": "computer motherboard"
     },
     {
       "id": "component-gpu",
       "description": "A powerful graphics card.",
-      "imageUrl": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxncmFwaGljcyUyMGNhcmR8ZW58MHx8fHwxNzcwMTY5MDU0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1627294861254-4c2c0499b24e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
       "imageHint": "graphics card"
     },
     {
       "id": "component-storage",
       "description": "A solid-state drive (SSD).",
-      "imageUrl": "https://images.unsplash.com/photo-1709660850064-0ec82e1a6b5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2xpZCUyMHN0YXRlJTIwZHJpdmV8ZW58MHx8fHwxNzcwMTY5MDU0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1544890225-2f3faec4446b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
       "imageHint": "solid state drive"
     },
     {
       "id": "component-psu",
       "description": "A computer power supply unit.",
-      "imageUrl": "https://images.unsplash.com/photo-1675893857450-783969c8922f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3dlciUyMHN1cHBseSUyMHVuaXR8ZW58MHx8fHwxNzcwMTY5MDUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1581451059402-959953a89104?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
       "imageHint": "power supply unit"
+    },
+    {
+      "id": "learn-networking-hero",
+      "description": "Abstract visualization of network data streams.",
+      "imageUrl": "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
+      "imageHint": "network data"
+    },
+    {
+      "id": "learn-networking-router",
+      "description": "A modern Wi-Fi router.",
+      "imageUrl": "https://images.unsplash.com/photo-1565253381329-371d46c8a753?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
+      "imageHint": "wifi router"
+    },
+    {
+      "id": "learn-networking-switch",
+      "description": "A network switch with ethernet cables plugged in.",
+      "imageUrl": "https://images.unsplash.com/photo-1601972602985-e36636785342?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
+      "imageHint": "network switch"
     }
   ]
 }

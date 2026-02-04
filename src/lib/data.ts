@@ -6,6 +6,7 @@ import type {
   LeaderboardEntry,
   Game,
   Quiz,
+  Lesson,
   QuizQuestion,
   GameScenario,
 } from './types';
@@ -26,6 +27,7 @@ import {
   Printer,
   PowerOff,
   FileX,
+  Terminal,
 } from 'lucide-react';
 import { getPlaceholderImage } from './placeholder-images';
 
@@ -421,6 +423,33 @@ export const gameScenarios: GameScenario[] = [
   }
 ];
 
+export const lessons: Lesson[] = [
+    {
+      id: '1',
+      title: 'Anatomy of a Computer',
+      description: 'Understand the core components that make a computer work, from the CPU to the PSU.',
+      href: '/learn/components',
+      icon: Cpu,
+      quizId: '2'
+    },
+    {
+      id: '2',
+      title: 'Networking Fundamentals',
+      description: 'Learn the basics of how devices communicate, from IP addresses to routers and switches.',
+      href: '/learn/networking',
+      icon: Network,
+      quizId: '1'
+    },
+    {
+      id: '3',
+      title: 'The Art of Troubleshooting',
+      description: 'Master the 6-step methodology for diagnosing and solving any technical problem.',
+      href: '/learn/troubleshooting',
+      icon: Wrench,
+      quizId: '3'
+    }
+];
+
 
 export const quizzes: Quiz[] = [
   {
@@ -444,6 +473,13 @@ export const quizzes: Quiz[] = [
     topic: 'Operating Systems',
     icon: Wrench,
   },
+  {
+    id: '4',
+    title: 'Command Line Basics',
+    description: 'Test your knowledge of essential commands for Windows and Unix-like systems.',
+    topic: 'Software',
+    icon: Terminal,
+  }
 ];
 
 export const quizQuestions: { [key: string]: QuizQuestion[] } = {
@@ -647,7 +683,67 @@ export const quizQuestions: { [key: string]: QuizQuestion[] } = {
         correctAnswer: 'Check all power connections and cables',
         explanation: 'Before assuming a major hardware failure, always check the most basic potential issues first. Ensure the computer is plugged in, the outlet has power, and all cables are securely connected.'
     }
+  ],
+  '4': [
+    {
+      question: "In Windows Command Prompt, what command is used to see the contents of the current directory?",
+      options: [ 'ls', 'dir', 'show', 'list' ],
+      correctAnswer: 'dir',
+      explanation: '`dir` is the command used in Windows (CMD and PowerShell) to list the files and folders in the current directory. `ls` is the equivalent in Unix-like systems.'
+    },
+    {
+        question: "What does the `cd` command do in both Windows and Unix-like systems?",
+        options: [ 'Create Directory', 'Copy Directory', 'Change Directory', 'Clear Directory' ],
+        correctAnswer: 'Change Directory',
+        explanation: 'The `cd` command stands for "Change Directory" and is used to navigate between different folders in the file system.'
+    },
+    {
+        question: "Which command is used to test network connectivity to another device?",
+        options: [ 'netstat', 'ipconfig', 'ping', 'tracert' ],
+        correctAnswer: 'ping',
+        explanation: '`ping` sends ICMP Echo Request packets to a target host to test if it is reachable and measures the round-trip time for the packets.'
+    },
+    {
+        question: "In PowerShell or Bash, what does `mkdir` do?",
+        options: [ 'Move a directory', 'Make a new directory', 'Mirror a directory', 'Mount a directory' ],
+        correctAnswer: 'Make a new directory',
+        explanation: '`mkdir` stands for "make directory" and is used to create a new folder (directory) in the file system.'
+    },
+    {
+        question: "What is the purpose of the `ipconfig` command in Windows?",
+        options: [ 'To configure internet proxy settings', 'To display the current TCP/IP network configuration values', 'To connect to a VPN', 'To ping multiple addresses at once' ],
+        correctAnswer: 'To display the current TCP/IP network configuration values',
+        explanation: '`ipconfig` is a command-line tool used to view and manage the IP address, subnet mask, default gateway, and other network settings of a device. The Unix equivalent is often `ifconfig` or `ip addr`.'
+    },
+    {
+        question: "How do you clear the screen in most terminal applications?",
+        options: [ 'clear or cls', 'erase', 'wipe', 'reset' ],
+        correctAnswer: 'clear or cls',
+        explanation: '`cls` is the command to clear the screen in Windows Command Prompt, while `clear` is used in most Unix-like shells and PowerShell.'
+    },
+    {
+        question: "What does `sfc /scannow` do in Windows?",
+        options: [ 'Scans for viruses', 'Checks hard drive for errors', 'Scans and verifies the integrity of all protected system files', 'Shows file contents' ],
+        correctAnswer: 'Scans and verifies the integrity of all protected system files',
+        explanation: 'The System File Checker (`sfc`) tool scans for and attempts to repair corrupted or missing Windows system files.'
+    },
+    {
+        question: "Which command in Unix-like systems (like Linux or macOS) is used to view the contents of a file?",
+        options: [ 'cat', 'type', 'open', 'view' ],
+        correctAnswer: 'cat',
+        explanation: 'The `cat` (concatenate) command is commonly used to display the content of files. The `type` command serves a similar purpose in Windows.'
+    },
+    {
+        question: "What does the `>` character typically do in a command line?",
+        options: [ 'Executes the command twice', 'Deletes a file', 'Redirects the output of a command to a file', 'Searches for text' ],
+        correctAnswer: 'Redirects the output of a command to a file',
+        explanation: 'The `>` operator is used for output redirection. For example, `dir > files.txt` would write the directory listing into a file named files.txt instead of displaying it on the screen.'
+    },
+    {
+        question: "In PowerShell or Bash, how do you stop a currently running process?",
+        options: [ 'Esc', 'Ctrl+S', 'Ctrl+C', 'Ctrl+X' ],
+        correctAnswer: 'Ctrl+C',
+        explanation: 'Pressing `Ctrl+C` sends an interrupt signal to the foreground process, which usually causes it to terminate immediately.'
+    }
   ]
 };
-
-  
