@@ -59,11 +59,6 @@ export type QuizQuestion = {
 };
 
 // New types for the interactive game
-export type Action = {
-  id: string;
-  text: string;
-};
-
 export type Result = {
   text: string;
   isCorrectPath: boolean;
@@ -71,12 +66,17 @@ export type Result = {
   nextStepId?: string;
 };
 
+export type Action = {
+  id: string;
+  text: string;
+  result: Result;
+};
+
 export type GameStep = {
   id: string;
   title: string;
   description: string;
   actions: Action[];
-  results: Record<string, Result>;
 };
 
 export type InteractiveScenarioOutput = {

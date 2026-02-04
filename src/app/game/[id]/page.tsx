@@ -55,9 +55,10 @@ export default function GamePage() {
     if (!scenario || selectedActionId) return;
 
     setSelectedActionId(action.id);
-    const currentStep = scenario.steps[currentStepId!];
-    const result = currentStep.results[action.id];
+    const result = action.result;
     setLastResult(result);
+    
+    const currentStep = scenario.steps[currentStepId!];
     setHistory(prev => [...prev, { step: currentStep, action, result }]);
 
     setTimeout(() => {
