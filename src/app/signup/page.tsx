@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { useFirebaseApp } from '@/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useAuth } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,11 +19,18 @@ export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const app = useFirebaseApp();
-  const auth = getAuth(app);
+  const auth = useAuth();
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+     if (!auth) {
+      toast({
+        variant: 'destructive',
+        title: 'Sign Up Failed',
+        description: 'Authentication service is not available. Please try again later.',
+      });
+      return;
+    }
     setIsLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, password);

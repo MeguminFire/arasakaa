@@ -6,9 +6,9 @@ import type { Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 
 export interface FirebaseContextValue {
-  app: FirebaseApp;
-  auth: Auth;
-  db: Firestore;
+  app: FirebaseApp | null;
+  auth: Auth | null;
+  db: Firestore | null;
 }
 
 const FirebaseContext = createContext<FirebaseContextValue | undefined>(
@@ -16,16 +16,12 @@ const FirebaseContext = createContext<FirebaseContextValue | undefined>(
 );
 
 export const useFirebase = () => {
-  const context = useContext(FirebaseContext);
-  if (context === undefined) {
-    throw new Error('useFirebase must be used within a FirebaseProvider');
-  }
-  return context;
+  return useContext(FirebaseContext);
 };
 
-export const useFirebaseApp = () => useFirebase().app;
-export const useAuth = () => useFirebase().auth;
-export const useFirestore = () => useFirebase().db;
+export const useFirebaseApp = () => useFirebase()?.app;
+export const useAuth = () => useFirebase()?.auth;
+export const useFirestore = () => useFirebase()?.db;
 
 export function FirebaseProvider({
   children,

@@ -21,7 +21,7 @@ const UserProviderContent = ({ children }: { children: ReactNode }) => {
   const { user: authUser, loading: authLoading } = useFirebaseAuth();
   const db = useFirestore();
   
-  const userDocRef = authUser ? doc(db, 'users', authUser.uid) : null;
+  const userDocRef = (authUser && db) ? doc(db, 'users', authUser.uid) : null;
   const { data: userProfile, loading: profileLoading } = useDoc<UserProfile>(userDocRef);
 
   const loading = authLoading || profileLoading;
@@ -76,6 +76,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setIsClient(true);
   }, []);
 
+  // While the client is mounting, we provide a loading state.
+  // We avoid rendering the full Firebase-dependent tree on the server.
   if (!isClient) {
     return (
       <UserContext.Provider value={{
