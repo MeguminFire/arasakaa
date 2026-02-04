@@ -32,8 +32,8 @@ import {
 import { getPlaceholderImage } from './placeholder-images';
 
 export const user: User = {
-  name: 'Alex Titan',
-  email: 'alex.titan.default@example.com',
+  name: 'Jett Runner',
+  email: 'jett.runner.default@example.com',
   avatar: getPlaceholderImage('avatar-user')?.imageUrl ?? '',
   title: 'Novice Technician',
 };

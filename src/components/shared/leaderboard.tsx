@@ -37,7 +37,7 @@ export default function Leaderboard() {
          time: '03:10', // default time for now
      };
      const otherEntries = defaultLeaderboard
-        .filter(entry => entry.user.email !== 'alex.titan.default@example.com')
+        .filter(entry => entry.user.email !== 'jett.runner.default@example.com')
         .map((entry, index) => ({...entry, rank: index + 2}));
 
      return [userEntry, ...otherEntries].slice(0, 4);
@@ -93,5 +93,3 @@ export default function Leaderboard() {
     </Card>
   );
 }
-
-  
