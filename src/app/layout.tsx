@@ -115,9 +115,14 @@ export default function RootLayout({
               </SidebarFooter>
             </Sidebar>
             <SidebarInset className="flex flex-col">
-              <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:justify-end">
+              <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm">
                 <SidebarTrigger className="md:hidden" />
-                <div />
+                <Link href="/" className="flex items-center gap-2 md:hidden">
+                  <TitanLogo className="size-8 text-primary" />
+                  <span className="text-xl font-headline">
+                    Glitch Guild
+                  </span>
+                </Link>
               </header>
               <main className="flex-1 p-4 md:p-6">{children}</main>
             </SidebarInset>

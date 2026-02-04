@@ -2,7 +2,6 @@ import type {
   User,
   StatCard,
   ProgressItem,
-  Title,
   LeaderboardEntry,
   Game,
   Quiz,
@@ -35,7 +34,6 @@ export const user: User = {
   name: 'Jett Runner',
   email: 'jett.runner.default@example.com',
   avatar: getPlaceholderImage('avatar-user')?.imageUrl ?? '',
-  title: 'Novice Technician',
 };
 
 export const stats: StatCard[] = [
@@ -96,22 +94,12 @@ export const progress: ProgressItem[] = [
   },
 ];
 
-export const titles: Title[] = [
-  { id: '1', name: 'PC Rookie', icon: Award, earned: true },
-  { id: '2', name: 'Network Novice', icon: Award, earned: true },
-  { id: '3', name: 'System Solver', icon: Crown, earned: false },
-  { id: '4', name: 'Hardware Hero', icon: Crown, earned: false },
-  { id: '5', name: 'Software Sage', icon: Trophy, earned: false },
-  { id: '6', name: 'Troubleshoot Titan', icon: Trophy, earned: false },
-];
-
 export const leaderboard: LeaderboardEntry[] = [
     {
     rank: 1,
     user: {
       name: 'Glitch',
       avatar: getPlaceholderImage('avatar-2')?.imageUrl ?? '',
-      title: 'System Solver',
       email: 'glitch@example.com'
     },
     score: 2150,
@@ -122,7 +110,6 @@ export const leaderboard: LeaderboardEntry[] = [
     user: {
       name: '8-Bit',
       avatar: getPlaceholderImage('avatar-3')?.imageUrl ?? '',
-      title: 'Hardware Hero',
       email: '8bit@example.com'
     },
     score: 2010,
@@ -133,7 +120,6 @@ export const leaderboard: LeaderboardEntry[] = [
     user: {
       name: 'Trinity',
       avatar: getPlaceholderImage('avatar-4')?.imageUrl ?? '',
-      title: 'PC Rookie',
       email: 'trinity@example.com'
     },
     score: 1980,

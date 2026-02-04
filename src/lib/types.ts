@@ -2,7 +2,6 @@ export type User = {
   name: string;
   email: string;
   avatar: string;
-  title: string;
 };
 
 export type StatCard = {
@@ -18,13 +17,6 @@ export type ProgressItem = {
   name:string;
   type: 'Game' | 'Quiz' | 'Lesson';
   completion: number;
-};
-
-export type Title = {
-  id: string;
-  name: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  earned: boolean;
 };
 
 export type LeaderboardEntry = {

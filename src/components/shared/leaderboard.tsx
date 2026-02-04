@@ -76,9 +76,6 @@ export default function Leaderboard() {
                     </Avatar>
                     <div>
                       <p className="font-medium">{entry.user.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {entry.user.title}
-                      </p>
                     </div>
                   </div>
                 </TableCell>

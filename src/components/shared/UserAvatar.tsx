@@ -34,9 +34,6 @@ export default function UserAvatar() {
             </Avatar>
             <div className="flex flex-col items-start">
                 <span className="text-sm font-medium">{user.name}</span>
-                <span className="text-xs text-muted-foreground">
-                {user.title}
-                </span>
             </div>
             </Button>
         </DropdownMenuTrigger>
@@ -65,5 +62,3 @@ export default function UserAvatar() {
         </DropdownMenu>
     );
 }
-
-  

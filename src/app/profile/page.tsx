@@ -63,15 +63,6 @@ export default function ProfilePage() {
                   className="cursor-not-allowed bg-muted/50"
                 />
             </div>
-             <div className="space-y-2">
-              <Label htmlFor="title">Current Title</Label>
-              <Input
-                  id="title"
-                  value={user.title}
-                  disabled
-                  className="cursor-not-allowed bg-muted/50"
-                />
-            </div>
           </CardContent>
           <CardFooter>
             <Button type="submit">Save Changes</Button>
@@ -81,5 +72,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-
-  
