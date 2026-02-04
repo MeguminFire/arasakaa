@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CheckCircle2, XCircle, Lightbulb, Loader2, Trophy, RotateCcw, ChevronRight, ServerCrash } from 'lucide-react';
-import type { GameScenario, Action } from '@/lib/types';
+import type { GameScenario, Action, GameStep } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
@@ -32,7 +32,7 @@ export default function GamePage() {
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
   const [selectedActionIndex, setSelectedActionIndex] = useState<number | null>(null);
   const [isFinished, setIsFinished] = useState(false);
-  const [history, setHistory] = useState<{step: typeof scenario.steps[0], action: Action}[]>([]);
+  const [history, setHistory] = useState<{step: GameStep, action: Action}[]>([]);
   const [showHint, setShowHint] = useState(false);
   
   const loadScenario = useCallback(async () => {
@@ -42,7 +42,8 @@ export default function GamePage() {
     setScenario(null);
 
     try {
-      const newScenario = await getNewInteractiveScenario(game);
+      const { icon, ...gameInfo } = game;
+      const newScenario = await getNewInteractiveScenario(gameInfo);
       setScenario(newScenario);
     } catch (e) {
       console.error(e);
@@ -59,9 +60,9 @@ export default function GamePage() {
 
   useEffect(() => {
     if (isFinished && scenario) {
-      addCompletedItem('game', scenario.id);
+      addCompletedItem('game', gameId);
     }
-  }, [isFinished, scenario, addCompletedItem]);
+  }, [isFinished, scenario, addCompletedItem, gameId]);
 
   const handleActionClick = (action: Action, index: number) => {
     if (selectedAction || !scenario) return;

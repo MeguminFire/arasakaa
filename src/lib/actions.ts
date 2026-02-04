@@ -5,7 +5,7 @@ import type { Game, GameScenario } from "./types";
 
 const MAX_RETRIES = 3;
 
-export const getNewInteractiveScenario = async (game: Game): Promise<GameScenario> => {
+export const getNewInteractiveScenario = async (game: Omit<Game, 'icon'>): Promise<GameScenario> => {
   for (let i = 0; i < MAX_RETRIES; i++) {
     try {
       const generatedContent: GeneratedGameScenario = await generateInteractiveScenarioFlow({
