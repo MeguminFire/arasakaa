@@ -1,4 +1,4 @@
 import { config } from 'dotenv';
 config();
 
-import '@/ai/flows/generate-troubleshooting-scenarios.ts';
+import '@/ai/flows/generate-interactive-scenario.ts';

@@ -111,13 +111,43 @@ export const leaderboard: LeaderboardEntry[] = [
     score: 2280,
     time: '03:10',
   },
+    {
+    rank: 2,
+    user: {
+      name: 'Glitch',
+      avatar: getPlaceholderImage('avatar-2')?.imageUrl ?? '',
+      title: 'System Solver',
+    },
+    score: 2150,
+    time: '03:45',
+  },
+  {
+    rank: 3,
+    user: {
+      name: '8-Bit',
+      avatar: getPlaceholderImage('avatar-3')?.imageUrl ?? '',
+      title: 'Hardware Hero',
+    },
+    score: 2010,
+    time: '04:12',
+  },
+  {
+    rank: 4,
+    user: {
+      name: 'Trinity',
+      avatar: getPlaceholderImage('avatar-4')?.imageUrl ?? '',
+      title: 'PC Rookie',
+    },
+    score: 1980,
+    time: '04:30',
+  }
 ];
 
 export const games: Game[] = [
   {
     id: '1',
     title: 'The Uncooperative Printer',
-    description: 'A user reports their printer is not printing. Diagnose and solve the issue.',
+    description: 'You are on a mission to solve a printing problem. Investigate the scene, take action, and resolve the issue.',
     topic: 'Printer issues',
     difficulty: 'easy',
     icon: Printer,
@@ -125,15 +155,15 @@ export const games: Game[] = [
   {
     id: '2',
     title: 'The Case of the Slow Computer',
-    description: 'A computer that was once fast is now sluggish. Find the bottleneck.',
+    description: 'A user reports their PC is running at a crawl. Your mission is to diagnose the bottleneck and restore its speed.',
     topic: 'Slow computer performance',
     difficulty: 'easy',
     icon: Cpu,
   },
   {
     id: '3',
-    title: 'The Mysterious Wi-Fi Disconnect',
-    description: 'A laptop keeps disconnecting from the Wi-Fi. Ensure a stable connection.',
+    title: 'Mysterious Wi-Fi Drops',
+    description: 'A laptop keeps losing its connection to the network. Hunt down the cause of the instability and secure the signal.',
     topic: 'Intermittent Wi-Fi connection',
     difficulty: 'easy',
     icon: Router,
@@ -141,7 +171,7 @@ export const games: Game[] = [
   {
     id: '4',
     title: 'The Blue Screen of Dread',
-    description: 'A PC is crashing with a Blue Screen of Death. Identify the faulty component.',
+    description: 'A critical system failure is causing a BSOD. Your mission is to analyze the situation and bring the system back online.',
     topic: 'Blue Screen of Death (BSOD)',
     difficulty: 'easy',
     icon: ShieldCheck,
