@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { UserPlus, Loader2 } from 'lucide-react';
-import { TitanLogo, GoogleIcon } from '@/components/shared/icons';
+import { ArasakaIcon, GoogleIcon } from '@/components/shared/icons';
 import { useFirebase } from '@/firebase/FirebaseProvider';
 
 export default function SignUpPage() {
@@ -81,7 +81,7 @@ export default function SignUpPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
             <Link href="/" className="flex items-center gap-2 justify-center mb-4">
-                <TitanLogo className="size-10 text-primary" />
+                <ArasakaIcon className="size-10 text-primary" />
             </Link>
           <CardTitle>Create a new account</CardTitle>
           <CardDescription>

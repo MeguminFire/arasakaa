@@ -10,7 +10,7 @@ import {
   MessagesSquare,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
-import { TitanLogo } from '@/components/shared/icons';
+import { ArasakaFullLogo } from '@/components/shared/icons';
 import './globals.css';
 import UserAvatar from '@/components/shared/UserAvatar';
 import { UserProvider } from '@/context/UserProvider';
@@ -77,11 +77,8 @@ export default function RootLayout({
           <UserProvider>
             <div className="flex flex-col h-screen">
               <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
-                  <Link href="/" className="flex items-center gap-2">
-                      <TitanLogo className="size-8 text-primary" />
-                      <span className="text-2xl font-headline">
-                        Arasaka
-                      </span>
+                  <Link href="/">
+                      <ArasakaFullLogo className="h-8 w-auto text-primary" />
                   </Link>
               </header>
               <main className="flex-1 p-4 md:p-6 overflow-y-auto">{children}</main>

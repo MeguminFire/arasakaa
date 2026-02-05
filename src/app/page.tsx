@@ -12,7 +12,7 @@ import {
   UserPlus,
   MessagesSquare,
 } from 'lucide-react';
-import { TitanLogo } from '@/components/shared/icons';
+import { ArasakaIcon, ArasakaFullLogo } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/UserProvider';
 import { Input } from '@/components/ui/input';
@@ -147,16 +147,10 @@ export default function DashboardPage() {
             style={{ animationDelay: '2s', animationFillMode: 'forwards' }}
           />
           <div className="p-8 rounded-lg border-2 border-primary/50 bg-card/50 backdrop-blur-sm">
-            <TitanLogo
-              className="h-16 w-16 mx-auto text-primary opacity-0 animate-text-focus-in"
+            <ArasakaFullLogo
+              className="h-16 w-auto mx-auto text-primary opacity-0 animate-text-focus-in"
               style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}
             />
-            <h1
-              className="mt-6 font-headline text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent opacity-0 animate-text-focus-in"
-              style={{ animationDelay: '600ms', animationFillMode: 'forwards' }}
-            >
-              Arasaka
-            </h1>
             <p
               className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground opacity-0 animate-text-focus-in"
               style={{ animationDelay: '1200ms', animationFillMode: 'forwards' }}
