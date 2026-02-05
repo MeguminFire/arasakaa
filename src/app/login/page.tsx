@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -18,6 +18,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -50,15 +51,12 @@ export default function LoginPage() {
   
   const handleGoogleSignIn = async () => {
     if (!auth) return;
-    setIsLoading(true);
+    setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
-      toast({
-        title: 'Login Successful',
-        description: 'Welcome to Arasaka!',
-      });
-      router.push('/');
+      await signInWithRedirect(auth, provider);
+      // The user will be redirected, so the code below this won't execute immediately.
+      // The onAuthStateChanged listener will handle the successful login upon redirect.
     } catch (error: any) {
       console.error('Google sign-in error:', error);
       toast({
@@ -66,10 +64,11 @@ export default function LoginPage() {
         title: 'Login Failed',
         description: error.message || 'Could not sign in with Google.',
       });
-    } finally {
-      setIsLoading(false);
+      setIsGoogleLoading(false);
     }
   };
+
+  const anyLoading = isLoading || isGoogleLoading;
 
   return (
     <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
@@ -99,7 +98,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  disabled={isLoading}
+                  disabled={anyLoading}
                 />
               </div>
             </div>
@@ -117,13 +116,13 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  disabled={isLoading}
+                  disabled={anyLoading}
                 />
               </div>
             </div>
 
             <div>
-              <Button type="submit" className="w-full" disabled={isLoading || !auth}>
+              <Button type="submit" className="w-full" disabled={anyLoading || !auth}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <LogIn className="mr-2 h-4 w-4" />}
                 {isLoading ? 'Logging in...' : 'Log in'}
               </Button>
@@ -140,8 +139,8 @@ export default function LoginPage() {
           </div>
 
           <div className="mt-6">
-            <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={isLoading || !auth}>
-              {isLoading ? (
+            <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={anyLoading || !auth}>
+              {isGoogleLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 <GoogleIcon className="mr-2 h-5 w-5" />
