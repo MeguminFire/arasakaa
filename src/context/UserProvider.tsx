@@ -34,45 +34,58 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!auth) {
-            // Firebase might not be initialized yet
-            if (loading) {
-                const timer = setTimeout(() => setLoading(false), 1000); // Prevent infinite loading state
-                return () => clearTimeout(timer);
-            }
+        if (!auth || !db) {
+            // Firebase services are not available yet.
             return;
         }
-
-        // This is the key change: Proactively handle the redirect result.
-        // It checks if the user is returning from a Google Sign-In redirect.
-        // If so, it finalizes the login, and then onAuthStateChanged will fire with the user.
+    
+        let profileUnsubscribe: (() => void) | undefined;
+    
+        // It's important to trigger the redirect result processing,
+        // but onAuthStateChanged will be our single source of truth for the user state.
         getRedirectResult(auth).catch((error) => {
             console.error("Error processing sign-in redirect:", error);
         });
-
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setAuthUser(user);
-            if (!user) {
-                setUserProfile(null);
-                setLoading(false);
-            }
-        });
-        return () => unsubscribe();
-    }, [auth, loading]);
-
-    useEffect(() => {
-        if (authUser && db) {
-            const userDocRef = doc(db, 'users', authUser.uid);
-            const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
+    
+        const authUnsubscribe = onAuthStateChanged(auth, (user) => {
+          // Clean up any existing profile listener before starting a new one.
+          if (profileUnsubscribe) {
+            profileUnsubscribe();
+          }
+    
+          setAuthUser(user);
+    
+          if (user) {
+            // User is signed in, let's fetch their profile.
+            const userDocRef = doc(db, 'users', user.uid);
+            profileUnsubscribe = onSnapshot(
+              userDocRef,
+              (docSnap) => {
+                // Profile data received (or confirmed not to exist).
                 setUserProfile(docSnap.exists() ? (docSnap.data() as UserProfile) : null);
-                setLoading(false);
-            });
-            return () => unsubscribe();
-        } else if (!authUser) {
-            // If user is logged out, we're not loading anymore.
-            setLoading(false);
-        }
-    }, [authUser, db]);
+                setLoading(false); // Auth and profile fetch is complete.
+              },
+              (error) => {
+                console.error("Error fetching user profile:", error);
+                setUserProfile(null);
+                setLoading(false); // Stop loading even if profile fetch fails.
+              }
+            );
+          } else {
+            // User is signed out.
+            setUserProfile(null);
+            setLoading(false); // Auth is complete, no user.
+          }
+        });
+    
+        // Cleanup on component unmount.
+        return () => {
+          authUnsubscribe();
+          if (profileUnsubscribe) {
+            profileUnsubscribe();
+          }
+        };
+      }, [auth, db]);
 
     const updateUserProfile = async (data: Partial<UserProfile>) => {
         if (!authUser || !db) return;
