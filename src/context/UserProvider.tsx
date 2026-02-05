@@ -1,6 +1,6 @@
 'use client';
 
-import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
+import { onAuthStateChanged, type User as FirebaseUser, getRedirectResult } from 'firebase/auth';
 import { doc, onSnapshot, setDoc, arrayUnion } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { UserProfile } from '@/lib/types';
@@ -42,6 +42,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             }
             return;
         }
+
+        // This is the key change: Proactively handle the redirect result.
+        // It checks if the user is returning from a Google Sign-In redirect.
+        // If so, it finalizes the login, and then onAuthStateChanged will fire with the user.
+        getRedirectResult(auth).catch((error) => {
+            console.error("Error processing sign-in redirect:", error);
+        });
+
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setAuthUser(user);
             if (!user) {
