@@ -45,7 +45,7 @@ export default function RootLayout({
             href="https://fonts.gstatic.com"
             crossOrigin="anonymous"
           />
-          <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
         </head>
         <body className="font-body antialiased dark">
           <FirebaseProvider>
@@ -70,15 +70,16 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark">
         <FirebaseProvider>
           <UserProvider>
             <div className="flex flex-col h-screen">
               <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
-                  <Link href="/">
-                      <Image src="/arasaka.png" alt="Arasaka Logo" width={148} height={40} className="h-10 w-auto text-primary" />
+                  <Link href="/" className="flex items-center gap-3">
+                      <Image src="/arasaka.png" alt="Arasaka Logo" width={32} height={32} className="h-8 w-auto" />
+                      <span className="font-michroma text-xl text-white tracking-widest">ARASAKA</span>
                   </Link>
               </header>
               <main className="flex-1 p-4 md:p-6 overflow-y-auto">{children}</main>

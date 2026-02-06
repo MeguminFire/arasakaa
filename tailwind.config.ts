@@ -20,6 +20,7 @@ export default {
         body: ['"Rajdhani"', 'sans-serif'],
         headline: ['"Orbitron"', 'sans-serif'],
         code: ['"Share Tech Mono"', 'monospace'],
+        michroma: ['"Michroma"', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',

@@ -134,14 +134,16 @@ export default function DashboardPage() {
       <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4 text-center scanline-overlay overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="relative w-full max-w-lg">
-           <Image
-              src="/arasaka.png"
-              alt="Arasaka Logo"
-              width={338}
-              height={128}
-              className="mx-auto h-40 w-auto mb-10 block object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]"
-              style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}
-            />
+           <div className="flex justify-center items-center gap-4 mb-12" style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}>
+              <Image
+                  src="/arasaka.png"
+                  alt="Arasaka Logo"
+                  width={64}
+                  height={64}
+                  className="h-16 w-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+              />
+              <h1 className="font-michroma text-5xl text-white tracking-[0.4em] drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">ARASAKA</h1>
+          </div>
           <div className="p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
             <p
               className="max-w-2xl mx-auto text-lg text-muted-foreground opacity-0 animate-text-focus-in"
@@ -206,14 +208,17 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col items-center justify-center animate-fade-in space-y-8 p-4">
       <div className="text-center">
-        <Image
-          src="/arasaka.png"
-          alt="Arasaka Logo"
-          width={338}
-          height={128}
-          className="mx-auto h-40 w-auto mb-10 block object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]"
-          priority
-        />
+        <div className="flex justify-center items-center gap-4 mb-12">
+            <Image
+                src="/arasaka.png"
+                alt="Arasaka Logo"
+                width={64}
+                height={64}
+                className="h-16 w-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+                priority
+            />
+            <h1 className="font-michroma text-5xl text-white tracking-[0.4em] drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">ARASAKA</h1>
+        </div>
         <p className="text-muted-foreground text-lg">
           Choose your path, Netrunner.
         </p>
