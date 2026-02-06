@@ -76,12 +76,16 @@ export default function SignUpPage() {
         });
         router.push('/');
     } catch (error: any) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        // User closed the popup, do nothing.
+      } else {
         console.error('Google sign-in error:', error);
         toast({
             variant: 'destructive',
             title: 'Sign Up Failed',
             description: error.message || 'Could not sign up with Google.',
         });
+      }
     } finally {
         setIsGoogleLoading(false);
     }

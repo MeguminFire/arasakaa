@@ -70,12 +70,16 @@ export default function LoginPage() {
       });
       router.push('/dashboard');
     } catch (error: any) {
-      console.error('Google sign-in error:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Login Failed',
-        description: error.message || 'Could not sign in with Google.',
-      });
+      if (error.code === 'auth/popup-closed-by-user') {
+        // User closed the popup, do nothing.
+      } else {
+        console.error('Google sign-in error:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Login Failed',
+          description: error.message || 'Could not sign in with Google.',
+        });
+      }
     } finally {
       setIsGoogleLoading(false);
     }
@@ -88,7 +92,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm border-2 border-red-600/30 bg-zinc-950/90 backdrop-blur-xl">
         <CardHeader className="text-center p-4">
             <Link href="/" className="flex items-center gap-3 justify-center mb-2">
-                <Image src="/arasaka.png" alt="Arasaka Logo" width={40} height={40} className="h-10 w-auto" />
+                <Image src="/arasaka.png" alt="Arasaka Logo" width={56} height={56} className="h-14 w-auto" />
             </Link>
           <CardTitle className="uppercase tracking-widest text-lg">Log in to your account</CardTitle>
           <CardDescription>
