@@ -77,7 +77,11 @@ export default function SignUpPage() {
         router.push('/');
     } catch (error: any) {
       if (error.code === 'auth/popup-closed-by-user') {
-        // User closed the popup, do nothing.
+        toast({
+            variant: 'destructive',
+            title: 'Sign-up Cancelled',
+            description: 'The sign-up window was closed before completion.',
+        });
       } else if (error.code === 'auth/popup-blocked') {
         toast({
             variant: 'destructive',
@@ -101,12 +105,12 @@ export default function SignUpPage() {
 
   return (
     <div className="flex min-h-full flex-col justify-center items-center px-6 py-8 lg:px-8">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="text-center">
-            <Link href="/" className="flex items-center gap-2 justify-center mb-4">
-                <Image src="/arasaka.png" alt="Arasaka Logo" width={56} height={56} className="size-14 text-primary" />
+      <Card className="w-full max-w-sm border-2 border-red-600/30 bg-zinc-950/90 backdrop-blur-xl">
+        <CardHeader className="text-center p-4">
+            <Link href="/" className="flex items-center gap-3 justify-center mb-2">
+                <Image src="/arasaka.png" alt="Arasaka Logo" width={56} height={56} className="h-14 w-auto" />
             </Link>
-          <CardTitle>Create a new account</CardTitle>
+          <CardTitle className="uppercase tracking-widest text-lg">Create a new account</CardTitle>
           <CardDescription>
             Or{' '}
             <Link href="/login" className="font-medium text-primary hover:underline">
@@ -114,11 +118,11 @@ export default function SignUpPage() {
             </Link>
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4">
           <form onSubmit={handleSignUp} className="space-y-4">
             <div>
               <Label htmlFor="email">Email address</Label>
-              <div className="mt-2">
+              <div className="mt-1">
                 <Input
                   id="email"
                   name="email"
@@ -141,7 +145,7 @@ export default function SignUpPage() {
                   </span>
                 </div>
               </div>
-              <div className="mt-2">
+              <div className="mt-1">
                 <Input
                   id="password"
                   name="password"
@@ -156,23 +160,23 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <Button type="submit" className="w-full" disabled={anyLoading || !auth}>
+              <Button type="submit" className="w-full mt-2" disabled={anyLoading || !auth}>
                  {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UserPlus className="mr-2 h-4 w-4" />}
                 {isLoading ? 'Creating account...' : 'Create Account'}
               </Button>
             </div>
           </form>
 
-          <div className="relative mt-6">
+          <div className="relative mt-4">
             <div className="absolute inset-0 flex items-center" aria-hidden="true">
               <div className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-4">
             <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={anyLoading || !auth}>
               {isGoogleLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

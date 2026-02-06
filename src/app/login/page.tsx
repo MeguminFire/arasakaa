@@ -71,7 +71,11 @@ export default function LoginPage() {
       router.push('/dashboard');
     } catch (error: any) {
       if (error.code === 'auth/popup-closed-by-user') {
-        // User closed the popup, do nothing.
+        toast({
+            variant: 'destructive',
+            title: 'Sign-in Cancelled',
+            description: 'The sign-in window was closed before completion.',
+        });
       } else if (error.code === 'auth/popup-blocked') {
         toast({
             variant: 'destructive',
