@@ -84,7 +84,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
             <Link href="/" className="flex items-center gap-2 justify-center mb-4">
-                <Image src="/arasaka.jpg" alt="Arasaka Logo" width={56} height={56} className="size-10 text-primary" />
+                <Image src="/arasaka.png" alt="Arasaka Logo" width={56} height={56} className="size-10 text-primary" />
             </Link>
           <CardTitle>Log in to your account</CardTitle>
           <CardDescription>

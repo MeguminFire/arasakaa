@@ -147,7 +147,7 @@ export default function DashboardPage() {
             style={{ animationDelay: '2s', animationFillMode: 'forwards' }}
           />
            <Image
-              src="/arasaka.jpg"
+              src="/arasaka.png"
               alt="Arasaka Logo"
               width={371}
               height={70}
@@ -219,7 +219,7 @@ export default function DashboardPage() {
     <div className="flex flex-col items-center justify-center animate-fade-in space-y-8 p-4">
       <div className="text-center">
         <Image
-          src="/arasaka.jpg"
+          src="/arasaka.png"
           alt="Arasaka Logo"
           width={371}
           height={70}

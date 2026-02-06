@@ -78,7 +78,7 @@ export default function RootLayout({
             <div className="flex flex-col h-screen">
               <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
                   <Link href="/">
-                      <Image src="/arasaka.jpg" alt="Arasaka Logo" width={148} height={28} className="h-8 w-auto text-primary" />
+                      <Image src="/arasaka.png" alt="Arasaka Logo" width={148} height={28} className="h-8 w-auto text-primary" />
                   </Link>
               </header>
               <main className="flex-1 p-4 md:p-6 overflow-y-auto">{children}</main>
