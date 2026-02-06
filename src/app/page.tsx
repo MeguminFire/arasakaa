@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
   GraduationCap,
@@ -12,7 +13,7 @@ import {
   UserPlus,
   MessagesSquare,
 } from 'lucide-react';
-import { ArasakaIcon, ArasakaFullLogo } from '@/components/shared/icons';
+import { ArasakaFullLogo } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/UserProvider';
 import { Input } from '@/components/ui/input';
@@ -214,10 +215,15 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col items-center justify-center animate-fade-in space-y-8 p-4">
       <div className="text-center">
-        <h1 className="font-headline text-4xl md:text-5xl font-bold text-foreground">
-          Main Hub
-        </h1>
-        <p className="mt-2 text-muted-foreground text-lg">
+        <Image
+          src="/arasaka.jpg"
+          alt="Arasaka Logo"
+          width={371}
+          height={70}
+          className="mx-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]"
+          priority
+        />
+        <p className="mt-4 text-muted-foreground text-lg">
           Choose your path, Netrunner.
         </p>
       </div>
