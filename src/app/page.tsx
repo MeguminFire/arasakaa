@@ -133,15 +133,15 @@ export default function DashboardPage() {
       <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4 text-center scanline-overlay overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="relative w-full max-w-lg">
-           <div className="flex justify-center items-center gap-6 mb-12" style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}>
+           <div className="flex justify-center items-center gap-8 mb-12" style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}>
               <Image
                   src="/arasaka.png"
                   alt="Arasaka Logo"
-                  width={64}
-                  height={64}
-                  className="h-28 w-auto"
+                  width={80}
+                  height={80}
+                  className="h-20 w-auto"
               />
-              <h1 className="font-michroma text-5xl text-white tracking-[0.4em] drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">ARASAKA</h1>
+              <h1 className="font-michroma text-6xl text-white tracking-[0.4em] drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">ARASAKA</h1>
           </div>
           <div className="p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
             <p
