@@ -9,7 +9,6 @@ import {
   Gamepad2,
   BookOpen,
   ArrowRight,
-  Zap,
   UserPlus,
   MessagesSquare,
 } from 'lucide-react';
@@ -134,15 +133,15 @@ export default function DashboardPage() {
       <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4 text-center scanline-overlay overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="relative w-full max-w-lg">
-           <div className="flex justify-center items-center gap-4 mb-12" style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}>
+           <div className="flex justify-center items-center gap-6 mb-12" style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}>
               <Image
                   src="/arasaka.png"
                   alt="Arasaka Logo"
                   width={64}
                   height={64}
-                  className="h-16 w-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+                  className="h-28 w-auto"
               />
-              <h1 className="font-michroma text-5xl text-white tracking-[0.4em] drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">ARASAKA</h1>
+              <h1 className="font-michroma text-5xl text-white tracking-[0.4em] drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">ARASAKA</h1>
           </div>
           <div className="p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
             <p
@@ -207,20 +206,10 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col items-center justify-center animate-fade-in space-y-8 p-4">
-      <div className="text-center">
-        <div className="flex justify-center items-center gap-4 mb-12">
-            <Image
-                src="/arasaka.png"
-                alt="Arasaka Logo"
-                width={64}
-                height={64}
-                className="h-16 w-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
-                priority
-            />
-            <h1 className="font-michroma text-5xl text-white tracking-[0.4em] drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">ARASAKA</h1>
-        </div>
+      <div className="text-center mb-8">
+        <h1 className="font-headline text-4xl font-bold">Welcome, {userProfile?.name || 'Netrunner'}</h1>
         <p className="text-muted-foreground text-lg">
-          Choose your path, Netrunner.
+          Choose your path.
         </p>
       </div>
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
