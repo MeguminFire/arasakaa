@@ -78,6 +78,12 @@ export default function SignUpPage() {
     } catch (error: any) {
       if (error.code === 'auth/popup-closed-by-user') {
         // User closed the popup, do nothing.
+      } else if (error.code === 'auth/popup-blocked') {
+        toast({
+            variant: 'destructive',
+            title: 'Sign Up Failed',
+            description: 'Your browser blocked the Google Sign-In popup. Please disable your popup blocker and try again.',
+        });
       } else {
         console.error('Google sign-in error:', error);
         toast({
@@ -94,7 +100,7 @@ export default function SignUpPage() {
   const anyLoading = isLoading || isGoogleLoading;
 
   return (
-    <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-col justify-center items-center px-6 py-8 lg:px-8">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
             <Link href="/" className="flex items-center gap-2 justify-center mb-4">
@@ -109,7 +115,7 @@ export default function SignUpPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSignUp} className="space-y-6">
+          <form onSubmit={handleSignUp} className="space-y-4">
             <div>
               <Label htmlFor="email">Email address</Label>
               <div className="mt-2">

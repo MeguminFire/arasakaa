@@ -72,6 +72,12 @@ export default function LoginPage() {
     } catch (error: any) {
       if (error.code === 'auth/popup-closed-by-user') {
         // User closed the popup, do nothing.
+      } else if (error.code === 'auth/popup-blocked') {
+        toast({
+            variant: 'destructive',
+            title: 'Login Failed',
+            description: 'Your browser blocked the Google Sign-In popup. Please disable your popup blocker and try again.',
+        });
       } else {
         console.error('Google sign-in error:', error);
         toast({
@@ -88,7 +94,7 @@ export default function LoginPage() {
   const anyLoading = isLoading || isGoogleLoading;
 
   return (
-    <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-col justify-center items-center px-6 py-8 lg:px-8">
       <Card className="w-full max-w-sm border-2 border-red-600/30 bg-zinc-950/90 backdrop-blur-xl">
         <CardHeader className="text-center p-4">
             <Link href="/" className="flex items-center gap-3 justify-center mb-2">
