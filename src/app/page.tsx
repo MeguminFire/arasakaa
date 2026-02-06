@@ -137,7 +137,7 @@ export default function DashboardPage() {
     return (
       <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4 text-center scanline-overlay overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="relative">
+        <div className="relative w-full max-w-lg">
           <Zap
             className="absolute -top-8 -left-8 h-16 w-16 text-primary/50 -rotate-12 opacity-0 animate-text-focus-in"
             style={{ animationDelay: '2s', animationFillMode: 'forwards' }}
@@ -146,17 +146,17 @@ export default function DashboardPage() {
             className="absolute -bottom-8 -right-8 h-16 w-16 text-accent/50 rotate-12 opacity-0 animate-text-focus-in"
             style={{ animationDelay: '2s', animationFillMode: 'forwards' }}
           />
-          <div className="p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
-            <Image
+           <Image
               src="/arasaka.jpg"
               alt="Arasaka Logo"
               width={371}
               height={70}
-              className="h-24 w-auto object-contain mx-auto opacity-0 animate-text-focus-in"
+              className="mx-auto h-auto w-full max-w-[300px] object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.7)] opacity-0 animate-text-focus-in"
               style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}
             />
+          <div className="mt-8 p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
             <p
-              className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground opacity-0 animate-text-focus-in"
+              className="max-w-2xl mx-auto text-lg text-muted-foreground opacity-0 animate-text-focus-in"
               style={{ animationDelay: '1200ms', animationFillMode: 'forwards' }}
             >
               Welcome, challenger. Sharpen your tech instincts. Diagnose, solve,
@@ -223,7 +223,7 @@ export default function DashboardPage() {
           alt="Arasaka Logo"
           width={371}
           height={70}
-          className="mx-auto h-24 w-auto object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]"
+          className="mx-auto h-auto w-full max-w-[300px] object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]"
           priority
         />
         <p className="mt-4 text-muted-foreground text-lg">
