@@ -39,12 +39,12 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       toast({
         title: 'Login Successful',
-        description: 'Welcome back to Arasaka!',
+        description: 'Redirecting to dashboard...',
       });
-      router.push('/');
+      router.push('/dashboard');
     } catch (error: any) {
       console.error('Login error:', error);
-      let errorMessage = 'Invalid email or password.';
+      let errorMessage = 'An unexpected error occurred.';
       if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
           errorMessage = 'Invalid email or password.';
       }
@@ -66,9 +66,9 @@ export default function LoginPage() {
       await signInWithPopup(auth, provider);
       toast({
         title: 'Login Successful',
-        description: 'Welcome back to Arasaka!',
+        description: 'Redirecting to dashboard...',
       });
-      router.push('/');
+      router.push('/dashboard');
     } catch (error: any) {
       console.error('Google sign-in error:', error);
       toast({
@@ -86,11 +86,11 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
       <Card className="w-full max-w-sm border-2 border-red-600/30 bg-zinc-950/90 backdrop-blur-xl">
-        <CardHeader className="text-center">
-            <Link href="/" className="flex items-center gap-2 justify-center mb-4">
-                <Image src="/arasaka.png" alt="Arasaka Logo" width={56} height={56} className="size-14 text-primary" />
+        <CardHeader className="text-center p-4">
+            <Link href="/" className="flex items-center gap-3 justify-center mb-2">
+                <Image src="/arasaka.png" alt="Arasaka Logo" width={40} height={40} className="h-10 w-auto" />
             </Link>
-          <CardTitle className="uppercase tracking-widest">Log in to your account</CardTitle>
+          <CardTitle className="uppercase tracking-widest text-lg">Log in to your account</CardTitle>
           <CardDescription>
             Or{' '}
             <Link href="/signup" className="font-medium text-primary hover:underline">
@@ -98,11 +98,11 @@ export default function LoginPage() {
             </Link>
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-6">
+        <CardContent className="p-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <Label htmlFor="email">Email address</Label>
-              <div className="mt-2">
+              <div className="mt-1">
                 <Input
                   id="email"
                   name="email"
@@ -120,7 +120,7 @@ export default function LoginPage() {
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
               </div>
-              <div className="mt-2">
+              <div className="mt-1">
                 <Input
                   id="password"
                   name="password"
@@ -135,23 +135,23 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <Button type="submit" className="w-full" disabled={anyLoading || !auth}>
+              <Button type="submit" className="w-full mt-2" disabled={anyLoading || !auth}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <LogIn className="mr-2 h-4 w-4" />}
                 {isLoading ? 'Logging in...' : 'Log in'}
               </Button>
             </div>
           </form>
           
-          <div className="relative mt-6">
+          <div className="relative mt-4">
             <div className="absolute inset-0 flex items-center" aria-hidden="true">
               <div className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-4">
             <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={anyLoading || !auth}>
               {isGoogleLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 import { FirebaseProvider } from '@/firebase/FirebaseProvider';
 
 const navItems = [
-  { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/learn', icon: GraduationCap, label: 'Learn' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
   { href: '/quizzes', icon: BookOpen, label: 'Quizzes' },
@@ -32,8 +32,9 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isAuthPage = pathname === '/login' || pathname === '/signup';
+  const isIntroPage = pathname === '/';
 
-  if (isAuthPage) {
+  if (isAuthPage || isIntroPage) {
     return (
       <html lang="en" suppressHydrationWarning>
          <head>
@@ -77,8 +78,8 @@ export default function RootLayout({
           <UserProvider>
             <div className="flex flex-col h-screen">
               <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
-                  <Link href="/" className="flex items-center gap-3">
-                      <Image src="/arasaka.png" alt="Arasaka Logo" width={32} height={32} className="h-8 w-auto" />
+                  <Link href="/dashboard" className="flex items-center gap-3">
+                      <Image src="/arasaka.png" alt="Arasaka Logo" width={40} height={40} className="h-10 w-auto" />
                       <span className="font-michroma text-xl text-white tracking-widest">ARASAKA</span>
                   </Link>
               </header>
@@ -91,7 +92,7 @@ export default function RootLayout({
                         key={item.href}
                         className={cn(
                           'flex flex-col items-center gap-1 text-muted-foreground transition-colors hover:text-primary',
-                          pathname === item.href ? 'text-primary' : ''
+                          pathname.startsWith(item.href) && item.href !== '/' || pathname === item.href ? 'text-primary' : ''
                         )}
                       >
                         <item.icon className="h-6 w-6" />

@@ -39,10 +39,10 @@ export default function SignUpPage() {
       await createUserWithEmailAndPassword(auth, email, password);
       toast({
         title: 'Account Created',
-        description: 'Welcome to Arasaka! You will be redirected.',
+        description: "Let's set up your profile.",
       });
       // On successful creation, Firebase automatically signs the user in.
-      // The main page's useEffect will detect this and show the name entry screen.
+      // Redirect to the homepage to handle the name entry screen.
       router.push('/');
     } catch (error: any) {
       console.error('Sign up error:', error);
@@ -72,7 +72,7 @@ export default function SignUpPage() {
         await signInWithPopup(auth, provider);
         toast({
             title: 'Account Created',
-            description: 'Welcome to Arasaka! You will be redirected.',
+            description: "Let's set up your profile.",
         });
         router.push('/');
     } catch (error: any) {
