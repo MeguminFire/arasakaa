@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { signInWithEmailAndPassword, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -63,9 +63,12 @@ export default function LoginPage() {
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithRedirect(auth, provider);
-      // The user will be redirected, so the code below this won't execute immediately.
-      // The onAuthStateChanged listener will handle the successful login upon redirect.
+      await signInWithPopup(auth, provider);
+      toast({
+        title: 'Login Successful',
+        description: 'Welcome back to Arasaka!',
+      });
+      router.push('/');
     } catch (error: any) {
       console.error('Google sign-in error:', error);
       toast({
@@ -73,6 +76,7 @@ export default function LoginPage() {
         title: 'Login Failed',
         description: error.message || 'Could not sign in with Google.',
       });
+    } finally {
       setIsGoogleLoading(false);
     }
   };

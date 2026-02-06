@@ -1,6 +1,6 @@
 'use client';
 
-import { onAuthStateChanged, type User as FirebaseUser, getRedirectResult } from 'firebase/auth';
+import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { doc, onSnapshot, setDoc, arrayUnion } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { UserProfile } from '@/lib/types';
@@ -40,12 +40,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         }
     
         let profileUnsubscribe: (() => void) | undefined;
-    
-        // It's important to trigger the redirect result processing,
-        // but onAuthStateChanged will be our single source of truth for the user state.
-        getRedirectResult(auth).catch((error) => {
-            console.error("Error processing sign-in redirect:", error);
-        });
     
         const authUnsubscribe = onAuthStateChanged(auth, (user) => {
           // Clean up any existing profile listener before starting a new one.

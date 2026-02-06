@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { createUserWithEmailAndPassword, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -69,9 +69,12 @@ export default function SignUpPage() {
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-        await signInWithRedirect(auth, provider);
-        // The user will be redirected. The onAuthStateChanged listener will handle
-        // the successful sign-in when they return to the app.
+        await signInWithPopup(auth, provider);
+        toast({
+            title: 'Account Created',
+            description: 'Welcome to Arasaka! You will be redirected.',
+        });
+        router.push('/');
     } catch (error: any) {
         console.error('Google sign-in error:', error);
         toast({
@@ -79,6 +82,7 @@ export default function SignUpPage() {
             title: 'Sign Up Failed',
             description: error.message || 'Could not sign up with Google.',
         });
+    } finally {
         setIsGoogleLoading(false);
     }
   };
