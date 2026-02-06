@@ -151,7 +151,7 @@ export default function DashboardPage() {
               alt="Arasaka Logo"
               width={338}
               height={128}
-              className="mx-auto h-32 w-auto object-contain mb-12 drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]"
+              className="mx-auto h-40 w-auto mb-10 block object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]"
               style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}
             />
           <div className="p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
@@ -223,7 +223,7 @@ export default function DashboardPage() {
           alt="Arasaka Logo"
           width={338}
           height={128}
-          className="mx-auto h-32 w-auto mb-12 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]"
+          className="mx-auto h-40 w-auto mb-10 block object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]"
           priority
         />
         <p className="text-muted-foreground text-lg">
