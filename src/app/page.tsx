@@ -90,13 +90,9 @@ export default function DashboardPage() {
     }
 
     if (!authUser) {
-      if (sessionStorage.getItem('introCompleted')) {
-        // If they've seen the intro but are logged out, send to login
-        router.push('/login');
-      } else {
-        // First time visitor, show intro
-        setView('intro');
-      }
+      // If not logged in, just show the intro view.
+      // This prevents a race condition on login where the user is redirected back here before the auth state propagates.
+      setView('intro');
       return;
     }
 
@@ -110,11 +106,11 @@ export default function DashboardPage() {
         setView('dashboard');
     }
 
-  }, [authUser, userProfile, loading, router]);
+  }, [authUser, userProfile, loading]);
 
-  const handleIntroFinish = () => {
+  const handleGetStarted = () => {
     sessionStorage.setItem('introCompleted', 'true');
-    router.push('/signup');
+    router.push('/login');
   };
 
   const handleNameSubmit = async (e: React.FormEvent) => {
@@ -138,14 +134,6 @@ export default function DashboardPage() {
       <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4 text-center scanline-overlay overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="relative w-full max-w-lg">
-          <Zap
-            className="absolute -top-8 -left-8 h-16 w-16 text-primary/50 -rotate-12 opacity-0 animate-text-focus-in"
-            style={{ animationDelay: '2s', animationFillMode: 'forwards' }}
-          />
-          <Zap
-            className="absolute -bottom-8 -right-8 h-16 w-16 text-accent/50 rotate-12 opacity-0 animate-text-focus-in"
-            style={{ animationDelay: '2s', animationFillMode: 'forwards' }}
-          />
            <Image
               src="/arasaka.png"
               alt="Arasaka Logo"
@@ -163,7 +151,7 @@ export default function DashboardPage() {
               and conquer real-world IT scenarios. Your training begins now.
             </p>
             <Button
-              onClick={handleIntroFinish}
+              onClick={handleGetStarted}
               size="lg"
               style={{
                 animationDelay: '1800ms',
@@ -172,7 +160,7 @@ export default function DashboardPage() {
               className="mt-8 font-bold text-lg font-headline tracking-wider group bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground transform hover:scale-105 transition-all duration-300 shadow-[0_0_20px_hsl(var(--primary))] hover:shadow-[0_0_30px_hsl(var(--accent))]"
             >
               <span className="group-hover:tracking-widest transition-all duration-300">
-                INITIALIZE
+                GET STARTED
               </span>
               <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-2 transition-transform duration-300" />
             </Button>
