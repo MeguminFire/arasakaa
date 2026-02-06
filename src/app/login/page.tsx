@@ -81,12 +81,12 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm border-cyan-500/50 bg-black/80 backdrop-blur-md">
         <CardHeader className="text-center">
             <Link href="/" className="flex items-center gap-2 justify-center mb-4">
                 <Image src="/arasaka.png" alt="Arasaka Logo" width={56} height={56} className="size-10 text-primary" />
             </Link>
-          <CardTitle>Log in to your account</CardTitle>
+          <CardTitle className="uppercase tracking-widest">Log in to your account</CardTitle>
           <CardDescription>
             Or{' '}
             <Link href="/signup" className="font-medium text-primary hover:underline">
