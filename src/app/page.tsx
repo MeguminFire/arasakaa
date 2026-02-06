@@ -146,13 +146,13 @@ export default function DashboardPage() {
             className="absolute -bottom-8 -right-8 h-16 w-16 text-accent/50 rotate-12 opacity-0 animate-text-focus-in"
             style={{ animationDelay: '2s', animationFillMode: 'forwards' }}
           />
-          <div className="p-8 rounded-lg border-2 border-primary/50 bg-card/50 backdrop-blur-sm">
+          <div className="p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
             <Image
               src="/arasaka.jpg"
               alt="Arasaka Logo"
               width={371}
               height={70}
-              className="h-16 w-auto mx-auto text-primary opacity-0 animate-text-focus-in"
+              className="h-24 w-auto object-contain mx-auto opacity-0 animate-text-focus-in"
               style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}
             />
             <p
@@ -223,7 +223,7 @@ export default function DashboardPage() {
           alt="Arasaka Logo"
           width={371}
           height={70}
-          className="mx-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]"
+          className="mx-auto h-24 w-auto object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]"
           priority
         />
         <p className="mt-4 text-muted-foreground text-lg">
