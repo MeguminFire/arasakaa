@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { createUserWithEmailAndPassword, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { UserPlus, Loader2 } from 'lucide-react';
-import { ArasakaIcon, GoogleIcon } from '@/components/shared/icons';
+import { GoogleIcon } from '@/components/shared/icons';
 import { useFirebase } from '@/firebase/FirebaseProvider';
 
 export default function SignUpPage() {
@@ -81,7 +82,7 @@ export default function SignUpPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
             <Link href="/" className="flex items-center gap-2 justify-center mb-4">
-                <ArasakaIcon className="size-10 text-primary" />
+                <Image src="/arasaka.jpg" alt="Arasaka Logo" width={56} height={56} className="size-10 text-primary" />
             </Link>
           <CardTitle>Create a new account</CardTitle>
           <CardDescription>

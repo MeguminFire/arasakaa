@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -10,7 +11,6 @@ import {
   MessagesSquare,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
-import { ArasakaFullLogo } from '@/components/shared/icons';
 import './globals.css';
 import UserAvatar from '@/components/shared/UserAvatar';
 import { UserProvider } from '@/context/UserProvider';
@@ -78,7 +78,7 @@ export default function RootLayout({
             <div className="flex flex-col h-screen">
               <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
                   <Link href="/">
-                      <ArasakaFullLogo className="h-8 w-auto text-primary" />
+                      <Image src="/arasaka.jpg" alt="Arasaka Logo" width={148} height={28} className="h-8 w-auto text-primary" />
                   </Link>
               </header>
               <main className="flex-1 p-4 md:p-6 overflow-y-auto">{children}</main>

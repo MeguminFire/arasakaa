@@ -13,7 +13,6 @@ import {
   UserPlus,
   MessagesSquare,
 } from 'lucide-react';
-import { ArasakaFullLogo } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/UserProvider';
 import { Input } from '@/components/ui/input';
@@ -148,7 +147,11 @@ export default function DashboardPage() {
             style={{ animationDelay: '2s', animationFillMode: 'forwards' }}
           />
           <div className="p-8 rounded-lg border-2 border-primary/50 bg-card/50 backdrop-blur-sm">
-            <ArasakaFullLogo
+            <Image
+              src="/arasaka.jpg"
+              alt="Arasaka Logo"
+              width={371}
+              height={70}
               className="h-16 w-auto mx-auto text-primary opacity-0 animate-text-focus-in"
               style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}
             />
