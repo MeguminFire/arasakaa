@@ -149,9 +149,9 @@ export default function DashboardPage() {
            <Image
               src="/arasaka.png"
               alt="Arasaka Logo"
-              width={371}
-              height={70}
-              className="mx-auto h-auto w-full max-w-[300px] object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.7)] opacity-0 animate-text-focus-in"
+              width={338}
+              height={64}
+              className="mx-auto h-16 w-auto object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
               style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}
             />
           <div className="mt-8 p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
@@ -221,12 +221,12 @@ export default function DashboardPage() {
         <Image
           src="/arasaka.png"
           alt="Arasaka Logo"
-          width={371}
-          height={70}
-          className="mx-auto h-auto w-full max-w-[300px] object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]"
+          width={338}
+          height={64}
+          className="mx-auto h-16 w-auto mb-8 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
           priority
         />
-        <p className="mt-4 text-muted-foreground text-lg">
+        <p className="text-muted-foreground text-lg">
           Choose your path, Netrunner.
         </p>
       </div>
