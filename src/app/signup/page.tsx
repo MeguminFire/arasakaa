@@ -93,7 +93,9 @@ export default function SignUpPage() {
         toast({
             variant: 'destructive',
             title: 'Sign Up Failed',
-            description: error.message || 'Could not sign up with Google.',
+            description: error.code === 'auth/unauthorized-domain'
+                ? 'This domain is not authorized for sign-in. Please add it to the authorized domains in your Firebase project.'
+                : error.message || 'Could not sign up with Google. Check if this domain is authorized in your Firebase project.',
         });
       }
     } finally {
