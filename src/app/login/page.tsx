@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -24,39 +24,9 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export default function LoginPage() {
   const { auth } = useFirebase();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!auth) return;
-    setIsLoading(true);
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      toast({
-        title: 'Login Successful',
-        description: 'Redirecting to dashboard...',
-      });
-      router.push('/dashboard');
-    } catch (error: any) {
-      console.error('Login error:', error);
-      let errorMessage = 'An unexpected error occurred.';
-      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-          errorMessage = 'Invalid email or password.';
-      }
-      toast({
-        variant: 'destructive',
-        title: 'Login Failed',
-        description: errorMessage,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
   
   const handleGoogleSignIn = async () => {
     if (!auth) return;
@@ -97,10 +67,10 @@ export default function LoginPage() {
     }
   };
 
-  const anyLoading = isLoading || isGoogleLoading;
+  const anyLoading = isGoogleLoading;
 
   return (
-    <div className="flex min-h-full flex-col justify-center items-center px-6 py-8 lg:px-8">
+    <div className="flex min-h-full flex-col justify-center items-center px-6 py-4 lg:px-8">
       <Card className="w-full max-w-sm border-2 border-red-600/30 bg-zinc-950/90 backdrop-blur-xl">
         <CardHeader className="text-center p-4">
             <Link href="/" className="flex items-center gap-3 justify-center mb-2">
@@ -115,7 +85,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-4">
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
             <div>
               <Label htmlFor="email">Email address</Label>
               <div className="mt-1">
@@ -125,8 +95,6 @@ export default function LoginPage() {
                   type="email"
                   autoComplete="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   disabled={anyLoading}
                 />
               </div>
@@ -143,17 +111,15 @@ export default function LoginPage() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   disabled={anyLoading}
                 />
               </div>
             </div>
 
             <div>
-              <Button type="submit" className="w-full mt-2" disabled={anyLoading || !auth}>
-                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <LogIn className="mr-2 h-4 w-4" />}
-                {isLoading ? 'Logging in...' : 'Log in'}
+              <Button type="button" className="w-full mt-2" disabled={anyLoading} onClick={(e) => { e.preventDefault(); router.push('/dashboard'); }}>
+                <LogIn className="mr-2 h-4 w-4" />
+                Log in
               </Button>
             </div>
           </form>
