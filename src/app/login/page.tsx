@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -122,7 +123,7 @@ export default function LoginPage() {
               </Button>
               <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); router.push('/dashboard'); }}>
                 <ChevronsRight className="mr-2 h-4 w-4" />
-                Dev Bypass
+                Guest
               </Button>
             </div>
           </div>
@@ -151,3 +152,4 @@ export default function LoginPage() {
     </div>
   );
 }
+    
