@@ -1,11 +1,10 @@
 'use client';
 
-import { onAuthStateChanged, type User as FirebaseUser, getRedirectResult, GoogleAuthProvider } from 'firebase/auth';
+import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { doc, onSnapshot, setDoc, arrayUnion } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { UserProfile } from '@/lib/types';
 import { useFirebase } from '@/firebase/FirebaseProvider';
-import { useToast } from '@/hooks/use-toast';
 
 type UserContextValue = {
     authUser: FirebaseUser | null;
@@ -33,36 +32,15 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const [authUser, setAuthUser] = useState<FirebaseUser | null>(null);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
-    const { toast } = useToast();
 
     useEffect(() => {
         if (!auth || !db) {
-            // Firebase services are not available yet.
             return;
         }
-
-        getRedirectResult(auth)
-            .then((result) => {
-                if (result) {
-                    toast({
-                        title: "Login Successful",
-                        description: "Welcome! Your session is now active.",
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error('Redirect sign-in error', error);
-                 toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    description: error.message || "Could not complete sign-in with Google.",
-                });
-            });
     
         let profileUnsubscribe: (() => void) | undefined;
     
         const authUnsubscribe = onAuthStateChanged(auth, (user) => {
-          // Clean up any existing profile listener before starting a new one.
           if (profileUnsubscribe) {
             profileUnsubscribe();
           }
@@ -70,36 +48,32 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           setAuthUser(user);
     
           if (user) {
-            // User is signed in, let's fetch their profile.
             const userDocRef = doc(db, 'users', user.uid);
             profileUnsubscribe = onSnapshot(
               userDocRef,
               (docSnap) => {
-                // Profile data received (or confirmed not to exist).
                 setUserProfile(docSnap.exists() ? (docSnap.data() as UserProfile) : null);
-                setLoading(false); // Auth and profile fetch is complete.
+                setLoading(false);
               },
               (error) => {
                 console.error("Error fetching user profile:", error);
                 setUserProfile(null);
-                setLoading(false); // Stop loading even if profile fetch fails.
+                setLoading(false);
               }
             );
           } else {
-            // User is signed out.
             setUserProfile(null);
-            setLoading(false); // Auth is complete, no user.
+            setLoading(false);
           }
         });
     
-        // Cleanup on component unmount.
         return () => {
           authUnsubscribe();
           if (profileUnsubscribe) {
             profileUnsubscribe();
           }
         };
-      }, [auth, db, toast]);
+      }, [auth, db]);
 
     const updateUserProfile = async (data: Partial<UserProfile>) => {
         if (!authUser || !db) return;
@@ -107,7 +81,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         const profileData = !userProfile
           ? {
               name: data.name || authUser?.displayName || 'New User',
-              avatar: data.avatar || '',
+              avatar: data.avatar || authUser?.photoURL || '',
               completedGames: [],
               completedQuizzes: [],
               completedLessons: [],

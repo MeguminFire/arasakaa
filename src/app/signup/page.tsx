@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { createUserWithEmailAndPassword, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -37,12 +37,6 @@ export default function SignUpPage() {
     setIsLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      toast({
-        title: 'Account Created',
-        description: "Let's set up your profile.",
-      });
-      // On successful creation, Firebase automatically signs the user in.
-      // Redirect to the homepage to handle the name entry screen.
       router.push('/');
     } catch (error: any) {
       console.error('Sign up error:', error);
@@ -69,15 +63,24 @@ export default function SignUpPage() {
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-        await signInWithRedirect(auth, provider);
+        await signInWithPopup(auth, provider);
+        router.push('/');
     } catch (error: any) {
-        console.error('Google sign-in redirect error:', error);
-        toast({
-            variant: 'destructive',
-            title: 'Sign Up Failed',
-            description: error.message || 'Could not initiate Google Sign-In.',
-        });
-        setIsGoogleLoading(false);
+        if (error.code === 'auth/popup-closed-by-user') {
+            toast({
+                variant: 'destructive',
+                title: 'Sign-in Cancelled',
+                description: 'You closed the sign-in window before completion.',
+            });
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'Sign Up Failed',
+                description: error.message || 'Could not initiate Google Sign-In.',
+            });
+        }
+    } finally {
+      setIsGoogleLoading(false);
     }
   };
 

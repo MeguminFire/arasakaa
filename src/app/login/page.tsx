@@ -3,14 +3,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
-import { LogIn, Loader2 } from 'lucide-react';
+import { LogIn, Loader2, ChevronsRight } from 'lucide-react';
 import { useFirebase } from '@/firebase/FirebaseProvider';
 
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -33,15 +33,36 @@ export default function LoginPage() {
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-        await signInWithRedirect(auth, provider);
+        await signInWithPopup(auth, provider);
+        router.push('/'); // Redirect to home to let the UserProvider handle logic
     } catch (error: any) {
-        console.error('Google sign-in redirect error:', error);
-        toast({
-          variant: 'destructive',
-          title: 'Login Failed',
-          description: error.message || 'Could not initiate Google Sign-In.',
-        });
-        setIsGoogleLoading(false);
+        if (error.code === 'auth/popup-closed-by-user') {
+            toast({
+                variant: 'destructive',
+                title: 'Sign-in Cancelled',
+                description: 'You closed the sign-in window before completion.',
+            });
+        } else if (error.code === 'auth/popup-blocked') {
+            toast({
+                variant: 'destructive',
+                title: 'Pop-up Blocked',
+                description: "Your browser blocked the sign-in pop-up. Please enable pop-ups for this site and try again."
+            });
+        } else if (error.code === 'auth/unauthorized-domain') {
+            toast({
+                variant: 'destructive',
+                title: 'Domain Not Authorized',
+                description: 'This domain is not authorized for authentication. Please add it to your Firebase project settings.'
+            });
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'Login Failed',
+                description: error.message || 'Could not complete sign-in with Google.',
+            });
+        }
+    } finally {
+      setIsGoogleLoading(false);
     }
   };
 
@@ -63,7 +84,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-4">
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+          <div className="space-y-4">
             <div>
               <Label htmlFor="email">Email address</Label>
               <div className="mt-1">
@@ -73,7 +94,7 @@ export default function LoginPage() {
                   type="email"
                   autoComplete="email"
                   required
-                  disabled={anyLoading}
+                  disabled
                 />
               </div>
             </div>
@@ -89,18 +110,22 @@ export default function LoginPage() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  disabled={anyLoading}
+                  disabled
                 />
               </div>
             </div>
 
-            <div>
-              <Button type="button" className="w-full mt-2" disabled={anyLoading} onClick={(e) => { e.preventDefault(); router.push('/dashboard'); }}>
+            <div className="grid grid-cols-2 gap-2">
+              <Button type="button" disabled>
                 <LogIn className="mr-2 h-4 w-4" />
                 Log in
               </Button>
+              <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); router.push('/dashboard'); }}>
+                <ChevronsRight className="mr-2 h-4 w-4" />
+                Dev Bypass
+              </Button>
             </div>
-          </form>
+          </div>
           
           <div className="relative mt-4">
             <div className="absolute inset-0 flex items-center" aria-hidden="true">
