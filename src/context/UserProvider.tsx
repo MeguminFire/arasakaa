@@ -1,10 +1,11 @@
 'use client';
 
-import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
+import { onAuthStateChanged, type User as FirebaseUser, getRedirectResult, GoogleAuthProvider } from 'firebase/auth';
 import { doc, onSnapshot, setDoc, arrayUnion } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { UserProfile } from '@/lib/types';
 import { useFirebase } from '@/firebase/FirebaseProvider';
+import { useToast } from '@/hooks/use-toast';
 
 type UserContextValue = {
     authUser: FirebaseUser | null;
@@ -32,12 +33,31 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const [authUser, setAuthUser] = useState<FirebaseUser | null>(null);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
+    const { toast } = useToast();
 
     useEffect(() => {
         if (!auth || !db) {
             // Firebase services are not available yet.
             return;
         }
+
+        getRedirectResult(auth)
+            .then((result) => {
+                if (result) {
+                    toast({
+                        title: "Login Successful",
+                        description: "Welcome! Your session is now active.",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error('Redirect sign-in error', error);
+                 toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: error.message || "Could not complete sign-in with Google.",
+                });
+            });
     
         let profileUnsubscribe: (() => void) | undefined;
     
@@ -79,7 +99,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             profileUnsubscribe();
           }
         };
-      }, [auth, db]);
+      }, [auth, db, toast]);
 
     const updateUserProfile = async (data: Partial<UserProfile>) => {
         if (!authUser || !db) return;

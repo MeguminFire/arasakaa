@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -69,36 +69,14 @@ export default function SignUpPage() {
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-        await signInWithPopup(auth, provider);
-        toast({
-            title: 'Account Created',
-            description: "Let's set up your profile.",
-        });
-        router.push('/');
+        await signInWithRedirect(auth, provider);
     } catch (error: any) {
-      if (error.code === 'auth/popup-closed-by-user') {
-        toast({
-            variant: 'destructive',
-            title: 'Sign-up Cancelled',
-            description: 'The sign-up window was closed before completion.',
-        });
-      } else if (error.code === 'auth/popup-blocked') {
+        console.error('Google sign-in redirect error:', error);
         toast({
             variant: 'destructive',
             title: 'Sign Up Failed',
-            description: 'Your browser blocked the Google Sign-In popup. Please disable your popup blocker and try again.',
+            description: error.message || 'Could not initiate Google Sign-In.',
         });
-      } else {
-        console.error('Google sign-in error:', error);
-        toast({
-            variant: 'destructive',
-            title: 'Sign Up Failed',
-            description: error.code === 'auth/unauthorized-domain'
-                ? 'This domain is not authorized for sign-in. Please add it to the authorized domains in your Firebase project.'
-                : error.message || 'Could not sign up with Google. Check if this domain is authorized in your Firebase project.',
-        });
-      }
-    } finally {
         setIsGoogleLoading(false);
     }
   };

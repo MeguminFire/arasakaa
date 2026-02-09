@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -33,37 +33,15 @@ export default function LoginPage() {
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
-      toast({
-        title: 'Login Successful',
-        description: 'Redirecting to dashboard...',
-      });
-      router.push('/dashboard');
+        await signInWithRedirect(auth, provider);
     } catch (error: any) {
-      if (error.code === 'auth/popup-closed-by-user') {
-        toast({
-            variant: 'destructive',
-            title: 'Sign-in Cancelled',
-            description: 'The sign-in window was closed before completion.',
-        });
-      } else if (error.code === 'auth/popup-blocked') {
-        toast({
-            variant: 'destructive',
-            title: 'Login Failed',
-            description: 'Your browser blocked the Google Sign-In popup. Please disable your popup blocker and try again.',
-        });
-      } else {
-        console.error('Google sign-in error:', error);
+        console.error('Google sign-in redirect error:', error);
         toast({
           variant: 'destructive',
           title: 'Login Failed',
-          description: error.code === 'auth/unauthorized-domain'
-            ? 'This domain is not authorized for sign-in. Please add it to the authorized domains in your Firebase project.'
-            : error.message || 'Could not sign in with Google. Check if this domain is authorized in your Firebase project.',
+          description: error.message || 'Could not initiate Google Sign-In.',
         });
-      }
-    } finally {
-      setIsGoogleLoading(false);
+        setIsGoogleLoading(false);
     }
   };
 
