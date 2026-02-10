@@ -9,8 +9,10 @@ import {
   ArrowRight,
   MessagesSquare,
   Loader2,
+  AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 // Re-using the DashboardCard component from the original page.tsx
 function DashboardCard({
@@ -61,24 +63,41 @@ function DashboardCard({
 
 
 export default function DashboardPage() {
-  const { userProfile, loading } = useUser();
+  const { userProfile, authUser, loading } = useUser();
 
   if (loading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
+      <div className="flex h-screen w-full items-center justify-center bg-background">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
 
+  const isGuest = !authUser;
+
   return (
-    <div className="flex flex-col items-center justify-center animate-fade-in space-y-8 p-4">
-      <div className="text-center mb-8">
+    <div className="relative flex min-h-full flex-col items-center justify-center space-y-8 p-4 animate-fade-in">
+      <div className="absolute inset-0 bg-grid-pattern-red opacity-30 -z-10"></div>
+      
+      {isGuest && (
+        <Alert variant="destructive" className="w-full max-w-5xl border-2 border-destructive bg-destructive/10 backdrop-blur-sm">
+            <AlertTriangle className="h-5 w-5 text-destructive" />
+            <AlertTitle className="text-2xl font-headline animate-hacker-glitch">
+                WARNING: UNAUTHORIZED ACCESS DETECTED
+            </AlertTitle>
+            <AlertDescription className="text-destructive-foreground/80">
+                You are viewing this terminal as a guest. Full functionality is restricted.
+            </AlertDescription>
+        </Alert>
+      )}
+
+      <div className="text-center">
         <h1 className="font-headline text-4xl font-bold">Welcome, {userProfile?.name || 'Netrunner'}</h1>
         <p className="text-muted-foreground text-lg">
           Choose your path.
         </p>
       </div>
+
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
         <DashboardCard
           href="/learn"

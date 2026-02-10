@@ -118,6 +118,28 @@ export default {
           'from': { width: '0%' },
           'to': { width: '100%' },
         },
+        'hacker-glitch': {
+          '0%, 100%': {
+            color: 'hsl(var(--destructive))',
+            textShadow: '0 0 5px hsl(var(--destructive)), 0 0 10px hsl(var(--destructive))',
+            transform: 'skewX(0deg)',
+          },
+          '25%': {
+            color: 'hsl(var(--foreground))',
+            textShadow: 'none',
+            transform: 'skewX(-3deg)',
+          },
+          '50%': {
+            color: 'hsl(var(--destructive))',
+            textShadow: '0 0 2px hsl(var(--destructive))',
+            transform: 'skewX(3deg)',
+          },
+          '75%': {
+            color: 'hsl(var(--foreground))',
+            textShadow: 'none',
+            transform: 'skewX(0deg)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -127,6 +149,7 @@ export default {
         'glitch': 'glitch 0.2s linear',
         'scroll-text': 'scroll-text 20s linear infinite',
         'fill-progress': 'fill-progress 1s ease-in-out forwards',
+        'hacker-glitch': 'hacker-glitch 1.5s ease-in-out infinite',
       },
     },
   },

@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { LogIn, Loader2, ChevronsRight } from 'lucide-react';
 import { useFirebase } from '@/firebase/FirebaseProvider';
+import { cn } from '@/lib/utils';
 
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" {...props}>
@@ -26,6 +27,7 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function LoginPage() {
   const { auth } = useFirebase();
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
   
@@ -67,7 +69,14 @@ export default function LoginPage() {
     }
   };
 
-  const anyLoading = isGoogleLoading;
+  const handleGuestLogin = () => {
+    setIsGuestLoading(true);
+    setTimeout(() => {
+        router.push('/dashboard');
+    }, 1500); // simulate bypass
+  };
+
+  const anyLoading = isGoogleLoading || isGuestLoading;
 
   return (
     <div className="flex min-h-full flex-col justify-center items-center px-6 py-4 lg:px-8">
@@ -121,9 +130,19 @@ export default function LoginPage() {
                 <LogIn className="mr-2 h-4 w-4" />
                 Log in
               </Button>
-              <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); router.push('/dashboard'); }}>
-                <ChevronsRight className="mr-2 h-4 w-4" />
-                Guest
+               <Button
+                type="button"
+                variant="outline"
+                onClick={handleGuestLogin}
+                disabled={anyLoading}
+                className={cn(isGuestLoading && 'animate-pulse bg-destructive/50 border-destructive text-destructive-foreground')}
+              >
+                {isGuestLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <ChevronsRight className="mr-2 h-4 w-4" />
+                )}
+                {isGuestLoading ? 'BYPASSING...' : 'Guest'}
               </Button>
             </div>
           </div>
