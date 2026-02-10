@@ -28,6 +28,7 @@ const ImageWithFallback = ({ src, alt, className, ...props }: {src: string, alt:
             onError={handleError}
             width={128} 
             height={128}
+            quality={100}
             className={className}
             {...props}
         />
