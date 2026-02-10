@@ -23,8 +23,8 @@ const ImageWithFallback = ({ src, alt, ...props }: {src: string, alt: string} & 
     };
 
     return error ? (
-        <div className="w-full h-full bg-destructive/20 flex items-center justify-center text-red-400 font-code text-xs rounded-sm">
-            [DATA_CORRUPTED]
+        <div className="w-full h-full bg-muted/20 flex items-center justify-center text-muted-foreground font-code text-xs rounded-sm">
+            [IMG_PENDING]
         </div>
     ) : (
         <Image
@@ -55,17 +55,17 @@ const FourPicsOneWordGame = () => {
   };
   
   return (
-    <Card className="border-primary/50 bg-card/80 shadow-[0_0_15px_hsl(var(--primary)/0.3)]">
+    <Card className="border-primary/50 bg-card/80 shadow-[0_0_15px_hsl(var(--primary)/0.3)] max-w-sm mx-auto">
       <CardHeader className="p-4">
         <CardTitle className="font-code text-primary text-lg">[ANALYZE_DATA_STREAM_01]</CardTitle>
         <CardDescription className="text-sm">4 Pics, 1 Word. Decrypt the connection.</CardDescription>
       </CardHeader>
       <CardContent className="p-4 space-y-4">
         <div className="grid grid-cols-2 gap-2">
-            <ImageWithFallback src="https://placehold.co/150/0b0e14/fcee0a?text=>_" alt="Code Pic 1" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
-            <ImageWithFallback src="https://placehold.co/150/0b0e14/fcee0a?text={;}" alt="Code Pic 2" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
-            <ImageWithFallback src="https://placehold.co/150/0b0e14/fcee0a?text=</>" alt="Code Pic 3" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
-            <ImageWithFallback src="https://placehold.co/150/0b0e14/fcee0a?text=0101" alt="Code Pic 4" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
+            <ImageWithFallback src="https://placehold.co/150/333/666?text=SIGNAL" alt="Code Pic 1" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
+            <ImageWithFallback src="https://placehold.co/150/333/666?text=RELAY" alt="Code Pic 2" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
+            <ImageWithFallback src="https://placehold.co/150/333/666?text=NODE" alt="Code Pic 3" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
+            <ImageWithFallback src="https://placehold.co/150/333/666?text=QUERY" alt="Code Pic 4" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
         </div>
         <form onSubmit={handleGuessSubmit} className="flex gap-2">
           <Input 
@@ -73,15 +73,15 @@ const FourPicsOneWordGame = () => {
             value={guess}
             onChange={(e) => setGuess(e.target.value)}
             placeholder="Your Answer..."
-            className="font-code"
+            className="font-code text-sm"
             disabled={isCorrect}
           />
-          <Button type="submit" size="icon" disabled={isCorrect}>
-            <Send />
+          <Button type="submit" size="sm" disabled={isCorrect}>
+            <Send className="h-4 w-4" />
           </Button>
         </form>
         {feedback && (
-          <p className={cn('text-sm font-code', isCorrect ? 'text-green-400' : 'text-red-400')}>
+          <p className={cn('text-xs font-code', isCorrect ? 'text-green-400' : 'text-red-400')}>
             {feedback}
           </p>
         )}
@@ -147,15 +147,15 @@ const ReflexBoosterGame = () => {
   }
 
   return (
-     <Card className="border-accent/50 bg-card/80 shadow-[0_0_15px_hsl(var(--accent)/0.3)]">
+     <Card className="border-accent/50 bg-card/80 shadow-[0_0_15px_hsl(var(--accent)/0.3)] max-w-sm mx-auto">
       <CardHeader className="p-4">
         <CardTitle className="font-code text-accent text-lg">[EXECUTE_GAME_02]</CardTitle>
         <CardDescription className="text-sm">Reflex Booster. Don't flinch.</CardDescription>
       </CardHeader>
-      <CardContent className="p-4 flex flex-col items-center justify-center space-y-4 min-h-[284px]">
+      <CardContent className="p-4 flex flex-col items-center justify-center space-y-4 min-h-[268px]">
         <Button 
             onClick={handleClick}
-            className={cn('h-20 w-full text-lg font-bold transition-colors duration-100', {
+            className={cn('h-16 w-full text-base font-bold transition-colors duration-100', {
                 'bg-primary hover:bg-primary/90': gameState === 'idle' || gameState === 'result',
                 'bg-yellow-500 hover:bg-yellow-500/90 text-background': gameState === 'waiting',
                 'bg-destructive hover:bg-destructive/90 text-destructive-foreground animate-pulse': gameState === 'active'
@@ -163,13 +163,13 @@ const ReflexBoosterGame = () => {
         >
             {getButtonContent()}
         </Button>
-        <div className="text-center h-10">
+        <div className="text-center h-8">
             {result !== null && (
                 <div className="animate-fade-in font-code">
                     {result === -1 ? (
-                        <p className="text-red-400">Too soon!</p>
+                        <p className="text-red-400 text-sm">Too soon!</p>
                     ) : (
-                        <p className="text-2xl text-accent">{result}ms</p>
+                        <p className="text-xl text-accent">{result}ms</p>
                     )}
                 </div>
             )}
@@ -198,7 +198,7 @@ export default function DashboardPage() {
       <div className="absolute inset-0 bg-grid-pattern-red opacity-30 -z-10"></div>
       
       {isGuest && (
-        <Alert variant="destructive" className="w-full max-w-5xl border-2 border-destructive bg-destructive/10 backdrop-blur-sm p-3">
+        <Alert variant="destructive" className="w-full max-w-4xl border-2 border-destructive bg-destructive/10 backdrop-blur-sm p-3">
             <AlertTriangle className="h-5 w-5 text-destructive" />
             <AlertTitle className="text-xl font-headline animate-hacker-glitch">
                 WARNING: UNAUTHORIZED ACCESS DETECTED
@@ -209,14 +209,14 @@ export default function DashboardPage() {
         </Alert>
       )}
 
-      <div className="text-center w-full max-w-5xl">
+      <div className="text-center w-full max-w-4xl">
         <h1 className="font-headline text-3xl font-bold">Welcome to the TACTICAL_TRAINING_OS, {userProfile?.name || 'Netrunner'}</h1>
         <p className="text-muted-foreground text-sm">
           Choose your challenge.
         </p>
       </div>
 
-      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4">
         <FourPicsOneWordGame />
         <ReflexBoosterGame />
       </div>

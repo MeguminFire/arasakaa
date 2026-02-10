@@ -21,7 +21,6 @@ const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/learn', icon: GraduationCap, label: 'Learn' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
-  { href: '/quizzes', icon: BookOpen, label: 'Quizzes' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
 ];
 
