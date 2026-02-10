@@ -51,10 +51,10 @@ export default function FourPicsOneWordPage() {
   };
   
   return (
-    <div className="space-y-8 flex flex-col items-center">
+    <div className="space-y-6 flex flex-col items-center">
         <PageHeader title="Training Drill: 4 Pics 1 Word" description="Analyze the data streams. Decrypt the connection." />
 
-        <Card className="border-primary/50 bg-card/80 shadow-[0_0_15px_hsl(var(--primary)/0.3)] w-full max-w-md">
+        <Card className="border-primary/50 bg-card/80 shadow-[0_0_15px_hsl(var(--primary)/0.3)] w-full max-w-sm">
             <CardHeader className="p-4">
                 <CardTitle className="font-code text-primary text-lg">[ANALYZE_DATA_STREAM_01]</CardTitle>
                 <CardDescription className="text-sm">4 Pics, 1 Word. Decrypt the connection.</CardDescription>

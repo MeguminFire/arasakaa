@@ -61,9 +61,9 @@ export default function ReflexBoosterPage() {
   }
 
   return (
-    <div className="space-y-8 flex flex-col items-center">
+    <div className="space-y-6 flex flex-col items-center">
         <PageHeader title="Training Drill: Reflex Booster" description="Calibrate your response time. Don't flinch." />
-        <Card className="border-accent/50 bg-card/80 shadow-[0_0_15px_hsl(var(--accent)/0.3)] w-full max-w-md">
+        <Card className="border-accent/50 bg-card/80 shadow-[0_0_15px_hsl(var(--accent)/0.3)] w-full max-w-sm">
             <CardHeader className="p-4">
                 <CardTitle className="font-code text-accent text-lg">[EXECUTE_DRILL_02]</CardTitle>
                 <CardDescription className="text-sm">Reflex Booster. Don't flinch.</CardDescription>
