@@ -5,6 +5,7 @@ import { useUser } from '@/context/UserProvider';
 import { Loader2, AlertTriangle, GraduationCap, Gamepad2, MessagesSquare, ArrowRight } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardDescription, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import Leaderboard from '@/components/shared/leaderboard';
 
 const navCards = [
   {
@@ -85,6 +86,10 @@ export default function DashboardPage() {
             </Card>
           </Link>
         ))}
+      </div>
+      
+      <div className="w-full max-w-4xl mt-4">
+        <Leaderboard />
       </div>
 
     </div>
