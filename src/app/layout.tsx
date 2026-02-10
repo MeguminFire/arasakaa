@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   Gamepad2,
-  BookOpen,
   GraduationCap,
   MessagesSquare,
 } from 'lucide-react';

@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 
 // Custom Image with Fallback Component
-const ImageWithFallback = ({ src, alt, ...props }: {src: string, alt: string} & any) => {
+const ImageWithFallback = ({ src, alt, className, ...props }: {src: string, alt: string, className?: string } & any) => {
     const [error, setError] = useState(false);
     
     const handleError = () => {
@@ -29,14 +29,15 @@ const ImageWithFallback = ({ src, alt, ...props }: {src: string, alt: string} & 
     };
 
     return error ? (
-        <div className="w-full h-full bg-muted/20 flex items-center justify-center text-muted-foreground font-code text-xs rounded-sm">
-            [IMG_PENDING]
+        <div className={cn("w-full h-full bg-muted flex items-center justify-center text-muted-foreground/50 font-code text-xs rounded-sm", className)}>
+            IMG_PENDING
         </div>
     ) : (
         <Image
             src={src}
             alt={alt}
             onError={handleError}
+            className={className}
             {...props}
         />
     );
@@ -47,12 +48,12 @@ const FourPicsOneWordGame = () => {
   const [guess, setGuess] = useState('');
   const [feedback, setFeedback] = useState('');
   const [isCorrect, setIsCorrect] = useState(false);
-  const answer = 'CODE';
+  const answer = 'HACK';
 
   const handleGuessSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (guess.toUpperCase() === answer) {
-      setFeedback('Correct! You cracked the mainframe.');
+      setFeedback('CONNECTION_ESTABLISHED');
       setIsCorrect(true);
     } else {
       setFeedback('Incorrect. Try again, netrunner.');
@@ -68,10 +69,10 @@ const FourPicsOneWordGame = () => {
       </CardHeader>
       <CardContent className="p-4 space-y-4">
         <div className="grid grid-cols-2 gap-2">
-            <ImageWithFallback src="https://placehold.co/150/333/666?text=SIGNAL" alt="Code Pic 1" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
-            <ImageWithFallback src="https://placehold.co/150/333/666?text=RELAY" alt="Code Pic 2" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
-            <ImageWithFallback src="https://placehold.co/150/333/666?text=NODE" alt="Code Pic 3" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
-            <ImageWithFallback src="https://placehold.co/150/333/666?text=QUERY" alt="Code Pic 4" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
+            <ImageWithFallback src="/hack1.png" alt="Hack Pic 1" width={150} height={150} className={cn("rounded-sm w-full h-auto aspect-square object-cover transition-all", isCorrect && 'outline outline-2 outline-green-400 shadow-[0_0_15px_theme(colors.green.400)]')} />
+            <ImageWithFallback src="/hack2.png" alt="Hack Pic 2" width={150} height={150} className={cn("rounded-sm w-full h-auto aspect-square object-cover transition-all", isCorrect && 'outline outline-2 outline-green-400 shadow-[0_0_15px_theme(colors.green.400)]')} />
+            <ImageWithFallback src="/hack3.png" alt="Hack Pic 3" width={150} height={150} className={cn("rounded-sm w-full h-auto aspect-square object-cover transition-all", isCorrect && 'outline outline-2 outline-green-400 shadow-[0_0_15px_theme(colors.green.400)]')} />
+            <ImageWithFallback src="/hack4.png" alt="Hack Pic 4" width={150} height={150} className={cn("rounded-sm w-full h-auto aspect-square object-cover transition-all", isCorrect && 'outline outline-2 outline-green-400 shadow-[0_0_15px_theme(colors.green.400)]')} />
         </div>
         <form onSubmit={handleGuessSubmit} className="flex gap-2">
           <Input 
@@ -106,7 +107,7 @@ const ReflexBoosterGame = () => {
   const startGame = useCallback(() => {
     setGameState('waiting');
     setResult(null);
-    const delay = Math.random() * 3000 + 1000; // 1-4 second delay
+    const delay = Math.random() * 2000 + 1000; // 1-3 second delay
     timerRef.current = setTimeout(() => {
       setGameState('active');
       startTimeRef.current = Date.now();
@@ -198,7 +199,7 @@ export default function GamesPage() {
 
       <div className="space-y-4">
         <h2 className="text-2xl font-headline font-bold">Training Drills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FourPicsOneWordGame />
             <ReflexBoosterGame />
         </div>
