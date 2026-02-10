@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Send } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -39,7 +39,13 @@ export default function FourPicsOneWordPage() {
   const [guess, setGuess] = useState('');
   const [feedback, setFeedback] = useState('');
   const [isCorrect, setIsCorrect] = useState(false);
+  const [cacheBuster, setCacheBuster] = useState('');
   const answer = 'HACK';
+
+  useEffect(() => {
+    // This ensures a new image is fetched on page load, avoiding browser cache issues.
+    setCacheBuster(`?t=${new Date().getTime()}`);
+  }, []);
 
   const handleGuessSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,6 +57,13 @@ export default function FourPicsOneWordPage() {
       setIsCorrect(false);
     }
   };
+
+  const images = [
+    { src: `/pic1.png`, alt: 'Hack Pic 1' },
+    { src: `/pic2.png`, alt: 'Hack Pic 2' },
+    { src: `/pic3.png`, alt: 'Hack Pic 3' },
+    { src: `/pic4.png`, alt: 'Hack Pic 4' },
+  ];
   
   return (
     <div className="flex flex-col items-center justify-start space-y-6 p-4">
@@ -61,10 +74,15 @@ export default function FourPicsOneWordPage() {
             </CardHeader>
             <CardContent className="p-2 space-y-4 flex-grow flex flex-col justify-center">
                 <div className="grid grid-cols-2 gap-4">
-                    <ImageWithFallback src="/pic1.png" alt="Hack Pic 1" className={cn("rounded-md w-32 h-32 object-cover mx-auto transition-all", isCorrect && 'outline outline-2 outline-green-400 shadow-[0_0_15px_theme(colors.green.400)]')} />
-                    <ImageWithFallback src="/pic2.png" alt="Hack Pic 2" className={cn("rounded-md w-32 h-32 object-cover mx-auto transition-all", isCorrect && 'outline outline-2 outline-green-400 shadow-[0_0_15px_theme(colors.green.400)]')} />
-                    <ImageWithFallback src="/pic3.png" alt="Hack Pic 3" className={cn("rounded-md w-32 h-32 object-cover mx-auto transition-all", isCorrect && 'outline outline-2 outline-green-400 shadow-[0_0_15px_theme(colors.green.400)]')} />
-                    <ImageWithFallback src="/pic4.png" alt="Hack Pic 4" className={cn("rounded-md w-32 h-32 object-cover mx-auto transition-all", isCorrect && 'outline outline-2 outline-green-400 shadow-[0_0_15px_theme(colors.green.400)]')} />
+                    {images.map((img, index) => (
+                        <ImageWithFallback 
+                            key={index}
+                            src={`${img.src}${cacheBuster}`}
+                            alt={img.alt} 
+                            className={cn("rounded-md w-32 h-32 object-cover mx-auto transition-all", isCorrect && 'outline outline-2 outline-green-400 shadow-[0_0_15px_theme(colors.green.400)]')} 
+                            quality={100} 
+                        />
+                    ))}
                 </div>
                 {!isCorrect ? (
                     <form onSubmit={handleGuessSubmit} className="flex gap-2">
