@@ -46,7 +46,7 @@ export default function RootLayout({
           />
           <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
         </head>
-        <body className="font-body antialiased dark">
+        <body className="font-body antialiased dark text-sm">
           <FirebaseProvider>
             <UserProvider>
               {children}
@@ -71,19 +71,19 @@ export default function RootLayout({
         />
         <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased dark">
+      <body className="font-body antialiased dark text-sm">
         <FirebaseProvider>
           <UserProvider>
             <div className="flex flex-col h-screen">
-              <header className="flex-shrink-0 sticky top-0 z-40 flex h-14 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
-                  <Link href="/dashboard" className="flex items-center gap-3">
-                      <Image src="/arasaka.png" alt="Arasaka Logo" width={32} height={32} className="h-8 w-auto" />
-                      <span className="font-michroma text-xl text-white tracking-widest">ARASAKA</span>
+              <header className="flex-shrink-0 sticky top-0 z-40 flex h-12 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
+                  <Link href="/dashboard" className="flex items-center gap-2">
+                      <Image src="/arasaka.png" alt="Arasaka Logo" width={28} height={28} className="h-7 w-auto" />
+                      <span className="font-michroma text-lg text-white tracking-widest">ARASAKA</span>
                   </Link>
               </header>
-              <main className="flex-1 p-4 overflow-y-auto">{children}</main>
+              <main className="flex-1 p-2 overflow-y-auto">{children}</main>
                <footer className="relative flex-shrink-0 border-t bg-background/90">
-                  <nav className="flex h-14 items-center justify-center gap-6 md:gap-12 px-4">
+                  <nav className="flex h-12 items-center justify-center gap-6 md:gap-12 px-4">
                     {navItems.map((item) => (
                       <Link
                         href={item.href}
@@ -93,12 +93,12 @@ export default function RootLayout({
                           pathname.startsWith(item.href) && item.href !== '/' || pathname === item.href ? 'text-primary' : ''
                         )}
                       >
-                        <item.icon className="h-6 w-6" />
+                        <item.icon className="h-5 w-5" />
                         <span className="text-xs font-medium">{item.label}</span>
                       </Link>
                     ))}
                   </nav>
-                  <div className="absolute bottom-3 right-4">
+                  <div className="absolute bottom-2 right-2">
                     <UserAvatar />
                   </div>
               </footer>

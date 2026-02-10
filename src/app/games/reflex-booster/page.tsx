@@ -50,28 +50,28 @@ export default function ReflexBoosterPage() {
   const getButtonContent = () => {
       switch(gameState) {
           case 'idle':
-              return 'Start Reflex Test';
+              return 'Start';
           case 'waiting':
-              return 'Wait for Red...';
+              return 'Wait...';
           case 'active':
-              return 'CLICK NOW!';
+              return 'CLICK!';
           case 'result':
-              return 'Try Again';
+              return 'Again';
       }
   }
 
   return (
-    <div className="space-y-6 flex flex-col items-center">
+    <div className="space-y-4 flex flex-col items-center">
         <PageHeader title="Training Drill: Reflex Booster" description="Calibrate your response time. Don't flinch." />
-        <Card className="border-accent/50 bg-card/80 shadow-[0_0_15px_hsl(var(--accent)/0.3)] w-full max-w-sm">
-            <CardHeader className="p-4">
-                <CardTitle className="font-code text-accent text-lg">[EXECUTE_DRILL_02]</CardTitle>
-                <CardDescription className="text-sm">Reflex Booster. Don't flinch.</CardDescription>
+        <Card className="border-accent/50 bg-card/80 shadow-[0_0_15px_hsl(var(--accent)/0.3)] w-full max-w-xs">
+            <CardHeader className="p-2">
+                <CardTitle className="font-code text-accent text-base">[EXECUTE_DRILL_02]</CardTitle>
+                <CardDescription className="text-xs">Reflex Booster. Don't flinch.</CardDescription>
             </CardHeader>
-            <CardContent className="p-4 flex flex-col items-center justify-center space-y-4 min-h-[250px]">
+            <CardContent className="p-2 flex flex-col items-center justify-center space-y-2 min-h-[200px]">
                 <Button 
                     onClick={handleClick}
-                    className={cn('h-24 w-full text-xl font-bold transition-colors duration-100', {
+                    className={cn('h-20 w-full text-lg font-bold transition-colors duration-100', {
                         'bg-primary hover:bg-primary/90': gameState === 'idle' || gameState === 'result',
                         'bg-yellow-500 hover:bg-yellow-500/90 text-background': gameState === 'waiting',
                         'bg-destructive hover:bg-destructive/90 text-destructive-foreground animate-pulse': gameState === 'active'
@@ -79,9 +79,9 @@ export default function ReflexBoosterPage() {
                 >
                     {getButtonContent()}
                 </Button>
-                <div className="text-center h-10">
+                <div className="text-center h-8 flex items-center justify-center">
                     {result !== null && (
-                        <div className="animate-fade-in font-code text-2xl">
+                        <div className="animate-fade-in font-code text-xl">
                             {result === -1 ? (
                                 <p className="text-red-400">Too soon!</p>
                             ) : (

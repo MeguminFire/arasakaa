@@ -12,25 +12,8 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle, Puzzle, Zap } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 import { useUser } from '@/context/UserProvider';
-
-const trainingDrills = [
-    {
-        id: '4-pics-1-word',
-        title: '4 Pics 1 Word',
-        description: 'Analyze the data streams and decrypt the hidden word. A test of pattern recognition.',
-        href: '/games/4-pics-1-word',
-        icon: Puzzle
-    },
-    {
-        id: 'reflex-booster',
-        title: 'Reflex Booster',
-        description: 'Calibrate your response time against a randomized trigger. A test of pure reaction speed.',
-        href: '/games/reflex-booster',
-        icon: Zap
-    }
-]
 
 export default function GamesPage() {
   const { userProfile } = useUser();
@@ -42,28 +25,6 @@ export default function GamesPage() {
         title="Training Hub"
         description="Sharpen your skills with tactical drills and real-world scenarios."
       />
-
-      <div className="space-y-4">
-        <h2 className="text-2xl font-headline font-bold">Training Drills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {trainingDrills.map((drill) => (
-                <Card key={drill.id} className="flex flex-col justify-between transition-transform transform hover:-translate-y-1 hover:shadow-lg bg-card/80 hover:border-primary/50">
-                    <CardHeader>
-                        <drill.icon className="h-8 w-8 text-primary mb-3" />
-                        <CardTitle className="text-xl">{drill.title}</CardTitle>
-                        <CardDescription>{drill.description}</CardDescription>
-                    </CardHeader>
-                    <CardFooter>
-                        <Button asChild className="w-full">
-                            <Link href={drill.href}>
-                                Start Drill <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </CardFooter>
-                </Card>
-            ))}
-        </div>
-      </div>
       
       <div className="space-y-4">
         <h2 className="text-2xl font-headline font-bold">Troubleshooting Scenarios</h2>
