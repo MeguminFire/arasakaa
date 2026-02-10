@@ -1,65 +1,183 @@
 'use client';
 
-import Link from 'next/link';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useUser } from '@/context/UserProvider';
 import {
-  GraduationCap,
-  Gamepad2,
-  BookOpen,
-  ArrowRight,
-  MessagesSquare,
   Loader2,
   AlertTriangle,
+  Send,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import Image from 'next/image';
 
-// Re-using the DashboardCard component from the original page.tsx
-function DashboardCard({
-  href,
-  icon: Icon,
-  title,
-  description,
-  className,
-}: {
-  href?: string;
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  className?: string;
-}) {
-  const content = (
-    <div
-      className={cn(
-        'relative h-full w-full p-4 md:p-6 rounded-lg border-2 border-primary/50 bg-card/50 backdrop-blur-sm transition-all duration-300 transform hover:border-primary hover:bg-card/80 hover:scale-105',
-        className
-      )}
-    >
-      <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10"></div>
-      <div className="relative z-10 flex flex-col h-full">
-        <Icon className="h-12 w-12 text-primary group-hover:text-accent transition-colors" />
-        <h2 className="mt-4 font-headline text-2xl md:text-3xl font-bold text-foreground group-hover:text-accent transition-colors">
-          {title}
-        </h2>
-        <p className="mt-2 text-muted-foreground flex-grow">{description}</p>
-        <div className="mt-4 flex items-center font-semibold text-primary group-hover:text-accent transition-colors">
-          <span>Engage</span>
-          <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
+// Custom Image with Fallback Component
+const ImageWithFallback = ({ src, alt, ...props }: {src: string, alt: string} & any) => {
+    const [error, setError] = useState(false);
+    
+    const handleError = () => {
+        setError(true);
+    };
+
+    return error ? (
+        <div className="w-full h-full bg-destructive/20 flex items-center justify-center text-destructive-foreground font-code text-xs rounded-sm">
+            [SYSTEM ERROR]
         </div>
-      </div>
-    </div>
-  );
-
-  if (href) {
-    return (
-      <Link href={href} className="block group h-full">
-        {content}
-      </Link>
+    ) : (
+        <Image
+            src={src}
+            alt={alt}
+            onError={handleError}
+            {...props}
+        />
     );
+};
+
+// New Component for 4 Pics 1 Word
+const FourPicsOneWordGame = () => {
+  const [guess, setGuess] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [isCorrect, setIsCorrect] = useState(false);
+  const answer = 'CODE';
+
+  const handleGuessSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (guess.toUpperCase() === answer) {
+      setFeedback('Correct! You cracked the mainframe.');
+      setIsCorrect(true);
+    } else {
+      setFeedback('Incorrect. Try again, netrunner.');
+      setIsCorrect(false);
+    }
+  };
+  
+  return (
+    <Card className="border-primary/50 bg-card/80 shadow-[0_0_15px_hsl(var(--primary)/0.3)]">
+      <CardHeader>
+        <CardTitle className="font-code text-primary">[ANALYZE_DATA_STREAM_01]</CardTitle>
+        <CardDescription>4 Pics, 1 Word. Decrypt the connection.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-2 gap-2">
+            <ImageWithFallback src="https://placehold.co/150/0b0e14/fcee0a?text=>_" alt="Code Pic 1" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
+            <ImageWithFallback src="https://placehold.co/150/0b0e14/fcee0a?text={;}" alt="Code Pic 2" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
+            <ImageWithFallback src="https://placehold.co/150/0b0e14/fcee0a?text=</>" alt="Code Pic 3" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
+            <ImageWithFallback src="https://placehold.co/150/0b0e14/fcee0a?text=0101" alt="Code Pic 4" width={150} height={150} className="rounded-sm w-full h-auto aspect-square object-cover" />
+        </div>
+        <form onSubmit={handleGuessSubmit} className="flex gap-2">
+          <Input 
+            type="text"
+            value={guess}
+            onChange={(e) => setGuess(e.target.value)}
+            placeholder="Your Answer..."
+            className="font-code"
+            disabled={isCorrect}
+          />
+          <Button type="submit" size="icon" disabled={isCorrect}>
+            <Send />
+          </Button>
+        </form>
+        {feedback && (
+          <p className={cn('text-sm font-code', isCorrect ? 'text-green-400' : 'text-red-400')}>
+            {feedback}
+          </p>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+
+// New Component for Reflex Booster
+const ReflexBoosterGame = () => {
+  const [gameState, setGameState] = useState<'idle' | 'waiting' | 'active' | 'result'>('idle');
+  const [result, setResult] = useState<number | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const startTimeRef = useRef<number | null>(null);
+
+  const startGame = useCallback(() => {
+    setGameState('waiting');
+    setResult(null);
+    const delay = Math.random() * 3000 + 1000; // 1-4 second delay
+    timerRef.current = setTimeout(() => {
+      setGameState('active');
+      startTimeRef.current = Date.now();
+    }, delay);
+  }, []);
+
+  const handleClick = () => {
+    if (gameState === 'waiting') {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      setResult(-1); // Too soon
+      setGameState('result');
+      return;
+    }
+    if (gameState === 'active') {
+      if(startTimeRef.current) {
+        setResult(Date.now() - startTimeRef.current);
+      }
+      setGameState('result');
+      return;
+    }
+    // if 'idle' or 'result', start the game
+    startGame();
+  };
+  
+  useEffect(() => {
+    // Cleanup timeout on component unmount
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    }
+  }, []);
+
+  const getButtonContent = () => {
+      switch(gameState) {
+          case 'idle':
+              return 'Start Reflex Test';
+          case 'waiting':
+              return 'Wait for Red...';
+          case 'active':
+              return 'CLICK NOW!';
+          case 'result':
+              return 'Try Again';
+      }
   }
 
-  return <div className="block group h-full cursor-pointer">{content}</div>;
-}
+  return (
+     <Card className="border-accent/50 bg-card/80 shadow-[0_0_15px_hsl(var(--accent)/0.3)]">
+      <CardHeader>
+        <CardTitle className="font-code text-accent">[EXECUTE_GAME_02]</CardTitle>
+        <CardDescription>Reflex Booster. Don't flinch.</CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center justify-center space-y-4 min-h-[340px]">
+        <Button 
+            onClick={handleClick}
+            className={cn('h-24 w-full text-xl font-bold transition-colors duration-100', {
+                'bg-primary hover:bg-primary/90': gameState === 'idle' || gameState === 'result',
+                'bg-yellow-500 hover:bg-yellow-500/90 text-background': gameState === 'waiting',
+                'bg-destructive hover:bg-destructive/90 text-destructive-foreground animate-pulse': gameState === 'active'
+            })}
+        >
+            {getButtonContent()}
+        </Button>
+        <div className="text-center h-10">
+            {result !== null && (
+                <div className="animate-fade-in font-code">
+                    {result === -1 ? (
+                        <p className="text-red-400">Too soon!</p>
+                    ) : (
+                        <p className="text-2xl text-accent">{result}ms</p>
+                    )}
+                </div>
+            )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
 
 
 export default function DashboardPage() {
@@ -92,41 +210,15 @@ export default function DashboardPage() {
       )}
 
       <div className="text-center">
-        <h1 className="font-headline text-4xl font-bold">Welcome, {userProfile?.name || 'Netrunner'}</h1>
+        <h1 className="font-headline text-4xl font-bold">Welcome to the Game Center, {userProfile?.name || 'Netrunner'}</h1>
         <p className="text-muted-foreground text-lg">
-          Choose your path.
+          Choose your challenge.
         </p>
       </div>
 
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
-        <DashboardCard
-          href="/learn"
-          icon={GraduationCap}
-          title="Learn"
-          description="Master troubleshooting theory. Knowledge is your primary weapon."
-          className="md:col-span-1"
-        />
-        <DashboardCard
-          href="/games"
-          icon={Gamepad2}
-          title="Games"
-          description="Apply your skills in simulated, real-world scenarios. Experience is everything."
-          className="md:col-span-1"
-        />
-        <DashboardCard
-          href="/quizzes"
-          icon={BookOpen}
-          title="Quizzes"
-          description="Test your knowledge with rapid-fire questions. Precision is key."
-          className="md:col-span-2"
-        />
-        <DashboardCard
-          href="/forum"
-          icon={MessagesSquare}
-          title="Community Forum"
-          description="Ask for help, share your knowledge, and connect with other titans in the community forum."
-          className="md:col-span-2"
-        />
+        <FourPicsOneWordGame />
+        <ReflexBoosterGame />
       </div>
     </div>
   );
