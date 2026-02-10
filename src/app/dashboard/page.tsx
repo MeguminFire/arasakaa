@@ -23,8 +23,8 @@ const ImageWithFallback = ({ src, alt, ...props }: {src: string, alt: string} & 
     };
 
     return error ? (
-        <div className="w-full h-full bg-destructive/20 flex items-center justify-center text-destructive-foreground font-code text-xs rounded-sm">
-            [SYSTEM ERROR]
+        <div className="w-full h-full bg-destructive/20 flex items-center justify-center text-red-400 font-code text-xs rounded-sm">
+            [DATA_CORRUPTED]
         </div>
     ) : (
         <Image
@@ -194,7 +194,7 @@ export default function DashboardPage() {
   const isGuest = !authUser;
 
   return (
-    <div className="relative flex min-h-full flex-col items-center justify-center space-y-8 p-4 animate-fade-in">
+    <div className="relative flex min-h-full flex-col items-center justify-start space-y-8 p-4 animate-fade-in">
       <div className="absolute inset-0 bg-grid-pattern-red opacity-30 -z-10"></div>
       
       {isGuest && (
@@ -209,8 +209,8 @@ export default function DashboardPage() {
         </Alert>
       )}
 
-      <div className="text-center">
-        <h1 className="font-headline text-4xl font-bold">Welcome to the Game Center, {userProfile?.name || 'Netrunner'}</h1>
+      <div className="text-center w-full max-w-5xl">
+        <h1 className="font-headline text-4xl font-bold">Welcome to the TACTICAL_TRAINING_OS, {userProfile?.name || 'Netrunner'}</h1>
         <p className="text-muted-foreground text-lg">
           Choose your challenge.
         </p>
