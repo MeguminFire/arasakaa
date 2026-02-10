@@ -75,15 +75,15 @@ export default function RootLayout({
         <FirebaseProvider>
           <UserProvider>
             <div className="flex flex-col h-screen">
-              <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
+              <header className="flex-shrink-0 sticky top-0 z-40 flex h-14 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
                   <Link href="/dashboard" className="flex items-center gap-3">
-                      <Image src="/arasaka.png" alt="Arasaka Logo" width={40} height={40} className="h-10 w-auto" />
+                      <Image src="/arasaka.png" alt="Arasaka Logo" width={32} height={32} className="h-8 w-auto" />
                       <span className="font-michroma text-xl text-white tracking-widest">ARASAKA</span>
                   </Link>
               </header>
-              <main className="flex-1 p-4 md:p-6 overflow-y-auto">{children}</main>
+              <main className="flex-1 p-4 overflow-y-auto">{children}</main>
                <footer className="relative flex-shrink-0 border-t bg-background/90">
-                  <nav className="flex h-16 items-center justify-center gap-6 md:gap-12 px-4">
+                  <nav className="flex h-14 items-center justify-center gap-6 md:gap-12 px-4">
                     {navItems.map((item) => (
                       <Link
                         href={item.href}

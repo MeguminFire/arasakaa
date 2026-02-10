@@ -43,7 +43,7 @@ export default function DashboardPage() {
   const isGuest = !authUser;
 
   return (
-    <div className="relative flex min-h-full flex-col items-center justify-start space-y-8 p-4 animate-fade-in">
+    <div className="relative flex min-h-full flex-col items-center justify-start space-y-6 animate-fade-in">
       <div className="absolute inset-0 bg-grid-pattern-red opacity-30 -z-10"></div>
       
       {isGuest && (
@@ -65,12 +65,12 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-4">
         {dashboardNavItems.map((item) => (
           <Card key={item.href} className="flex flex-col justify-between transition-transform transform hover:-translate-y-1 hover:shadow-lg bg-card/80 hover:border-primary/50">
             <CardHeader>
-              <item.icon className="h-8 w-8 text-primary mb-3" />
-              <CardTitle className="text-xl">{item.title}</CardTitle>
+              <item.icon className="h-6 w-6 text-primary mb-2" />
+              <CardTitle className="text-lg">{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
             </CardHeader>
             <CardFooter>
