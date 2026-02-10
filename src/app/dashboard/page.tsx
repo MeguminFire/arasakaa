@@ -1,8 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserProvider';
 import {
   GraduationCap,
@@ -63,20 +61,9 @@ function DashboardCard({
 
 
 export default function DashboardPage() {
-  const { userProfile, authUser, loading } = useUser();
-  const router = useRouter();
+  const { userProfile, loading } = useUser();
 
-  useEffect(() => {
-    if (!loading) {
-      if (!authUser) {
-        router.push('/login');
-      } else if (!userProfile) {
-        router.push('/'); // Redirect to name entry page
-      }
-    }
-  }, [authUser, userProfile, loading, router]);
-
-  if (loading || !userProfile || !authUser) {
+  if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
