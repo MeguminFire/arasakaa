@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react';
 
-const DataRain = () => {
+const RainColumns = () => {
+  // This component will only be rendered on the client.
   const [columns, setColumns] = useState<any[]>([]);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // This code now runs only on the client, after hydration
     const columnCount = Math.floor(window.innerWidth / 16);
     const generatedColumns = Array.from({ length: columnCount }).map((_, i) => {
       const duration = Math.random() * 10 + 10;
@@ -17,6 +16,7 @@ const DataRain = () => {
         .join('\n');
 
       return {
+        key: `rain-col-${i}`,
         left: `${(i / columnCount) * 100}%`,
         animationDuration: `${duration}s`,
         animationDelay: `${delay}s`,
@@ -24,14 +24,13 @@ const DataRain = () => {
       };
     });
     setColumns(generatedColumns);
-    setIsClient(true);
-  }, []); // Empty dependency array ensures this runs once on mount
+  }, []);
 
   return (
-    <div className="data-rain-container" aria-hidden="true">
-      {isClient && columns.map((col, i) => (
+    <>
+      {columns.map((col) => (
         <div
-          key={i}
+          key={col.key}
           className="data-rain-column absolute top-0"
           style={{
             left: col.left,
@@ -42,6 +41,21 @@ const DataRain = () => {
           {col.content}
         </div>
       ))}
+    </>
+  );
+};
+
+
+const DataRain = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  return (
+    <div className="data-rain-container" aria-hidden="true">
+      {isClient ? <RainColumns /> : null}
     </div>
   );
 };
