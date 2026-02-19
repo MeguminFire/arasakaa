@@ -97,20 +97,20 @@ export default function Leaderboard() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[50px]">Rank</TableHead>
-                <TableHead>Player</TableHead>
-                <TableHead className="text-right">Score</TableHead>
+                <TableHead className="w-[50px] px-2 h-10">Rank</TableHead>
+                <TableHead className="px-2 h-10">Player</TableHead>
+                <TableHead className="text-right px-2 h-10">Score</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {leaderboard.map((entry) => (
                 <TableRow key={entry.rank}>
-                  <TableCell className="font-bold text-lg text-muted-foreground">
+                  <TableCell className="p-2 font-bold text-lg text-muted-foreground">
                     {entry.rank}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="p-2">
                     <div className="flex items-center gap-3">
-                      <Avatar className="h-9 w-9">
+                      <Avatar className="h-8 w-8">
                         <AvatarImage src={entry.user.avatar} alt={entry.user.name} />
                         <AvatarFallback>{entry.user.name?.charAt(0)}</AvatarFallback>
                       </Avatar>
@@ -119,7 +119,7 @@ export default function Leaderboard() {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-right font-semibold text-primary">
+                  <TableCell className="p-2 text-right font-semibold text-primary">
                     {entry.score}
                   </TableCell>
                 </TableRow>

@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import Leaderboard from '@/components/shared/leaderboard';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import SystemLogs from '@/components/shared/SystemLogs';
 
 const navigationCards = [
     {
@@ -38,17 +39,16 @@ export default function DashboardPage() {
   const isGuest = !authUser;
 
   return (
-    <div className="relative flex min-h-full flex-col items-center justify-start space-y-4 p-2 overflow-hidden">
-      <div className="absolute inset-0 bg-grid-pattern-red opacity-30 -z-10"></div>
+    <div className="relative flex h-full flex-col items-center justify-start space-y-2 p-1 overflow-hidden">
       
       {isGuest && (
-        <Alert variant="destructive" className="w-full max-w-4xl border-2 border-destructive bg-destructive/10 backdrop-blur-sm p-2 flex items-center max-h-[60px]">
-            <AlertTriangle className="h-5 w-5 text-destructive" />
-            <div className='ml-4'>
-                <AlertTitle className="text-lg font-headline animate-hacker-glitch">
+        <Alert variant="destructive" className="w-full max-w-4xl border-2 border-destructive bg-destructive/10 backdrop-blur-sm p-1 flex items-center max-h-[40px]">
+            <AlertTriangle className="h-4 w-4 text-destructive" />
+            <div className='ml-2'>
+                <AlertTitle className="text-base font-headline animate-hacker-glitch">
                     UNAUTHORIZED ACCESS
                 </AlertTitle>
-                <AlertDescription className="text-destructive-foreground/80 text-xs">
+                <AlertDescription className="text-destructive-foreground/80 text-[10px]">
                     Guest functionality is restricted.
                 </AlertDescription>
             </div>
@@ -56,24 +56,24 @@ export default function DashboardPage() {
       )}
 
       <div className="text-center w-full max-w-4xl">
-        <h1 className="font-headline text-3xl font-bold">Welcome to Arasaka</h1>
-        <p className="text-muted-foreground text-sm">
+        <h1 className="font-headline text-2xl font-bold">Welcome to Arasaka</h1>
+        <p className="text-muted-foreground text-xs">
           Your training begins now.
         </p>
       </div>
 
-       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4">
+       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-2">
         {navigationCards.map((card) => (
           <Card
             key={card.title}
-            className="flex flex-col justify-between transition-transform transform hover:-translate-y-1 hover:shadow-lg bg-card/80 border-primary/50"
+            className="flex flex-col justify-between transition-transform transform hover:-translate-y-1 bg-card/80 border-primary/50"
           >
             <CardHeader>
               <div className="flex items-start justify-between">
-                <card.icon className="h-8 w-8 text-primary mb-3" />
+                <card.icon className="h-6 w-6 text-primary mb-2" />
               </div>
-              <CardTitle>{card.title}</CardTitle>
-              <CardDescription>{card.description}</CardDescription>
+              <CardTitle className="text-base">{card.title}</CardTitle>
+              <CardDescription className="text-xs">{card.description}</CardDescription>
             </CardHeader>
             <CardFooter>
               <Button asChild className="w-full">
@@ -89,6 +89,7 @@ export default function DashboardPage() {
       <div className="w-full max-w-4xl">
         <Leaderboard />
       </div>
+      <SystemLogs />
     </div>
   );
 }

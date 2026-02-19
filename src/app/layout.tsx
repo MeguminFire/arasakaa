@@ -14,6 +14,7 @@ import UserAvatar from '@/components/shared/UserAvatar';
 import { UserProvider } from '@/context/UserProvider';
 import { cn } from '@/lib/utils';
 import { FirebaseProvider } from '@/firebase/FirebaseProvider';
+import DataRain from '@/components/shared/DataRain';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -45,6 +46,8 @@ export default function RootLayout({
           <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
         </head>
         <body className="font-body antialiased dark text-sm">
+          <DataRain />
+          <div className="flicker-overlay" />
           <FirebaseProvider>
             <UserProvider>
               {children}
@@ -70,6 +73,8 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark text-sm">
+        <DataRain />
+        <div className="flicker-overlay" />
         <FirebaseProvider>
           <UserProvider>
             <div className="flex flex-col h-screen">
