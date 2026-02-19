@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import PageHeader from '@/components/shared/page-header';
 import { cn } from '@/lib/utils';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { Terminal, CheckCircle, XCircle, RotateCcw, HelpCircle, Lightbulb } from 'lucide-react';
+import { Terminal, CheckCircle, XCircle, RotateCcw, Lightbulb, Info } from 'lucide-react';
 import Link from 'next/link';
 
 // Updated game data with hints
@@ -85,25 +85,25 @@ export default function ArasakaDebuggerPage() {
       : [...selectedWords, word];
 
     setSelectedWords(newSelectedWords);
+    setFeedback(null); // Clear feedback when selection changes
+  };
+
+  const handleCheckQuestion = () => {
+    if (formedQuestion) return;
     
-    // Check if the selected words form a valid question
-    const selectedSet = new Set(newSelectedWords);
-    let questionFound = false;
+    const selectedSet = new Set(selectedWords);
     for (const q of TROUBLESHOOTING_QUESTIONS) {
         const questionSet = new Set(q.words);
         if (selectedSet.size === questionSet.size && [...selectedSet].every(w => questionSet.has(w))) {
             setFormedQuestion({ questionText: q.questionText, answer: q.answer, hint: q.hint });
-            setFeedback(null); // Clear previous feedback
-            setFailureCount(0); // Reset failure count for new question
-            questionFound = true;
-            break; 
+            setFeedback(null);
+            setFailureCount(0);
+            return;
         }
     }
-
-    if (!questionFound) {
-      setFormedQuestion(null);
-    }
-  };
+    
+    setFeedback({ type: 'info', message: 'INVALID QUERY SEQUENCE. Re-evaluate word fragments and try again.' });
+  }
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -181,6 +181,16 @@ export default function ArasakaDebuggerPage() {
             ))}
           </div>
         </CardContent>
+        <CardFooter className="flex justify-center pt-4">
+            <Button 
+                onClick={handleCheckQuestion} 
+                disabled={selectedWords.length === 0 || !!formedQuestion || isFinished}
+                variant="destructive"
+                className="px-3 py-1 text-sm h-auto"
+            >
+                Construct Query
+            </Button>
+        </CardFooter>
       </Card>
       
       {formedQuestion && !isFinished && (
@@ -199,6 +209,7 @@ export default function ArasakaDebuggerPage() {
                             onChange={e => setUserAnswer(e.target.value)}
                             placeholder="> Enter solution..."
                             className="pl-10 font-code h-12 text-lg"
+                            autoFocus
                         />
                      </div>
                       <div className="flex justify-center gap-4">
@@ -210,13 +221,18 @@ export default function ArasakaDebuggerPage() {
       )}
 
       {feedback && (
-        <Alert variant={feedback.type === 'incorrect' ? 'destructive' : 'default'} className={cn(
+        <Alert variant={feedback.type === 'info' ? 'default' : (feedback.type === 'incorrect' ? 'destructive' : 'default')} className={cn(
             'transition-all',
             feedback.type === 'correct' && 'border-green-500/50 text-green-400',
+            feedback.type === 'info' && 'border-blue-500/50 text-blue-400',
+            feedback.type === 'incorrect' && failureCount < 2 && 'border-red-500/50 text-red-400',
             feedback.type === 'incorrect' && failureCount >= 2 && 'border-yellow-500/50 text-yellow-400'
         )}>
-            {feedback.type === 'correct' ? <CheckCircle className="h-4 w-4" /> : (failureCount >= 2 ? <Lightbulb className="h-4 w-4" /> : <XCircle className="h-4 w-4" />)}
-            <AlertTitle className="font-headline">{feedback.type === 'correct' ? 'SUCCESS' : (failureCount >= 2 ? 'HINT' : 'FAILURE')}</AlertTitle>
+            <AlertTitle className="font-headline flex items-center gap-2">
+                 {feedback.type === 'correct' && <><CheckCircle className="h-4 w-4" /> SUCCESS</>}
+                 {feedback.type === 'info' && <><Info className="h-4 w-4" /> SYSTEM FEEDBACK</>}
+                 {feedback.type === 'incorrect' && (failureCount >= 2 ? <><Lightbulb className="h-4 w-4" /> HINT</> : <><XCircle className="h-4 w-4" /> FAILURE</>)}
+            </AlertTitle>
             <AlertDescription>
                 {feedback.message}
             </AlertDescription>
