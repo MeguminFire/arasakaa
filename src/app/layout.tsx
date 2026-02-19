@@ -28,12 +28,17 @@ const navItems = [
 
 const NavLink = ({ item }: { item: typeof navItems[0] }) => {
   const pathname = usePathname();
-  const isActive = (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href;
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const isActive = isClient && ((pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href);
 
   return (
     <Link
       href={item.href}
-      suppressHydrationWarning
       className={cn(
         'flex h-10 flex-col items-center justify-center gap-1 rounded-md px-3 py-1 text-muted-foreground transition-colors hover:text-primary',
         isActive ? 'text-primary' : ''
