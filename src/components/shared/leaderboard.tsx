@@ -86,7 +86,7 @@ export default function Leaderboard() {
         </CardTitle>
         <CardDescription>See how you rank against other titans.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="max-h-[300px] overflow-y-auto custom-scrollbar">
         {isLoading ? (
           <div className="flex justify-center items-center h-40">
             <Loader2 className="h-8 w-8 animate-spin" />
@@ -117,7 +117,7 @@ export default function Leaderboard() {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="p-2 text-right font-semibold text-primary font-code">
+                  <TableCell className="p-2 text-right font-semibold text-primary">
                     {entry.score}
                   </TableCell>
                 </TableRow>
