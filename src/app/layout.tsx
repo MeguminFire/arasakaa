@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   Gamepad2,
-  GraduationCap,
   MessagesSquare,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
@@ -18,7 +17,6 @@ import { FirebaseProvider } from '@/firebase/FirebaseProvider';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/learn', icon: GraduationCap, label: 'Learn' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
 ];

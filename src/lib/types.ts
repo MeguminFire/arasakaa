@@ -12,8 +12,6 @@ export type UserProfile = {
   name: string;
   avatar: string;
   completedGames: string[];
-  completedQuizzes: string[];
-  completedLessons: string[];
 }
 
 export type StatCard = {
@@ -48,30 +46,6 @@ export type Game = {
   topic: string;
   difficulty: 'easy' | 'medium' | 'hard';
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-};
-
-export type Quiz = {
-  id: string;
-  title: string;
-  description: string;
-  topic: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-};
-
-export type Lesson = {
-  id: string;
-  title: string;
-  description: string;
-  href: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  quizId: string;
-};
-
-export type QuizQuestion = {
-  question: string;
-  options: string[];
-  correctAnswer: string;
-  explanation: string;
 };
 
 // Types for the hardcoded interactive game

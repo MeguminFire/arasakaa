@@ -1,7 +1,7 @@
 'use client';
 
 import { useUser } from '@/context/UserProvider';
-import { Loader2, AlertTriangle, GraduationCap, Gamepad2, MessagesSquare, ArrowRight } from 'lucide-react';
+import { Loader2, AlertTriangle, Gamepad2, MessagesSquare, ArrowRight } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import Leaderboard from '@/components/shared/leaderboard';
@@ -9,12 +9,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 const navigationCards = [
-    {
-      title: 'Learning Modules',
-      description: 'Build your foundational knowledge.',
-      href: '/learn',
-      icon: GraduationCap,
-    },
     {
       title: 'Training Hub',
       description: 'Sharpen your skills with scenarios.',
@@ -68,7 +62,7 @@ export default function DashboardPage() {
         </p>
       </div>
 
-       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-4">
+       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4">
         {navigationCards.map((card) => (
           <Card
             key={card.title}

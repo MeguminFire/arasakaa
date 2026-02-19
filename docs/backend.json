@@ -11,16 +11,6 @@
           "type": "array",
           "items": { "type": "string" },
           "description": "An array of completed game IDs."
-        },
-        "completedQuizzes": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "An array of completed quiz IDs."
-        },
-        "completedLessons": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "An array of completed lesson IDs."
         }
       },
       "required": ["name"]

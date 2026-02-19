@@ -60,9 +60,7 @@ export default function Leaderboard() {
     return users
       .map(user => {
         const score = 
-          (user.completedGames?.length || 0) * 100 +
-          (user.completedQuizzes?.length || 0) * 50 +
-          (user.completedLessons?.length || 0) * 20;
+          (user.completedGames?.length || 0) * 100;
         
         return {
           user: {
