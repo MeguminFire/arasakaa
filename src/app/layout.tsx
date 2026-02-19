@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Gamepad2,
   MessagesSquare,
+  Trophy,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
@@ -22,6 +23,7 @@ const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
+  { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
 ];
 
 export default function RootLayout({

@@ -4,7 +4,6 @@ import { useUser } from '@/context/UserProvider';
 import { Loader2, AlertTriangle, Gamepad2, MessagesSquare, ArrowRight } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import Leaderboard from '@/components/shared/leaderboard';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
@@ -71,7 +70,7 @@ export default function DashboardPage() {
               <div className="flex items-start justify-between">
                 <card.icon className="h-6 w-6 text-primary mb-2" />
               </div>
-              <CardTitle className="text-base">{card.title}</CardTitle>
+              <CardTitle className="text-base font-headline">{card.title}</CardTitle>
               <CardDescription>{card.description}</CardDescription>
             </CardHeader>
             <CardFooter>
@@ -83,10 +82,6 @@ export default function DashboardPage() {
             </CardFooter>
           </Card>
         ))}
-      </div>
-
-      <div className="w-full max-w-4xl">
-        <Leaderboard />
       </div>
     </div>
   );

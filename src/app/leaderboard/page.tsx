@@ -1,6 +1,16 @@
 'use client';
 
-// This page is no longer in use. The leaderboard is now displayed on the dashboard.
+import Leaderboard from '@/components/shared/leaderboard';
+import PageHeader from '@/components/shared/page-header';
+
 export default function LeaderboardPage() {
-  return null;
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        title="Leaderboard"
+        description="See how you rank against other titans."
+      />
+      <Leaderboard />
+    </div>
+  );
 }

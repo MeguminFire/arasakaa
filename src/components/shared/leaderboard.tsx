@@ -80,13 +80,13 @@ export default function Leaderboard() {
   return (
     <Card className="bg-card/80">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 font-headline">
           <Trophy className="h-5 w-5 text-yellow-500" />
           <span>Leaderboard</span>
         </CardTitle>
         <CardDescription>See how you rank against other titans.</CardDescription>
       </CardHeader>
-      <CardContent className="max-h-[240px] overflow-y-auto custom-scrollbar pr-2">
+      <CardContent>
         {isLoading ? (
           <div className="flex justify-center items-center h-40">
             <Loader2 className="h-8 w-8 animate-spin" />
