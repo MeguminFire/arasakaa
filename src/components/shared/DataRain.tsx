@@ -53,10 +53,17 @@ const DataRain = () => {
     setIsClient(true);
   }, []);
 
+  if (!isClient) {
+    return null;
+  }
+
   return (
-    <div className="data-rain-container" aria-hidden="true">
-      {isClient ? <RainColumns /> : null}
-    </div>
+    <>
+      <div className="data-rain-container" aria-hidden="true">
+        <RainColumns />
+      </div>
+      <div className="flicker-overlay" />
+    </>
   );
 };
 

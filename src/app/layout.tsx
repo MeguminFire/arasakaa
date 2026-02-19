@@ -74,7 +74,6 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased dark text-sm">
         <DataRain />
-        <div className="flicker-overlay" />
         <FirebaseProvider>
           <UserProvider>
             {showAppShell ? (
