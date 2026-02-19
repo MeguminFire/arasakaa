@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle, BrainCircuit, Zap } from 'lucide-react';
+import { ArrowRight, CheckCircle, BrainCircuit, Zap, TerminalSquare } from 'lucide-react';
 import { useUser } from '@/context/UserProvider';
 
 const trainingDrills = [
@@ -29,6 +29,13 @@ const trainingDrills = [
         description: 'Test your reaction time against the clock.',
         href: '/games/reflex-booster',
         icon: Zap,
+    },
+    {
+        id: 'syntax-breach',
+        title: 'Syntax Breach',
+        description: 'Form the question and provide the correct syntax to pass.',
+        href: '/games/syntax-breach',
+        icon: TerminalSquare,
     }
 ]
 
