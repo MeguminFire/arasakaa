@@ -16,6 +16,7 @@ import { UserProvider } from '@/context/UserProvider';
 import { cn } from '@/lib/utils';
 import { FirebaseProvider } from '@/firebase/FirebaseProvider';
 import DataRain from '@/components/shared/DataRain';
+import React, { useEffect, useState } from 'react';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -23,6 +24,30 @@ const navItems = [
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
   { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
 ];
+
+const NavLink = ({ item }: { item: typeof navItems[0] }) => {
+  const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const isActive = (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href;
+
+  return (
+    <Link
+      href={item.href}
+      className={cn(
+        'flex flex-col items-center gap-1 text-muted-foreground transition-colors hover:text-primary',
+        isClient && isActive ? 'text-primary' : ''
+      )}
+    >
+      <item.icon className="h-4 w-4" />
+      <span className="text-xs font-headline tracking-wider">{item.label}</span>
+    </Link>
+  );
+};
 
 export default function RootLayout({
   children,
@@ -64,18 +89,7 @@ export default function RootLayout({
                     <footer className="relative flex-shrink-0 border-t bg-background/90">
                     <nav className="flex h-12 items-center justify-center gap-4 px-4">
                         {navItems.map((item) => (
-                        <Link
-                            href={item.href}
-                            key={item.href}
-                            suppressHydrationWarning
-                            className={cn(
-                            'flex flex-col items-center gap-1 text-muted-foreground transition-colors hover:text-primary',
-                            ((pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href) ? 'text-primary' : ''
-                            )}
-                        >
-                            <item.icon className="h-4 w-4" />
-                            <span className="text-xs font-headline tracking-wider">{item.label}</span>
-                        </Link>
+                          <NavLink key={item.href} item={item} />
                         ))}
                     </nav>
                     <div className="absolute bottom-2 right-2">
