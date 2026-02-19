@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Gamepad2,
   MessagesSquare,
+  Trophy,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
@@ -20,6 +21,7 @@ const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
+  { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
 ];
 
 export default function RootLayout({
@@ -43,7 +45,7 @@ export default function RootLayout({
             href="https://fonts.gstatic.com"
             crossOrigin="anonymous"
           />
-          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
         </head>
         <body className="font-body antialiased dark text-sm">
           <DataRain />
@@ -70,7 +72,7 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark text-sm">
         <DataRain />

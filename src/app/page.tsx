@@ -88,7 +88,7 @@ export default function HomePage() {
                   height={80}
                   className="h-28 w-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
               />
-              <h1 className="font-michroma text-6xl text-white tracking-[0.4em] drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">ARASAKA</h1>
+              <h1 className="font-headline text-6xl text-white tracking-[0.4em] drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">ARASAKA</h1>
           </div>
           <div className="p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
             <p

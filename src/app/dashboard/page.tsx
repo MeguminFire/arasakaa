@@ -86,9 +86,6 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      <div className="w-full max-w-4xl">
-        <Leaderboard />
-      </div>
       <SystemLogs />
     </div>
   );

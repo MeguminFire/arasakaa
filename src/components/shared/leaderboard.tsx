@@ -88,7 +88,7 @@ export default function Leaderboard() {
         </CardTitle>
         <CardDescription>See how you rank against other titans.</CardDescription>
       </CardHeader>
-      <CardContent className="max-h-[300px] overflow-y-auto custom-scrollbar">
+      <CardContent>
         {isLoading ? (
           <div className="flex justify-center items-center h-40">
             <Loader2 className="h-8 w-8 animate-spin" />
