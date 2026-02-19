@@ -8,6 +8,7 @@ import {
   Gamepad2,
   MessagesSquare,
   Trophy,
+  Loader2,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
@@ -33,18 +34,18 @@ const NavLink = ({ item }: { item: typeof navItems[0] }) => {
     setIsClient(true);
   }, []);
 
-  const isActive = (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href;
+  const isActive = isClient && ((pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href);
 
   return (
     <Link
       href={item.href}
       className={cn(
-        'flex flex-col items-center gap-1 text-muted-foreground transition-colors hover:text-primary',
-        isClient && isActive ? 'text-primary' : ''
+        'flex h-9 flex-col items-center justify-center gap-1 rounded-md px-3 py-1 text-muted-foreground transition-colors hover:text-primary',
+        isActive ? 'text-primary' : ''
       )}
     >
       <item.icon className="h-4 w-4" />
-      <span className="text-xs font-headline tracking-wider">{item.label}</span>
+      <span className="text-xs font-headline font-normal tracking-wider">{item.label}</span>
     </Link>
   );
 };
@@ -55,6 +56,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
 
   const isAuthPage = pathname === '/login' || pathname === '/signup';
   const showAppShell = !isAuthPage;
@@ -70,7 +77,7 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark text-sm">
         <DataRain />
@@ -84,7 +91,9 @@ export default function RootLayout({
                         <span className="font-logo text-lg text-white tracking-widest">ARASAKA</span>
                     </Link>
                 </header>
-                <main className="flex-1 p-2 overflow-y-auto">{children}</main>
+                <main className="flex-1 p-2 overflow-y-auto">
+                  {isClient ? children : <div className="flex h-full w-full items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>}
+                </main>
                     <footer className="relative flex-shrink-0 border-t bg-background/90">
                     <nav className="flex h-12 items-center justify-center gap-4 px-4">
                         {navItems.map((item) => (
@@ -97,7 +106,7 @@ export default function RootLayout({
                 </footer>
                 </div>
             ) : (
-                children
+                isClient ? children : <div className="flex h-full w-full items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>
             )}
             </UserProvider>
         </FirebaseProvider>
