@@ -35,11 +35,11 @@ const NavLink = ({ item }: { item: typeof navItems[0] }) => {
       href={item.href}
       suppressHydrationWarning
       className={cn(
-        'flex h-8 flex-col items-center justify-center gap-1 rounded-md px-3 py-1 text-muted-foreground transition-colors hover:text-primary',
+        'flex h-10 flex-col items-center justify-center gap-1 rounded-md px-3 py-1 text-muted-foreground transition-colors hover:text-primary',
         isActive ? 'text-primary' : ''
       )}
     >
-      <item.icon className="h-4 w-4" />
+      <item.icon className="h-5 w-5" />
       <span className="text-xs font-headline tracking-wider">{item.label}</span>
     </Link>
   );
