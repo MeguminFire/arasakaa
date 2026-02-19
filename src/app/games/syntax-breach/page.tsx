@@ -42,8 +42,6 @@ const TROUBLESHOOTING_QUESTIONS = [
   },
 ];
 
-const DISTRACTORS = ['monitor', 'keyboard', 'delete', 'install', 'update', 'because', 'the', 'blue', 'fast', 'error'];
-
 const shuffleArray = (array: any[]) => {
   // Client-side only shuffle
   if (typeof window === 'undefined') return array;
@@ -69,7 +67,7 @@ export default function ArasakaDebuggerPage() {
   // Memoize the full word list to avoid re-calculating
   const allWords = useMemo(() => {
     const questionWords = TROUBLESHOOTING_QUESTIONS.flatMap(q => q.words);
-    return [...new Set([...questionWords, ...DISTRACTORS])]; // Use Set to remove duplicates
+    return [...new Set(questionWords)]; // Use Set to remove duplicates
   }, []);
 
   useEffect(() => {
