@@ -44,7 +44,9 @@ const NavLink = ({ item }: { item: typeof navItems[0] }) => {
         isActive ? 'text-primary' : ''
       )}
     >
-      <item.icon size={20} />
+      <div className="h-5 w-5">
+        <item.icon className="h-full w-full" />
+      </div>
       <span className="text-xs font-headline tracking-wider">{item.label}</span>
     </Link>
   );
