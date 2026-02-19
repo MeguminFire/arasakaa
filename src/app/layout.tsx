@@ -8,27 +8,37 @@ import {
   Gamepad2,
   MessagesSquare,
   Trophy,
-  Loader2,
+  Users,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 import UserAvatar from '@/components/shared/UserAvatar';
-import { UserProvider } from '@/context/UserProvider';
+import { UserProvider, useUser } from '@/context/UserProvider';
 import { cn } from '@/lib/utils';
 import { FirebaseProvider } from '@/firebase/FirebaseProvider';
 import DataRain from '@/components/shared/DataRain';
 import React, { useState, useEffect } from 'react';
 
-const navItems = [
+const baseNavItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
   { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
 ];
 
-const NavLink = ({ item }: { item: typeof navItems[0] }) => {
+const adminNavItem = { href: '/users', icon: Users, label: 'Users' };
+
+const NavLink = ({ item }: { item: typeof baseNavItems[0] }) => {
   const pathname = usePathname();
-  const isActive = (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href;
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    // This effect runs only on the client, after hydration, to prevent mismatches.
+    const checkActive = () => {
+        return (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href
+    }
+    setIsActive(checkActive());
+  }, [pathname, item.href]);
 
   return (
     <Link
@@ -38,8 +48,8 @@ const NavLink = ({ item }: { item: typeof navItems[0] }) => {
         isActive && 'text-primary'
       )}
     >
-      <div className="h-5 w-5">
-        <item.icon className="h-full w-full" />
+      <div className="h-5 w-5 flex items-center justify-center">
+        <item.icon size={20} />
       </div>
       <span className="text-xs font-headline tracking-wider">{item.label}</span>
     </Link>
@@ -52,8 +62,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const { authUser } = useUser();
   const isAuthPage = pathname === '/login' || pathname === '/signup';
   const showAppShell = !isAuthPage;
+
+  const ADMIN_EMAILS = ['gmorecj22@gmail.com'];
+  const isAdmin = authUser?.email && ADMIN_EMAILS.includes(authUser.email);
+  const navItems = isAdmin ? [...baseNavItems, adminNavItem] : baseNavItems;
 
   return (
     <html lang="en" suppressHydrationWarning>
