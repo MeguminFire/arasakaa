@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['"Inter"', 'sans-serif'],
-        headline: ['"Inter"', 'sans-serif'],
+        body: ['"Comic Sans MS"', 'sans-serif'],
+        headline: ['"Orbitron"', 'sans-serif'],
         code: ['"Share Tech Mono"', 'monospace'],
       },
       colors: {

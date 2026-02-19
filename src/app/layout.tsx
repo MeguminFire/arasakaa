@@ -47,11 +47,7 @@ export default function RootLayout({
   const isAuthPage = pathname === '/login' || pathname === '/signup';
   const isIntroPage = pathname === '/';
   
-  let showAppShell = !isAuthPage && !isIntroPage;
-  if (isIntroPage && splashFinished) {
-      showAppShell = false;
-  } else if (isIntroPage && !splashFinished) {
-      showAppShell = false;
+  if (isIntroPage && !splashFinished) {
       return (
         <html lang="en" suppressHydrationWarning>
             <body className="font-body antialiased dark text-sm">
@@ -60,6 +56,8 @@ export default function RootLayout({
         </html>
       )
   }
+  
+  const showAppShell = !isAuthPage;
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -72,7 +70,7 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark text-sm">
         <DataRain />
