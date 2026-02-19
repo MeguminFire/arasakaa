@@ -32,31 +32,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const [splashFinished, setSplashFinished] = useState(pathname === '/' ? false : true);
+  const [splashFinished, setSplashFinished] = useState(false);
 
   useEffect(() => {
-    if (pathname === '/') {
-        const splashTimer = setTimeout(() => {
-            setSplashFinished(true);
-        }, 4000);
-        return () => clearTimeout(splashTimer);
+    // If not on the intro page, finish splash immediately.
+    if (pathname !== '/') {
+        setSplashFinished(true);
+        return;
     }
+    
+    // On intro page, set a timer.
+    const splashTimer = setTimeout(() => {
+        setSplashFinished(true);
+    }, 4000);
+    
+    return () => clearTimeout(splashTimer);
   }, [pathname]);
 
-
   const isAuthPage = pathname === '/login' || pathname === '/signup';
-  const isIntroPage = pathname === '/';
-  
-  if (isIntroPage && !splashFinished) {
-      return (
-        <html lang="en" suppressHydrationWarning>
-            <body className="font-body antialiased dark text-sm">
-                <SplashScreen />
-            </body>
-        </html>
-      )
-  }
-  
+  const showSplash = pathname === '/' && !splashFinished;
   const showAppShell = !isAuthPage;
 
   return (
@@ -73,46 +67,52 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark text-sm">
-        <DataRain />
-        <div className="flicker-overlay" />
-        <FirebaseProvider>
-          <UserProvider>
-            {showAppShell ? (
-               <div className="flex flex-col h-screen">
-                <header className="flex-shrink-0 sticky top-0 z-40 flex h-12 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
-                    <Link href="/dashboard" className="flex items-center gap-2">
-                        <Image src="/arasaka.png" alt="Arasaka Logo" width={28} height={28} className="h-7 w-auto" />
-                        <span className="font-logo text-lg text-white tracking-widest">ARASAKA</span>
-                    </Link>
-                </header>
-                <main className="flex-1 p-2 overflow-y-auto">{children}</main>
-                 <footer className="relative flex-shrink-0 border-t bg-background/90">
-                    <nav className="flex h-12 items-center justify-center gap-6 md:gap-12 px-4">
-                      {navItems.map((item) => (
-                        <Link
-                          href={item.href}
-                          key={item.href}
-                          className={cn(
-                            'flex flex-col items-center gap-1 text-muted-foreground transition-colors hover:text-primary',
-                            (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href ? 'text-primary' : ''
-                          )}
-                        >
-                          <item.icon className="h-5 w-5" />
-                          <span className="text-xs font-headline tracking-wider">{item.label}</span>
+        {showSplash ? (
+          <SplashScreen />
+        ) : (
+          <>
+            <DataRain />
+            <div className="flicker-overlay" />
+            <FirebaseProvider>
+              <UserProvider>
+                {showAppShell ? (
+                   <div className="flex flex-col h-screen">
+                    <header className="flex-shrink-0 sticky top-0 z-40 flex h-12 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
+                        <Link href="/dashboard" className="flex items-center gap-2">
+                            <Image src="/arasaka.png" alt="Arasaka Logo" width={28} height={28} className="h-7 w-auto" />
+                            <span className="font-logo text-lg text-white tracking-widest">ARASAKA</span>
                         </Link>
-                      ))}
-                    </nav>
-                    <div className="absolute bottom-2 right-2">
-                      <UserAvatar />
-                    </div>
-                </footer>
-              </div>
-            ) : (
-              children
-            )}
-          </UserProvider>
-        </FirebaseProvider>
-        <Toaster />
+                    </header>
+                    <main className="flex-1 p-2 overflow-y-auto">{children}</main>
+                     <footer className="relative flex-shrink-0 border-t bg-background/90">
+                        <nav className="flex h-12 items-center justify-center gap-6 md:gap-12 px-4">
+                          {navItems.map((item) => (
+                            <Link
+                              href={item.href}
+                              key={item.href}
+                              className={cn(
+                                'flex flex-col items-center gap-1 text-muted-foreground transition-colors hover:text-primary',
+                                (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href ? 'text-primary' : ''
+                              )}
+                            >
+                              <item.icon className="h-5 w-5" />
+                              <span className="text-xs font-headline tracking-wider">{item.label}</span>
+                            </Link>
+                          ))}
+                        </nav>
+                        <div className="absolute bottom-2 right-2">
+                          <UserAvatar />
+                        </div>
+                    </footer>
+                  </div>
+                ) : (
+                  children
+                )}
+              </UserProvider>
+            </FirebaseProvider>
+            <Toaster />
+          </>
+        )}
       </body>
     </html>
   );
