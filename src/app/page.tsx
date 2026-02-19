@@ -80,15 +80,15 @@ export default function HomePage() {
       <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4 text-center scanline-overlay overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="relative w-full max-w-lg">
-           <div className="flex justify-center items-center gap-8 mb-12">
+           <div className="flex flex-col md:flex-row justify-center items-center md:gap-8 mb-12">
               <Image
                   src="/arasaka.png"
                   alt="Arasaka Logo"
-                  width={80}
-                  height={80}
-                  className="h-28 w-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+                  width={150}
+                  height={150}
+                  className="h-32 md:h-28 w-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] mb-4 md:mb-0"
               />
-              <h1 className="font-headline text-6xl text-white tracking-[0.4em] drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">ARASAKA</h1>
+              <h1 className="hidden md:block font-headline text-6xl text-white tracking-[0.4em] drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">ARASAKA</h1>
           </div>
           <div className="p-8 rounded-lg border-2 border-primary/50 backdrop-blur-sm">
             <p
