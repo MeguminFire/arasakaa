@@ -42,13 +42,13 @@ export default function DashboardPage() {
     <div className="relative flex h-full flex-col items-center justify-start space-y-2 p-1 overflow-hidden">
       
       {isGuest && (
-        <Alert variant="destructive" className="w-full max-w-4xl border-2 border-destructive bg-destructive/10 backdrop-blur-sm p-1 flex items-center max-h-[40px]">
+        <Alert variant="destructive" className="w-full max-w-4xl border-2 border-destructive bg-destructive/10 backdrop-blur-sm p-1 flex items-center max-h-[60px]">
             <AlertTriangle className="h-4 w-4 text-destructive" />
             <div className='ml-2'>
                 <AlertTitle className="text-base font-headline animate-hacker-glitch">
                     UNAUTHORIZED ACCESS
                 </AlertTitle>
-                <AlertDescription className="text-destructive-foreground/80 text-[10px]">
+                <AlertDescription className="text-destructive-foreground/80 text-sm">
                     Guest functionality is restricted.
                 </AlertDescription>
             </div>
@@ -73,7 +73,7 @@ export default function DashboardPage() {
                 <card.icon className="h-6 w-6 text-primary mb-2" />
               </div>
               <CardTitle className="text-base">{card.title}</CardTitle>
-              <CardDescription className="text-xs">{card.description}</CardDescription>
+              <CardDescription>{card.description}</CardDescription>
             </CardHeader>
             <CardFooter>
               <Button asChild className="w-full">

@@ -119,7 +119,7 @@ export default function Leaderboard() {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="p-2 text-right font-semibold text-primary">
+                  <TableCell className="p-2 text-right font-semibold text-primary font-code">
                     {entry.score}
                   </TableCell>
                 </TableRow>

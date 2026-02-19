@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['"Rajdhani"', 'sans-serif'],
-        headline: ['"Orbitron"', 'sans-serif'],
+        body: ['"Inter"', 'sans-serif'],
+        headline: ['"Inter"', 'sans-serif'],
         code: ['"Share Tech Mono"', 'monospace'],
         michroma: ['"Michroma"', 'sans-serif'],
       },
