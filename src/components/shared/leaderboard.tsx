@@ -20,7 +20,7 @@ import { Trophy, Loader2 } from 'lucide-react';
 import { useFirebase } from '@/firebase/FirebaseProvider';
 import { useEffect, useState, useMemo } from 'react';
 import type { UserProfile } from '@/lib/types';
-import { collection, onSnapshot, query, orderBy, limit } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 type LeaderboardEntry = {
     rank: number;
@@ -42,8 +42,6 @@ export default function Leaderboard() {
     setIsLoading(true);
     const usersRef = collection(db, 'users');
     
-    // This simple listener fetches all users. For a large number of users,
-    // you would want to query only the top scores directly from Firestore.
     const unsubscribe = onSnapshot(usersRef, (snapshot) => {
       const usersData: UserProfile[] = [];
       snapshot.forEach(doc => {
@@ -80,15 +78,15 @@ export default function Leaderboard() {
   }, [users]);
 
   return (
-    <Card>
+    <Card className="bg-card/80">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Trophy className="h-5 w-5 text-yellow-500" />
-          Leaderboard
+          <span>Leaderboard</span>
         </CardTitle>
         <CardDescription>See how you rank against other titans.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="max-h-[240px] overflow-y-auto custom-scrollbar pr-2">
         {isLoading ? (
           <div className="flex justify-center items-center h-40">
             <Loader2 className="h-8 w-8 animate-spin" />

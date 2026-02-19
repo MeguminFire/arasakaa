@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import Leaderboard from '@/components/shared/leaderboard';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import SystemLogs from '@/components/shared/SystemLogs';
 
 const navigationCards = [
     {
@@ -39,7 +38,7 @@ export default function DashboardPage() {
   const isGuest = !authUser;
 
   return (
-    <div className="relative flex h-full flex-col items-center justify-start space-y-2 p-1 overflow-hidden">
+    <div className="relative flex h-full flex-col items-center justify-start space-y-4 p-1">
       
       {isGuest && (
         <Alert variant="destructive" className="w-full max-w-4xl border-2 border-destructive bg-destructive/10 backdrop-blur-sm p-1 flex items-center max-h-[60px]">
@@ -86,7 +85,9 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      <SystemLogs />
+      <div className="w-full max-w-4xl">
+        <Leaderboard />
+      </div>
     </div>
   );
 }

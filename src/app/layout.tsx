@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   Gamepad2,
   MessagesSquare,
-  Trophy,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
@@ -16,12 +15,13 @@ import { UserProvider } from '@/context/UserProvider';
 import { cn } from '@/lib/utils';
 import { FirebaseProvider } from '@/firebase/FirebaseProvider';
 import DataRain from '@/components/shared/DataRain';
+import { SplashScreen } from '@/components/shared/SplashScreen';
+import { useEffect, useState } from 'react';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
-  { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
 ];
 
 export default function RootLayout({
@@ -30,9 +30,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const [splashFinished, setSplashFinished] = useState(pathname === '/' ? false : true);
+
+  useEffect(() => {
+    if (pathname === '/') {
+        const splashTimer = setTimeout(() => {
+            setSplashFinished(true);
+        }, 4000);
+        return () => clearTimeout(splashTimer);
+    }
+  }, [pathname]);
+
+
   const isAuthPage = pathname === '/login' || pathname === '/signup';
   const isIntroPage = pathname === '/';
-  const showAppShell = !isAuthPage && !isIntroPage;
+  
+  let showAppShell = !isAuthPage && !isIntroPage;
+  if (isIntroPage && splashFinished) {
+      showAppShell = false;
+  } else if (isIntroPage && !splashFinished) {
+      showAppShell = false;
+      return (
+        <html lang="en" suppressHydrationWarning>
+            <body className="font-body antialiased dark text-sm">
+                <SplashScreen />
+            </body>
+        </html>
+      )
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>
