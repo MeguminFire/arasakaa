@@ -32,34 +32,7 @@ export default function RootLayout({
   const pathname = usePathname();
   const isAuthPage = pathname === '/login' || pathname === '/signup';
   const isIntroPage = pathname === '/';
-
-  if (isAuthPage || isIntroPage) {
-    return (
-      <html lang="en" suppressHydrationWarning>
-         <head>
-          <title>Arasaka</title>
-          <meta name="description" content="Games and quizzes about computer troubleshooting." />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossOrigin="anonymous"
-          />
-          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
-        </head>
-        <body className="font-body antialiased dark text-sm">
-          <DataRain />
-          <div className="flicker-overlay" />
-          <FirebaseProvider>
-            <UserProvider>
-              {children}
-            </UserProvider>
-          </FirebaseProvider>
-          <Toaster />
-        </body>
-      </html>
-    )
-  }
+  const showAppShell = !isAuthPage && !isIntroPage;
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -79,35 +52,39 @@ export default function RootLayout({
         <div className="flicker-overlay" />
         <FirebaseProvider>
           <UserProvider>
-            <div className="flex flex-col h-screen">
-              <header className="flex-shrink-0 sticky top-0 z-40 flex h-12 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
-                  <Link href="/dashboard" className="flex items-center gap-2">
-                      <Image src="/arasaka.png" alt="Arasaka Logo" width={28} height={28} className="h-7 w-auto" />
-                      <span className="font-headline text-lg text-white tracking-widest">ARASAKA</span>
-                  </Link>
-              </header>
-              <main className="flex-1 p-2 overflow-y-auto">{children}</main>
-               <footer className="relative flex-shrink-0 border-t bg-background/90">
-                  <nav className="flex h-12 items-center justify-center gap-6 md:gap-12 px-4">
-                    {navItems.map((item) => (
-                      <Link
-                        href={item.href}
-                        key={item.href}
-                        className={cn(
-                          'flex flex-col items-center gap-1 text-muted-foreground transition-colors hover:text-primary',
-                          pathname.startsWith(item.href) && item.href !== '/' || pathname === item.href ? 'text-primary' : ''
-                        )}
-                      >
-                        <item.icon className="h-5 w-5" />
-                        <span className="text-xs font-headline tracking-wider">{item.label}</span>
-                      </Link>
-                    ))}
-                  </nav>
-                  <div className="absolute bottom-2 right-2">
-                    <UserAvatar />
-                  </div>
-              </footer>
-            </div>
+            {showAppShell ? (
+               <div className="flex flex-col h-screen">
+                <header className="flex-shrink-0 sticky top-0 z-40 flex h-12 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
+                    <Link href="/dashboard" className="flex items-center gap-2">
+                        <Image src="/arasaka.png" alt="Arasaka Logo" width={28} height={28} className="h-7 w-auto" />
+                        <span className="font-headline text-lg text-white tracking-widest">ARASAKA</span>
+                    </Link>
+                </header>
+                <main className="flex-1 p-2 overflow-y-auto">{children}</main>
+                 <footer className="relative flex-shrink-0 border-t bg-background/90">
+                    <nav className="flex h-12 items-center justify-center gap-6 md:gap-12 px-4">
+                      {navItems.map((item) => (
+                        <Link
+                          href={item.href}
+                          key={item.href}
+                          className={cn(
+                            'flex flex-col items-center gap-1 text-muted-foreground transition-colors hover:text-primary',
+                            (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href ? 'text-primary' : ''
+                          )}
+                        >
+                          <item.icon className="h-5 w-5" />
+                          <span className="text-xs font-headline tracking-wider">{item.label}</span>
+                        </Link>
+                      ))}
+                    </nav>
+                    <div className="absolute bottom-2 right-2">
+                      <UserAvatar />
+                    </div>
+                </footer>
+              </div>
+            ) : (
+              children
+            )}
           </UserProvider>
         </FirebaseProvider>
         <Toaster />
