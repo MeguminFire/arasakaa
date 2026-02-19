@@ -20,7 +20,6 @@ export default {
         body: ['"Inter"', 'sans-serif'],
         headline: ['"Inter"', 'sans-serif'],
         code: ['"Share Tech Mono"', 'monospace'],
-        michroma: ['"Michroma"', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
