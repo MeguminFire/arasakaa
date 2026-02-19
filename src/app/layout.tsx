@@ -62,7 +62,7 @@ export default function RootLayout({
                 </header>
                 <main className="flex-1 p-2 overflow-y-auto">{children}</main>
                     <footer className="relative flex-shrink-0 border-t bg-background/90">
-                    <nav className="flex h-12 items-center justify-center gap-6 md:gap-12 px-4">
+                    <nav className="flex h-12 items-center justify-center gap-4 md:gap-8 px-4">
                         {navItems.map((item) => (
                         <Link
                             href={item.href}
