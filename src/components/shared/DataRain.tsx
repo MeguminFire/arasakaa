@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 const DataRain = () => {
   const [columns, setColumns] = useState<any[]>([]);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     // This code now runs only on the client, after hydration
@@ -23,11 +24,12 @@ const DataRain = () => {
       };
     });
     setColumns(generatedColumns);
+    setIsClient(true);
   }, []); // Empty dependency array ensures this runs once on mount
 
   return (
     <div className="data-rain-container" aria-hidden="true">
-      {columns.map((col, i) => (
+      {isClient && columns.map((col, i) => (
         <div
           key={i}
           className="data-rain-column absolute top-0"
