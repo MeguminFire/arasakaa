@@ -61,11 +61,6 @@ export default function RootLayout({
   const isAuthPage = pathname === '/login' || pathname === '/signup';
   const showAppShell = !isAuthPage;
 
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -92,11 +87,7 @@ export default function RootLayout({
                     </Link>
                 </header>
                 <main className="flex-1 p-2 overflow-y-auto">
-                  {!isClient ? (
-                     <div className="flex h-full w-full items-center justify-center">
-                        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-                    </div>
-                  ) : children}
+                  {children}
                 </main>
                     <footer className="relative flex-shrink-0 border-t bg-background/90">
                     <nav className="flex h-16 items-center justify-center gap-4 px-4">
