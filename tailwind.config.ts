@@ -150,6 +150,16 @@ export default {
             '99%': { opacity: '0.97' },
             '99.5%': { opacity: '1' },
         },
+        'pulse-red': {
+          '0%, 100%': {
+            borderColor: 'hsl(var(--destructive) / 0.4)',
+            boxShadow: '0 0 5px hsl(var(--destructive) / 0.3)',
+          },
+          '50%': {
+            borderColor: 'hsl(var(--destructive) / 0.8)',
+            boxShadow: '0 0 15px hsl(var(--destructive) / 0.6)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -161,6 +171,7 @@ export default {
         'fill-progress': 'fill-progress 1s ease-in-out forwards',
         'hacker-glitch': 'hacker-glitch 1.5s ease-in-out infinite',
         'flicker': 'flicker 4s linear infinite',
+        'pulse-red': 'pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },
