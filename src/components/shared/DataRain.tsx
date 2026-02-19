@@ -1,14 +1,16 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 const DataRain = () => {
-  const columns = useMemo(() => {
-    if (typeof window === 'undefined') return [];
+  const [columns, setColumns] = useState<any[]>([]);
+
+  useEffect(() => {
+    // This code now runs only on the client, after hydration
     const columnCount = Math.floor(window.innerWidth / 16);
-    return Array.from({ length: columnCount }).map((_, i) => {
-      const duration = Math.random() * 10 + 10; // seconds
-      const delay = Math.random() * -20; // seconds
+    const generatedColumns = Array.from({ length: columnCount }).map((_, i) => {
+      const duration = Math.random() * 10 + 10;
+      const delay = Math.random() * -20;
       const content = Array.from({ length: 100 })
         .map(() => (Math.random() > 0.5 ? '1' : '0'))
         .join('\n');
@@ -20,9 +22,12 @@ const DataRain = () => {
         content: content,
       };
     });
-  }, []);
+    setColumns(generatedColumns);
+  }, []); // Empty dependency array ensures this runs once on mount
 
-  if (columns.length === 0) return null;
+  if (columns.length === 0) {
+    return null; // Render nothing on the server and initial client render to prevent mismatch
+  }
 
   return (
     <div className="data-rain-container" aria-hidden="true">
