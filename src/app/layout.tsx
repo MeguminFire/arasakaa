@@ -16,7 +16,6 @@ import { UserProvider } from '@/context/UserProvider';
 import { cn } from '@/lib/utils';
 import { FirebaseProvider } from '@/firebase/FirebaseProvider';
 import DataRain from '@/components/shared/DataRain';
-import { useState, useEffect } from 'react';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -31,11 +30,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const isAuthPage = pathname === '/login' || pathname === '/signup';
   const showAppShell = !isAuthPage;
@@ -73,9 +67,10 @@ export default function RootLayout({
                         <Link
                             href={item.href}
                             key={item.href}
+                            suppressHydrationWarning
                             className={cn(
                             'flex flex-col items-center gap-1 text-muted-foreground transition-colors hover:text-primary',
-                            isClient && ((pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href) ? 'text-primary' : ''
+                            ((pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href) ? 'text-primary' : ''
                             )}
                         >
                             <item.icon className="h-4 w-4" />
