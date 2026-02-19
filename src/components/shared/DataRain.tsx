@@ -25,10 +25,6 @@ const DataRain = () => {
     setColumns(generatedColumns);
   }, []); // Empty dependency array ensures this runs once on mount
 
-  if (columns.length === 0) {
-    return null; // Render nothing on the server and initial client render to prevent mismatch
-  }
-
   return (
     <div className="data-rain-container" aria-hidden="true">
       {columns.map((col, i) => (
