@@ -84,7 +84,7 @@ export default function Leaderboard() {
           <Trophy className="h-5 w-5 text-yellow-500" />
           <span>Leaderboard</span>
         </CardTitle>
-        <CardDescription>See how you rank against other titans.</CardDescription>
+        <CardDescription>Let's see how you can go against other netrunners</CardDescription>
       </CardHeader>
       <CardContent className="max-h-[300px] overflow-y-auto custom-scrollbar">
         {isLoading ? (

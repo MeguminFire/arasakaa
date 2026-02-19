@@ -8,7 +8,7 @@ export default function LeaderboardPage() {
     <div className="space-y-6">
       <PageHeader
         title="Leaderboard"
-        description="See how you rank against other titans."
+        description="Let's see how you can go against other netrunners"
       />
       <Leaderboard />
     </div>
