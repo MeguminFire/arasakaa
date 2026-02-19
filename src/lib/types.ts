@@ -1,4 +1,5 @@
-import { User as FirebaseUser } from 'firebase/auth';
+import { User as FirebaseUser, Unsubscribe } from 'firebase/auth';
+import type { Timestamp } from 'firebase/firestore';
 
 export type User = {
   uid: string;
@@ -7,6 +8,7 @@ export type User = {
 };
 
 export type UserProfile = {
+  uid?: string; // UID is the doc ID, so it's not in the doc data itself.
   name: string;
   avatar: string;
   completedGames: string[];
@@ -31,9 +33,12 @@ export type ProgressItem = {
 
 export type LeaderboardEntry = {
   rank: number;
-  user: User;
+  user: {
+    uid: string;
+    name: string;
+    avatar?: string;
+  };
   score: number;
-  time: string;
 };
 
 export type Game = {
@@ -93,20 +98,22 @@ export type GameScenario = {
 
 export type Comment = {
   id: string;
-  user: User;
+  authorId: string;
+  authorName: string;
+  authorAvatar?: string;
   content: string;
-  createdAt: string;
-}
+  createdAt: Timestamp;
+};
 
 export type ForumPost = {
   id: string;
-  user: User;
+  authorId: string;
+  authorName: string;
+  authorAvatar?: string;
   title: string;
   content: string;
   deviceType: string;
   brand: string;
-  createdAt: string;
-  replies: number;
-  views: number;
-  comments?: Comment[];
+  issueType: string;
+  createdAt: Timestamp;
 };

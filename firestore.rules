@@ -8,5 +8,19 @@ service cloud.firestore {
       // Disallow deletes for now to prevent accidental data loss.
       allow delete: if false;
     }
+
+    match /forumPosts/{postId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      // For simplicity, updates and deletes are disallowed.
+      allow update, delete: if false;
+
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if request.auth != null;
+        // For simplicity, updates and deletes are disallowed.
+        allow update, delete: if false;
+      }
+    }
   }
 }

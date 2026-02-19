@@ -24,6 +24,36 @@
         }
       },
       "required": ["name"]
+    },
+    "ForumPost": {
+      "title": "Forum Post",
+      "description": "Represents a single post in the community forum.",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string", "description": "The UID of the post author." },
+        "authorName": { "type": "string", "description": "The name of the post author." },
+        "authorAvatar": { "type": "string", "description": "The avatar of the post author." },
+        "title": { "type": "string", "description": "The title of the forum post." },
+        "content": { "type": "string", "description": "The main content of the post." },
+        "deviceType": { "type": "string" },
+        "brand": { "type": "string" },
+        "issueType": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "The timestamp when the post was created." }
+      },
+      "required": ["authorId", "authorName", "title", "content", "createdAt"]
+    },
+    "ForumComment": {
+      "title": "Forum Comment",
+      "description": "Represents a single comment on a forum post.",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string", "description": "The UID of the comment author." },
+        "authorName": { "type": "string", "description": "The name of the comment author." },
+        "authorAvatar": { "type": "string", "description": "The avatar of the comment author." },
+        "content": { "type": "string", "description": "The content of the comment." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "The timestamp when the comment was created." }
+      },
+      "required": ["authorId", "authorName", "content", "createdAt"]
     }
   },
   "auth": {
@@ -33,6 +63,14 @@
     "/users/{userId}": {
       "schema": { "$ref": "#/entities/UserProfile" },
       "description": "Stores user profile data, keyed by their authentication UID."
+    },
+    "/forumPosts/{postId}": {
+      "schema": { "$ref": "#/entities/ForumPost" },
+      "description": "Collection of all posts in the community forum."
+    },
+    "/forumPosts/{postId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/ForumComment" },
+      "description": "Sub-collection of comments for a specific forum post."
     }
   }
 }

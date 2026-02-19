@@ -2,13 +2,10 @@ import type {
   User,
   StatCard,
   ProgressItem,
-  LeaderboardEntry,
   Game,
   Quiz,
   Lesson,
   QuizQuestion,
-  ForumPost,
-  Comment,
   GameScenario,
 } from './types';
 import {
@@ -97,39 +94,6 @@ export const progress: ProgressItem[] = [
     type: 'Quiz',
     completion: 0,
   },
-];
-
-export const leaderboard: LeaderboardEntry[] = [
-    {
-    rank: 1,
-    user: {
-      uid: 'lead-1-uid',
-      name: 'Glitch',
-      avatar: '',
-    },
-    score: 2150,
-    time: '03:45',
-  },
-  {
-    rank: 2,
-    user: {
-      uid: 'lead-2-uid',
-      name: '8-Bit',
-      avatar: '',
-    },
-    score: 2010,
-    time: '04:12',
-  },
-  {
-    rank: 3,
-    user: {
-      uid: 'lead-3-uid',
-      name: 'Trinity',
-      avatar: '',
-    },
-    score: 1980,
-    time: '04:30',
-  }
 ];
 
 export const games: Game[] = [
@@ -523,61 +487,6 @@ export const quizQuestions: { [key: string]: QuizQuestion[] } = {
     }
   ]
 };
-
-export const forumPosts: ForumPost[] = [
-    {
-        id: 'post-1',
-        user: {
-            uid: 'forum-user-1',
-            name: 'Cypher',
-            avatar: '',
-        },
-        title: 'My new custom build keeps getting BSOD with MEMORY_MANAGEMENT error.',
-        content: 'Hey everyone, I just finished my first PC build. Specs: Ryzen 7 7800X3D, RTX 4080, 32GB DDR5 6000MHz RAM. It boots up fine, but whenever I try to run a game for more than 10 minutes, I get a Blue Screen of Death with the "MEMORY_MANAGEMENT" stop code. I\'ve tried reseating the RAM, but it didn\'t help. Is it a bad stick? Or could it be a setting in the BIOS I missed? Any help is appreciated!',
-        deviceType: 'Desktop PC',
-        brand: 'Custom Build',
-        createdAt: '2 hours ago',
-        replies: 2,
-        views: 88,
-        comments: [
-            {
-                id: 'comment-1-1',
-                user: leaderboard[0].user,
-                content: 'MEMORY_MANAGEMENT is almost always RAM. Did you run Windows Memory Diagnostic? Also, check if your motherboard BIOS is up to date. Sometimes new RAM kits need a BIOS update for stability.',
-                createdAt: '1 hour ago'
-            },
-            {
-                id: 'comment-1-2',
-                user: user,
-                content: 'Also make sure you enabled the correct EXPO/XMP profile in your BIOS. If the speed/timings are wrong, it can cause instability.',
-                createdAt: '45 minutes ago'
-            }
-        ]
-    },
-    {
-        id: 'post-2',
-        user: {
-            uid: 'forum-user-2',
-            name: 'Echo',
-            avatar: '',
-        },
-        title: 'Dell XPS 15 trackpad is randomly freezing and jumping.',
-        content: 'My Dell XPS 15 (2023 model) is having a really annoying trackpad issue. About every 5 minutes, the cursor will either completely freeze for a few seconds, or it will jump to a random corner of the screen. Using a USB mouse works perfectly fine. I\'ve already updated all the drivers through Dell\'s website and Windows Update. Has anyone else experienced this? Is it a known hardware fault?',
-        deviceType: 'Laptop',
-        brand: 'Dell',
-        createdAt: '1 day ago',
-        replies: 1,
-        views: 256,
-        comments: [
-            {
-                id: 'comment-2-1',
-                user: leaderboard[2].user,
-                content: 'I had a similar issue on an older XPS. It turned out to be a grounding issue with the chassis. Does it happen more when the laptop is plugged in and charging?',
-                createdAt: '22 hours ago'
-            }
-        ]
-    }
-];
 
 export const scenarios: Record<string, GameScenario> = {
   '1': {
