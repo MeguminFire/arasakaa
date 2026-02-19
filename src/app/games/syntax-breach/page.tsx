@@ -109,7 +109,13 @@ export default function ArasakaDebuggerPage() {
     e.preventDefault();
     if (!formedQuestion) return;
 
-    if (formedQuestion.answer.includes(userAnswer.trim().toLowerCase())) {
+    const userAnswerLower = userAnswer.trim().toLowerCase();
+    const isAnswerCorrect = formedQuestion.answer.some(correctAnswer => {
+        const keywords = correctAnswer.split(' ');
+        return keywords.every(keyword => userAnswerLower.includes(keyword));
+    });
+
+    if (isAnswerCorrect) {
         setFeedback({ type: 'correct', message: 'SYSTEM RESTORED. Correct solution identified.' });
         setIsFinished(true);
     } else {
