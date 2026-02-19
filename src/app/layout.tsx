@@ -40,12 +40,12 @@ const NavLink = ({ item }: { item: typeof navItems[0] }) => {
     <Link
       href={item.href}
       className={cn(
-        'flex h-9 flex-col items-center justify-center gap-1 rounded-md px-3 py-1 text-muted-foreground transition-colors hover:text-primary',
+        'flex h-12 flex-col items-center justify-center gap-1 rounded-md px-3 py-1 text-muted-foreground transition-colors hover:text-primary',
         isActive ? 'text-primary' : ''
       )}
     >
-      <item.icon className="h-4 w-4" />
-      <span className="text-xs font-headline font-normal tracking-wider">{item.label}</span>
+      <item.icon className="h-5 w-5" />
+      <span className="text-sm font-headline tracking-wider">{item.label}</span>
     </Link>
   );
 };
@@ -85,17 +85,17 @@ export default function RootLayout({
           <UserProvider>
             {showAppShell ? (
                 <div className="flex flex-col h-screen">
-                <header className="flex-shrink-0 sticky top-0 z-40 flex h-12 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
-                    <Link href="/dashboard" className="flex items-center gap-2">
-                        <Image src="/arasaka.png" alt="Arasaka Logo" width={28} height={28} className="h-7 w-auto" />
-                        <span className="font-logo text-lg text-white tracking-widest">ARASAKA</span>
+                <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
+                    <Link href="/dashboard" className="flex items-center gap-3">
+                        <Image src="/arasaka.png" alt="Arasaka Logo" width={36} height={36} className="h-9 w-auto" />
+                        <span className="font-logo text-xl text-white tracking-widest">ARASAKA</span>
                     </Link>
                 </header>
                 <main className="flex-1 p-2 overflow-y-auto">
                   {isClient ? children : <div className="flex h-full w-full items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>}
                 </main>
                     <footer className="relative flex-shrink-0 border-t bg-background/90">
-                    <nav className="flex h-12 items-center justify-center gap-4 px-4">
+                    <nav className="flex h-16 items-center justify-center gap-8 px-4">
                         {navItems.map((item) => (
                           <NavLink key={item.href} item={item} />
                         ))}
