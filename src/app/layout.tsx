@@ -62,7 +62,7 @@ export default function RootLayout({
                 </header>
                 <main className="flex-1 p-2 overflow-y-auto">{children}</main>
                     <footer className="relative flex-shrink-0 border-t bg-background/90">
-                    <nav className="flex h-12 items-center justify-center gap-4 md:gap-8 px-4">
+                    <nav className="flex h-12 items-center justify-center gap-4 px-4">
                         {navItems.map((item) => (
                         <Link
                             href={item.href}
@@ -72,8 +72,8 @@ export default function RootLayout({
                             (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href ? 'text-primary' : ''
                             )}
                         >
-                            <item.icon className="h-5 w-5" />
-                            <span className="font-headline tracking-wider">{item.label}</span>
+                            <item.icon className="h-4 w-4" />
+                            <span className="text-xs font-headline tracking-wider">{item.label}</span>
                         </Link>
                         ))}
                     </nav>
