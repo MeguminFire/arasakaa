@@ -10,34 +10,34 @@ import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Terminal, CheckCircle, XCircle, RotateCcw, Lightbulb, Info } from 'lucide-react';
 import Link from 'next/link';
 
-// Updated game data with hints
+// Updated game data with hints and multiple answers
 const TROUBLESHOOTING_QUESTIONS = [
   {
     id: 1,
     words: ['what', 'to', 'do', 'for', 'a', 'bsod'],
     questionText: 'What to do for a BSOD?',
-    answer: 'check drivers',
+    answer: ['check drivers', 'update drivers', 'roll back drivers'],
     hint: "This error is often caused by a problem with the software that tells your hardware how to work."
   },
   {
     id: 2,
     words: ['why', 'is', 'my', 'internet', 'slow'],
     questionText: 'Why is my internet slow?',
-    answer: 'reboot router',
+    answer: ['reboot router', 'restart router', 'power cycle router'],
     hint: "The classic 'turn it off and on again' solution is surprisingly effective for network hardware."
   },
   {
     id: 3,
     words: ['how', 'to', 'fix', 'no', 'sound'],
     questionText: 'How to fix no sound?',
-    answer: 'check audio device',
+    answer: ['check audio device', 'check sound settings', 'check volume'],
     hint: "Make sure your computer is trying to send sound to the correct speakers or headphones."
   },
   {
     id: 4,
     words: ['computer', 'wont', 'turn', 'on'],
     questionText: "Computer won't turn on?",
-    answer: 'check power cable',
+    answer: ['check power cable', 'check power strip', 'check outlet'],
     hint: "Start with the most basic physical connection that provides electricity."
   },
 ];
@@ -60,7 +60,7 @@ export default function ArasakaDebuggerPage() {
   const [isMounted, setIsMounted] = useState(false);
   const [wordPool, setWordPool] = useState<string[]>([]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
-  const [formedQuestion, setFormedQuestion] = useState<{ questionText: string; answer: string; hint: string; } | null>(null);
+  const [formedQuestion, setFormedQuestion] = useState<{ questionText: string; answer: string[]; hint: string; } | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState<{ type: 'correct' | 'incorrect' | 'info', message: string } | null>(null);
   const [isFinished, setIsFinished] = useState(false);
@@ -109,7 +109,7 @@ export default function ArasakaDebuggerPage() {
     e.preventDefault();
     if (!formedQuestion) return;
 
-    if (userAnswer.trim().toLowerCase() === formedQuestion.answer.toLowerCase()) {
+    if (formedQuestion.answer.includes(userAnswer.trim().toLowerCase())) {
         setFeedback({ type: 'correct', message: 'SYSTEM RESTORED. Correct solution identified.' });
         setIsFinished(true);
     } else {
