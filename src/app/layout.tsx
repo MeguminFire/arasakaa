@@ -70,7 +70,7 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark text-sm">
         <DataRain />
@@ -82,7 +82,7 @@ export default function RootLayout({
                 <header className="flex-shrink-0 sticky top-0 z-40 flex h-12 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
                     <Link href="/dashboard" className="flex items-center gap-2">
                         <Image src="/arasaka.png" alt="Arasaka Logo" width={28} height={28} className="h-7 w-auto" />
-                        <span className="font-headline text-lg text-white tracking-widest">ARASAKA</span>
+                        <span className="font-logo text-lg text-white tracking-widest">ARASAKA</span>
                     </Link>
                 </header>
                 <main className="flex-1 p-2 overflow-y-auto">{children}</main>

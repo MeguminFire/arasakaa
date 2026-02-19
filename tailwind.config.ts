@@ -19,6 +19,7 @@ export default {
       fontFamily: {
         body: ['"Comic Sans MS"', 'sans-serif'],
         headline: ['"Orbitron"', 'sans-serif'],
+        logo: ['"Michroma"', 'sans-serif'],
         code: ['"Share Tech Mono"', 'monospace'],
       },
       colors: {
