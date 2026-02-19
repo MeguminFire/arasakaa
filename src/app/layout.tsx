@@ -45,7 +45,7 @@ export default function RootLayout({
             href="https://fonts.gstatic.com"
             crossOrigin="anonymous"
           />
-          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
         </head>
         <body className="font-body antialiased dark text-sm">
           <DataRain />
@@ -72,7 +72,7 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&family=Michroma&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased dark text-sm">
         <DataRain />
@@ -99,7 +99,7 @@ export default function RootLayout({
                         )}
                       >
                         <item.icon className="h-5 w-5" />
-                        <span className="text-xs font-medium">{item.label}</span>
+                        <span className="text-xs font-headline tracking-wider">{item.label}</span>
                       </Link>
                     ))}
                   </nav>
