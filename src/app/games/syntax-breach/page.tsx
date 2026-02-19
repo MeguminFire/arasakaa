@@ -2,39 +2,43 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import PageHeader from '@/components/shared/page-header';
 import { cn } from '@/lib/utils';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { Terminal, CheckCircle, XCircle, RotateCcw, HelpCircle } from 'lucide-react';
+import { Terminal, CheckCircle, XCircle, RotateCcw, HelpCircle, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 
-// New game data structure
+// Updated game data with hints
 const TROUBLESHOOTING_QUESTIONS = [
   {
     id: 1,
     words: ['what', 'to', 'do', 'for', 'a', 'bsod'],
     questionText: 'What to do for a BSOD?',
     answer: 'check drivers',
+    hint: "This error is often caused by a problem with the software that tells your hardware how to work."
   },
   {
     id: 2,
     words: ['why', 'is', 'my', 'internet', 'slow'],
     questionText: 'Why is my internet slow?',
     answer: 'reboot router',
+    hint: "The classic 'turn it off and on again' solution is surprisingly effective for network hardware."
   },
   {
     id: 3,
     words: ['how', 'to', 'fix', 'no', 'sound'],
     questionText: 'How to fix no sound?',
     answer: 'check audio device',
+    hint: "Make sure your computer is trying to send sound to the correct speakers or headphones."
   },
   {
     id: 4,
     words: ['computer', 'wont', 'turn', 'on'],
     questionText: "Computer won't turn on?",
     answer: 'check power cable',
+    hint: "Start with the most basic physical connection that provides electricity."
   },
 ];
 
@@ -56,10 +60,11 @@ export default function ArasakaDebuggerPage() {
   const [isMounted, setIsMounted] = useState(false);
   const [wordPool, setWordPool] = useState<string[]>([]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
-  const [formedQuestion, setFormedQuestion] = useState<{ questionText: string; answer: string } | null>(null);
+  const [formedQuestion, setFormedQuestion] = useState<{ questionText: string; answer: string; hint: string; } | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState<{ type: 'correct' | 'incorrect' | 'info', message: string } | null>(null);
   const [isFinished, setIsFinished] = useState(false);
+  const [failureCount, setFailureCount] = useState(0);
 
   // Memoize the full word list to avoid re-calculating
   const allWords = useMemo(() => {
@@ -83,13 +88,20 @@ export default function ArasakaDebuggerPage() {
     
     // Check if the selected words form a valid question
     const selectedSet = new Set(newSelectedWords);
+    let questionFound = false;
     for (const q of TROUBLESHOOTING_QUESTIONS) {
         const questionSet = new Set(q.words);
         if (selectedSet.size === questionSet.size && [...selectedSet].every(w => questionSet.has(w))) {
-            setFormedQuestion({ questionText: q.questionText, answer: q.answer });
+            setFormedQuestion({ questionText: q.questionText, answer: q.answer, hint: q.hint });
             setFeedback(null); // Clear previous feedback
-            return; // Exit after finding a match
+            setFailureCount(0); // Reset failure count for new question
+            questionFound = true;
+            break; 
         }
+    }
+
+    if (!questionFound) {
+      setFormedQuestion(null);
     }
   };
   
@@ -101,7 +113,13 @@ export default function ArasakaDebuggerPage() {
         setFeedback({ type: 'correct', message: 'SYSTEM RESTORED. Correct solution identified.' });
         setIsFinished(true);
     } else {
-        setFeedback({ type: 'incorrect', message: `ACCESS DENIED. Incorrect solution. The recommended action is: "${formedQuestion.answer}"` });
+        const newFailureCount = failureCount + 1;
+        setFailureCount(newFailureCount);
+        if (newFailureCount >= 2) {
+            setFeedback({ type: 'incorrect', message: `Hint: ${formedQuestion.hint}` });
+        } else {
+            setFeedback({ type: 'incorrect', message: 'ACCESS DENIED. Incorrect solution. Try again.' });
+        }
     }
   };
   
@@ -112,6 +130,7 @@ export default function ArasakaDebuggerPage() {
     setUserAnswer('');
     setFeedback(null);
     setIsFinished(false);
+    setFailureCount(0);
   };
 
   if (!isMounted) {
@@ -121,28 +140,27 @@ export default function ArasakaDebuggerPage() {
   return (
     <div className="space-y-6">
       <PageHeader title="Arasaka Debugger" description="Analyze the situation. Construct a query to identify the problem, then provide the correct solution." />
-
-      <Card className="border-accent/50">
+      
+      <Card>
         <CardHeader>
-            <CardTitle className="font-headline text-accent flex items-center gap-2">
-                <HelpCircle />
-                TROUBLESHOOTING SCENARIO
-            </CardTitle>
+          <CardTitle className="font-headline text-lg">Query Construction</CardTitle>
+          <CardDescription className="font-body">Selected words form the query below.</CardDescription>
         </CardHeader>
         <CardContent>
-            <p className="text-center font-code text-muted-foreground p-4 bg-muted rounded-md">
-                Construct a valid query from the word fragments below.
-            </p>
+            <div className="p-4 bg-muted rounded-md min-h-[4rem] flex items-center justify-center border border-dashed">
+                <p className="font-code text-lg text-accent text-center">
+                    {selectedWords.join(' ') || '... awaiting input ...'}
+                </p>
+            </div>
         </CardContent>
       </Card>
       
       <Card>
-        <CardContent className="pt-6">
-           <div className="mb-4">
-              <p className="font-body text-center text-muted-foreground">
-                [CONSTRUCT DEBUG LOG] :: Word fragments selected: {selectedWords.length}
-              </p>
-           </div>
+        <CardHeader>
+            <CardTitle className="font-headline text-lg">Word Fragments</CardTitle>
+            <CardDescription className="font-body">Select words to construct a valid troubleshooting query.</CardDescription>
+        </CardHeader>
+        <CardContent className="pt-2">
           <div className="flex flex-wrap justify-center gap-2">
             {wordPool.map(word => (
               <Card 
@@ -153,7 +171,7 @@ export default function ArasakaDebuggerPage() {
                     selectedWords.includes(word) 
                         ? 'bg-primary text-primary-foreground border-primary'
                         : 'bg-card/50 hover:bg-card',
-                    (isFinished || formedQuestion) ? 'opacity-50 cursor-not-allowed' : ''
+                    formedQuestion ? 'opacity-50 cursor-not-allowed' : ''
                 )}
               >
                 <CardContent className="p-4">
@@ -167,14 +185,12 @@ export default function ArasakaDebuggerPage() {
       
       {formedQuestion && !isFinished && (
         <Card className="animate-fade-in border-accent/50">
-            <CardContent className="pt-6">
+            <CardHeader>
+                <CardTitle className="font-headline">Query Constructed</CardTitle>
+                <CardDescription className="font-body">Provide a short (1-5 word) solution for the query: <span className="text-accent font-semibold">"{formedQuestion.questionText}"</span></CardDescription>
+            </CardHeader>
+            <CardContent>
                  <form onSubmit={handleSubmit} className="space-y-4">
-                     <p className="text-center font-body text-accent">
-                         Query Constructed: "{formedQuestion.questionText}"
-                     </p>
-                     <p className="text-center text-sm text-muted-foreground">
-                        Provide a short (1-5 word) solution.
-                     </p>
                      <div className="relative">
                         <Terminal className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input 
@@ -194,9 +210,13 @@ export default function ArasakaDebuggerPage() {
       )}
 
       {feedback && (
-        <Alert variant={feedback.type === 'incorrect' ? 'destructive' : 'default'} className={cn(feedback.type === 'correct' && 'border-green-500/50 text-green-400')}>
-            {feedback.type === 'correct' ? <CheckCircle className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
-            <AlertTitle className="font-headline">{feedback.type === 'correct' ? 'SUCCESS' : 'FAILURE'}</AlertTitle>
+        <Alert variant={feedback.type === 'incorrect' ? 'destructive' : 'default'} className={cn(
+            'transition-all',
+            feedback.type === 'correct' && 'border-green-500/50 text-green-400',
+            feedback.type === 'incorrect' && failureCount >= 2 && 'border-yellow-500/50 text-yellow-400'
+        )}>
+            {feedback.type === 'correct' ? <CheckCircle className="h-4 w-4" /> : (failureCount >= 2 ? <Lightbulb className="h-4 w-4" /> : <XCircle className="h-4 w-4" />)}
+            <AlertTitle className="font-headline">{feedback.type === 'correct' ? 'SUCCESS' : (failureCount >= 2 ? 'HINT' : 'FAILURE')}</AlertTitle>
             <AlertDescription>
                 {feedback.message}
             </AlertDescription>
