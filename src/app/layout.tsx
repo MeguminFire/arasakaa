@@ -17,7 +17,7 @@ import { UserProvider } from '@/context/UserProvider';
 import { cn } from '@/lib/utils';
 import { FirebaseProvider } from '@/firebase/FirebaseProvider';
 import DataRain from '@/components/shared/DataRain';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -35,12 +35,12 @@ const NavLink = ({ item }: { item: typeof navItems[0] }) => {
       href={item.href}
       suppressHydrationWarning
       className={cn(
-        'flex h-12 flex-col items-center justify-center gap-1 rounded-md px-3 py-1 text-muted-foreground transition-colors hover:text-primary',
+        'flex h-8 flex-col items-center justify-center gap-1 rounded-md px-3 py-1 text-muted-foreground transition-colors hover:text-primary',
         isActive ? 'text-primary' : ''
       )}
     >
-      <item.icon className="h-5 w-5" />
-      <span className="text-sm font-headline tracking-wider">{item.label}</span>
+      <item.icon className="h-4 w-4" />
+      <span className="text-xs font-headline tracking-wider">{item.label}</span>
     </Link>
   );
 };
@@ -53,6 +53,11 @@ export default function RootLayout({
   const pathname = usePathname();
   const isAuthPage = pathname === '/login' || pathname === '/signup';
   const showAppShell = !isAuthPage;
+
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -80,10 +85,14 @@ export default function RootLayout({
                     </Link>
                 </header>
                 <main className="flex-1 p-2 overflow-y-auto">
-                  {children}
+                  {!isClient ? (
+                     <div className="flex h-full w-full items-center justify-center">
+                        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+                    </div>
+                  ) : children}
                 </main>
                     <footer className="relative flex-shrink-0 border-t bg-background/90">
-                    <nav className="flex h-16 items-center justify-center gap-8 px-4">
+                    <nav className="flex h-16 items-center justify-center gap-4 px-4">
                         {navItems.map((item) => (
                           <NavLink key={item.href} item={item} />
                         ))}

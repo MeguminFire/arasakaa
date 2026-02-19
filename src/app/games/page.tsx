@@ -32,8 +32,8 @@ const trainingDrills = [
     },
     {
         id: 'syntax-breach',
-        title: 'Syntax Breach',
-        description: 'Form the question and provide the correct syntax to pass.',
+        title: 'Arasaka Debugger',
+        description: 'Analyze corrupted code and apply the correct fix to restore system integrity.',
         href: '/games/syntax-breach',
         icon: TerminalSquare,
     }

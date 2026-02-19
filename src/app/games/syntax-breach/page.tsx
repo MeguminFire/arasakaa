@@ -1,21 +1,24 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import PageHeader from '@/components/shared/page-header';
 import { cn } from '@/lib/utils';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { Terminal, CheckCircle, XCircle, RotateCcw } from 'lucide-react';
+import { Terminal, CheckCircle, XCircle, RotateCcw, Bug } from 'lucide-react';
 import Link from 'next/link';
 
-const CORRECT_WORDS = ['What', 'is', 'the', 'correct', 'syntax', 'for', 'comments'];
-const DISTRACTORS = ['How', 'CSS', 'selector', 'class', 'style', 'color', 'background', 'font'];
+// New game constants
+const CORRECT_WORDS = ['Replace', 'backround', 'with', 'background', 'on', 'line', '2'];
+const DISTRACTORS = ['color', 'font', 'delete', 'line 1', 'padding', 'margin', '.widget'];
 const FULL_WORD_POOL = [...CORRECT_WORDS, ...DISTRACTORS];
-const CORRECT_ANSWER = '/* comment */';
+const CORRECT_ANSWER = 'background: #333;';
 
 const shuffleArray = (array: any[]) => {
+  // Client-side only shuffle
+  if (typeof window === 'undefined') return array;
   let currentIndex = array.length, randomIndex;
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -25,7 +28,7 @@ const shuffleArray = (array: any[]) => {
   return array;
 };
 
-export default function SyntaxBreachPage() {
+export default function ArasakaDebuggerPage() {
   const [isMounted, setIsMounted] = useState(false);
   const [words, setWords] = useState<string[]>([]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
@@ -56,15 +59,15 @@ export default function SyntaxBreachPage() {
     const isQuestionCorrect = selectedWords.length === 7 && selectedWords.every(word => CORRECT_WORDS.includes(word));
     
     if (!isQuestionCorrect) {
-        setFeedback({ type: 'incorrect', message: 'Incorrect sequence. The words do not form the right question.'});
+        setFeedback({ type: 'incorrect', message: 'Incorrect debug sequence selected. The description of the fix is wrong.'});
         return;
     }
 
-    if (userAnswer.trim() === CORRECT_ANSWER) {
-        setFeedback({ type: 'correct', message: 'Access Granted. Correct syntax identified.' });
+    if (userAnswer.trim().replace(/;$/, '') === CORRECT_ANSWER.replace(/;$/, '')) {
+        setFeedback({ type: 'correct', message: 'SYSTEM RESTORED. Correct syntax identified.' });
         setIsFinished(true);
     } else {
-        setFeedback({ type: 'incorrect', message: `Access Denied. Incorrect syntax. The correct answer is: ${CORRECT_ANSWER}` });
+        setFeedback({ type: 'incorrect', message: `ACCESS DENIED. Incorrect syntax. The correct code is: ${CORRECT_ANSWER}` });
     }
   };
   
@@ -81,16 +84,43 @@ export default function SyntaxBreachPage() {
   }
   
   const showInput = selectedWords.length === 7;
+  const formedQuestion = selectedWords.sort((a,b) => CORRECT_WORDS.indexOf(a) - CORRECT_WORDS.indexOf(b)).join(' ');
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Syntax Breach" description="Select the 7 words to form the question, then provide the correct syntax." />
+      <PageHeader title="Arasaka Debugger" description="Analyze the corrupted code, select the words to describe the fix, and input the corrected code." />
+
+      <Card className="border-destructive/50">
+        <CardHeader>
+            <CardTitle className="font-headline text-destructive flex items-center gap-2">
+                <Bug />
+                SYSTEM ERROR // CORRUPTED CODE BLOCK
+            </CardTitle>
+        </CardHeader>
+        <CardContent>
+            <pre className="bg-muted p-4 rounded-md font-code text-sm text-foreground overflow-x-auto">
+                <span className="text-muted-foreground">1 | </span>
+                <span className="text-cyan-400">.widget</span>
+                <span>{" {"}</span>
+                <br />
+                <span className="text-muted-foreground">2 | </span>
+                <span>  </span>
+                <span className="text-red-400">backround</span>
+                <span>: </span>
+                <span className="text-yellow-400">#333</span>
+                <span>;</span>
+                <br />
+                <span className="text-muted-foreground">3 | </span>
+                <span>{"}"}</span>
+            </pre>
+        </CardContent>
+      </Card>
       
       <Card>
         <CardContent className="pt-6">
            <div className="mb-4">
-              <p className="text-center text-muted-foreground font-code">
-                Selected words: {selectedWords.length} / 7
+              <p className="text-center font-code text-muted-foreground">
+                [CONSTRUCT DEBUG LOG] :: Selected words: {selectedWords.length} / 7
               </p>
            </div>
           <div className="flex flex-wrap justify-center gap-2">
@@ -119,8 +149,8 @@ export default function SyntaxBreachPage() {
         <Card className="animate-fade-in border-accent/50">
             <CardContent className="pt-6">
                  <form onSubmit={handleSubmit} className="space-y-4">
-                     <p className="text-center font-headline text-accent">
-                         "{selectedWords.sort((a,b) => CORRECT_WORDS.indexOf(a) - CORRECT_WORDS.indexOf(b)).join(' ')}"
+                     <p className="text-center font-body text-accent">
+                         Debug Log: "{formedQuestion}"
                      </p>
                      <div className="relative">
                         <Terminal className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -128,12 +158,12 @@ export default function SyntaxBreachPage() {
                             type="text"
                             value={userAnswer}
                             onChange={e => setUserAnswer(e.target.value)}
-                            placeholder="> Enter correct syntax..."
+                            placeholder="> Enter corrected line of code..."
                             className="pl-10 font-code h-12 text-lg"
                         />
                      </div>
                       <div className="flex justify-center gap-4">
-                        <Button type="submit" variant="destructive" className="px-3 py-1 text-sm h-auto">Submit</Button>
+                        <Button type="submit" variant="destructive" className="px-3 py-1 text-sm h-auto">Submit Fix</Button>
                       </div>
                  </form>
             </CardContent>
@@ -143,7 +173,7 @@ export default function SyntaxBreachPage() {
       {feedback && (
         <Alert variant={feedback.type === 'incorrect' ? 'destructive' : 'default'} className={cn(feedback.type === 'correct' && 'border-green-500/50 text-green-400')}>
             {feedback.type === 'correct' ? <CheckCircle className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
-            <AlertTitle>{feedback.type.toUpperCase()}</AlertTitle>
+            <AlertTitle className="font-headline">{feedback.type === 'correct' ? 'SUCCESS' : 'FAILURE'}</AlertTitle>
             <AlertDescription>
                 {feedback.message}
             </AlertDescription>
@@ -154,10 +184,10 @@ export default function SyntaxBreachPage() {
          <div className="flex justify-center gap-4">
             <Button onClick={handleReset} variant="destructive" className="px-3 py-1 text-sm h-auto">
                 <RotateCcw className="mr-2 h-4 w-4"/>
-                Play Again
+                Run Again
             </Button>
             <Button asChild variant="outline" className="px-3 py-1 text-sm h-auto">
-                <Link href="/games">Back to Games</Link>
+                <Link href="/games">Back to Training Hub</Link>
             </Button>
         </div>
       )}
