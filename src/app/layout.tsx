@@ -89,14 +89,16 @@ export default function RootLayout({
                 <main className="flex-1 p-2 overflow-y-auto">
                   {children}
                 </main>
-                    <footer className="relative flex-shrink-0 border-t bg-background/90">
-                    <nav className="flex h-16 items-center justify-center gap-4 px-4">
-                        {navItems.map((item) => (
-                          <NavLink key={item.href} item={item} />
-                        ))}
-                    </nav>
-                    <div className="absolute bottom-2 right-2">
-                        <UserAvatar />
+                <footer className="flex-shrink-0 border-t bg-background/90">
+                    <div className="relative flex h-16 items-center justify-center px-4">
+                        <nav className="flex items-center justify-center gap-4">
+                            {navItems.map((item) => (
+                                <NavLink key={item.href} item={item} />
+                            ))}
+                        </nav>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                            <UserAvatar />
+                        </div>
                     </div>
                 </footer>
                 </div>
