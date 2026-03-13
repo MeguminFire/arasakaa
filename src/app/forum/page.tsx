@@ -95,8 +95,8 @@ export default function ForumPage() {
                 createdAt: serverTimestamp(),
             });
             toast({
-                title: "Transmission Sent!",
-                description: "Your transmission has been posted to the forum.",
+                title: "Post Created!",
+                description: "Your post has been added to the forum.",
             });
             reset();
         } catch (error) {
@@ -116,7 +116,7 @@ export default function ForumPage() {
              <Card className="bg-card/50">
                 <form onSubmit={handleSubmit(handlePostSubmit)}>
                     <CardHeader>
-                        <CardTitle>Post a New Transmission</CardTitle>
+                        <CardTitle>Create a New Post</CardTitle>
                         <CardDescription>Having trouble? Ask the community for help. Fill out the details below.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -188,7 +188,7 @@ export default function ForumPage() {
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="title">Transmission Title</Label>
+                            <Label htmlFor="title">Title</Label>
                             <Input id="title" placeholder="e.g., My laptop won't connect to Wi-Fi after update" {...register("title")} disabled={isSubmitting} />
                             {errors.title && <p className="text-xs text-destructive">{errors.title.message}</p>}
                         </div>
