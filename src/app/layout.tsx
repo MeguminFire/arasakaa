@@ -53,20 +53,55 @@ const NavLink = ({ item }: { item: typeof baseNavItems[0] }) => {
   );
 };
 
+function AppShell({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
+    const { authUser } = useUser();
+    const isAuthPage = pathname === '/login' || pathname === '/signup';
+    const showAppShell = !isAuthPage;
+  
+    const ADMIN_EMAILS = ['gmorecj22@gmail.com'];
+    const isAdmin = authUser?.email && ADMIN_EMAILS.includes(authUser.email);
+    const navItems = isAdmin ? [...baseNavItems, adminNavItem] : baseNavItems;
+  
+    if (!showAppShell) {
+        return <>{children}</>;
+    }
+  
+    return (
+      <div className="flex flex-col h-screen">
+      <header className="flex-shrink-0 sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm">
+          <Link href="/dashboard" className="flex items-center gap-3">
+              <Image src="/arasaka.png" alt="Arasaka Logo" width={36} height={36} className="h-9 w-auto" />
+              <span className="hidden sm:block font-logo text-xl text-white tracking-widest">ARASAKA</span>
+          </Link>
+          <div className="sm:hidden">
+            <UserAvatar />
+          </div>
+      </header>
+      <main className="flex-1 p-4">
+        {children}
+      </main>
+      <footer className="flex-shrink-0 sticky bottom-0 z-50 border-t bg-background/90">
+          <div className="relative flex h-16 items-center justify-center px-4">
+              <nav className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
+                  {navItems.map((item) => (
+                      <NavLink key={item.href} item={item} />
+                  ))}
+              </nav>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:block">
+                  <UserAvatar />
+              </div>
+          </div>
+      </footer>
+      </div>
+    );
+  }
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const { authUser } = useUser();
-  const isAuthPage = pathname === '/login' || pathname === '/signup';
-  const showAppShell = !isAuthPage;
-
-  const ADMIN_EMAILS = ['gmorecj22@gmail.com'];
-  const isAdmin = authUser?.email && ADMIN_EMAILS.includes(authUser.email);
-  const navItems = isAdmin ? [...baseNavItems, adminNavItem] : baseNavItems;
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -84,37 +119,8 @@ export default function RootLayout({
         <DataRain />
         <FirebaseProvider>
           <UserProvider>
-            {showAppShell ? (
-                <div className="flex flex-col h-screen">
-                <header className="flex-shrink-0 sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm">
-                    <Link href="/dashboard" className="flex items-center gap-3">
-                        <Image src="/arasaka.png" alt="Arasaka Logo" width={36} height={36} className="h-9 w-auto" />
-                        <span className="hidden sm:block font-logo text-xl text-white tracking-widest">ARASAKA</span>
-                    </Link>
-                    <div className="sm:hidden">
-                      <UserAvatar />
-                    </div>
-                </header>
-                <main className="flex-1 p-4">
-                  {children}
-                </main>
-                <footer className="flex-shrink-0 sticky bottom-0 z-50 border-t bg-background/90">
-                    <div className="relative flex h-16 items-center justify-center px-4">
-                        <nav className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-                            {navItems.map((item) => (
-                                <NavLink key={item.href} item={item} />
-                            ))}
-                        </nav>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:block">
-                            <UserAvatar />
-                        </div>
-                    </div>
-                </footer>
-                </div>
-            ) : (
-                children
-            )}
-            </UserProvider>
+            <AppShell>{children}</AppShell>
+          </UserProvider>
         </FirebaseProvider>
         <Toaster />
       </body>
