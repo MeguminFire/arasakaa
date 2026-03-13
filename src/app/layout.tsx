@@ -9,6 +9,7 @@ import {
   MessagesSquare,
   Trophy,
   Users,
+  Wrench,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
@@ -22,6 +23,7 @@ import React, { useState, useEffect } from 'react';
 const baseNavItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
+  { href: '/troubleshooting', icon: Wrench, label: 'Troubleshoot' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
   { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
 ];
@@ -35,7 +37,9 @@ const NavLink = ({ item }: { item: typeof baseNavItems[0] }) => {
   useEffect(() => {
     // This effect runs only on the client, after hydration, to prevent mismatches.
     const checkActive = () => {
-        return (pathname.startsWith(item.href) && item.href !== '/') || pathname === item.href
+        // More robust check for active state. Handles nested routes.
+        // e.g. /games/1 will match /games
+        return (item.href !== '/dashboard' && pathname.startsWith(item.href)) || pathname === item.href;
     }
     setIsActive(checkActive());
   }, [pathname, item.href]);
@@ -89,23 +93,26 @@ export default function RootLayout({
           <UserProvider>
             {showAppShell ? (
                 <div className="flex flex-col h-screen">
-                <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
+                <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm">
                     <Link href="/dashboard" className="flex items-center gap-3">
                         <Image src="/arasaka.png" alt="Arasaka Logo" width={36} height={36} className="h-9 w-auto" />
-                        <span className="font-logo text-xl text-white tracking-widest">ARASAKA</span>
+                        <span className="hidden sm:block font-logo text-xl text-white tracking-widest">ARASAKA</span>
                     </Link>
+                    <div className="sm:hidden">
+                      <UserAvatar />
+                    </div>
                 </header>
                 <main className="flex-1 p-2 overflow-y-auto">
                   {children}
                 </main>
                 <footer className="flex-shrink-0 border-t bg-background/90">
                     <div className="relative flex h-16 items-center justify-center px-4">
-                        <nav className="flex items-center justify-center gap-4">
+                        <nav className="flex items-center justify-center gap-2 sm:gap-4">
                             {navItems.map((item) => (
                                 <NavLink key={item.href} item={item} />
                             ))}
                         </nav>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:block">
                             <UserAvatar />
                         </div>
                     </div>

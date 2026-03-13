@@ -88,14 +88,15 @@ export default function ForumPage() {
         try {
             await addDoc(collection(db, 'forumPosts'), {
                 ...data,
+                content: data.description,
                 authorId: authUser.uid,
                 authorName: userProfile.name,
                 authorAvatar: userProfile.avatar || '',
                 createdAt: serverTimestamp(),
             });
             toast({
-                title: "Post Submitted!",
-                description: "Your query has been posted to the forum.",
+                title: "Transmission Sent!",
+                description: "Your transmission has been posted to the forum.",
             });
             reset();
         } catch (error) {
@@ -115,7 +116,7 @@ export default function ForumPage() {
              <Card className="bg-card/50">
                 <form onSubmit={handleSubmit(handlePostSubmit)}>
                     <CardHeader>
-                        <CardTitle>Post a New Query</CardTitle>
+                        <CardTitle>Post a New Transmission</CardTitle>
                         <CardDescription>Having trouble? Ask the community for help. Fill out the details below.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -187,7 +188,7 @@ export default function ForumPage() {
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="title">Query Title</Label>
+                            <Label htmlFor="title">Transmission Title</Label>
                             <Input id="title" placeholder="e.g., My laptop won't connect to Wi-Fi after update" {...register("title")} disabled={isSubmitting} />
                             {errors.title && <p className="text-xs text-destructive">{errors.title.message}</p>}
                         </div>

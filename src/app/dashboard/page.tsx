@@ -1,20 +1,25 @@
 'use client';
 
 import { useUser } from '@/context/UserProvider';
-import { Loader2, AlertTriangle, Gamepad2, MessagesSquare, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Loader2, AlertTriangle, Gamepad2, MessagesSquare, ArrowRight, Wrench, Terminal } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { Progress } from '@/components/ui/progress';
+import { useState, useEffect } from 'react';
 
 const navigationCards = [
     {
-      title: 'Training Hub',
-      description: 'Sharpen your skills with scenarios.',
+      title: 'Training Drills',
+      description: 'Sharpen your reflexes and analytical skills.',
       href: '/games',
       icon: Gamepad2,
+    },
+    {
+      title: 'Troubleshooting Hub',
+      description: 'Engage in real-world diagnostic scenarios.',
+      href: '/troubleshooting',
+      icon: Wrench,
     },
     {
       title: 'Community Forum',
@@ -24,35 +29,35 @@ const navigationCards = [
     },
   ];
 
+const logMessages = [
+  '[LOG] Secure connection established with CHIMERA-NET.',
+  '[ALERT] Unidentified signal detected in Sector 7G.',
+  '[LOG] Kernel status: NOMINAL.',
+  '[LOG] Blackwall integrity scan: 100%.',
+  '[ALERT] High-volume data spike from external node. Monitoring.',
+  '[LOG] System heuristics normal.',
+  '[LOG] Fetching latest intel from pacifica.node...',
+  '[ALERT] Firewall deflected unauthorized access attempt from IP 20.77.0.13.',
+];
+
+
 // --- Main Dashboard Page ---
 export default function DashboardPage() {
   const { authUser, loading } = useUser();
-  const [isScanning, setIsScanning] = useState(false);
-  const [scanProgress, setScanProgress] = useState(0);
-  const [scanResult, setScanResult] = useState('');
+  const [currentLog, setCurrentLog] = useState(logMessages[0]);
 
-  const handleRunDiagnostic = () => {
-    setIsScanning(true);
-    setScanResult('');
-    setScanProgress(0);
-
-    const interval = setInterval(() => {
-      setScanProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        return prev + 4;
-      });
-    }, 100);
-
-    setTimeout(() => {
-      setIsScanning(false);
-      setScanProgress(100);
-      clearInterval(interval);
-      setScanResult('SYSTEM_OK: No Critical Errors Found.');
+  useEffect(() => {
+    const logInterval = setInterval(() => {
+        setCurrentLog(prevLog => {
+            const currentIndex = logMessages.indexOf(prevLog);
+            const nextIndex = (currentIndex + 1) % logMessages.length;
+            return logMessages[nextIndex];
+        });
     }, 3000);
-  };
+
+    return () => clearInterval(logInterval);
+  }, []);
+
 
   if (loading) {
     return (
@@ -88,51 +93,23 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* --- System Health Monitor --- */}
-      <Card className="w-full max-w-4xl animate-pulse-red border-destructive/50">
+      {/* --- Central Intelligence Hub --- */}
+      <Card className="w-full max-w-4xl border-primary/50">
         <CardHeader>
-          <CardTitle className="font-headline text-base text-destructive">System Health Monitor</CardTitle>
-          <CardDescription className="font-body">Technician Notes: Live diagnostic panel for system integrity.</CardDescription>
+          <CardTitle className="font-headline text-base text-primary flex items-center gap-2">
+            <Terminal className="h-5 w-5" />
+            Central Intelligence Hub
+          </CardTitle>
+          <CardDescription className="font-body">Technician Notes: Real-time system monitoring feed.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-6">
-            <div>
-              <p className="font-headline text-sm text-muted-foreground">Active Vulnerabilities</p>
-              <p className="font-code text-3xl text-destructive">4</p>
-            </div>
-            <div>
-              <p className="font-headline text-sm text-muted-foreground">Firewall Integrity</p>
-              <p className="font-code text-3xl text-yellow-400">88%</p>
-            </div>
-            <div>
-              <p className="font-headline text-sm text-muted-foreground">Network Latency</p>
-              <p className="font-code text-3xl text-green-400">12ms</p>
-            </div>
-          </div>
-          <div className="h-12 flex items-center justify-center">
-            {isScanning && (
-              <div className="w-full space-y-2 animate-fade-in">
-                <div className="flex justify-between font-code text-sm text-destructive">
-                  <span>SCANNING...</span>
-                  <span>{scanProgress}%</span>
-                </div>
-                <Progress value={scanProgress} className="h-2 [&>div]:bg-destructive" />
-              </div>
-            )}
-            {scanResult && (
-              <p className="text-center font-code text-green-400 animate-fade-in">{scanResult}</p>
-            )}
+          <div className="bg-black/50 p-4 rounded-md font-code text-green-400 h-24 flex flex-col justify-end">
+             <p className="animate-fade-in text-sm">{'>'} {currentLog}</p>
           </div>
         </CardContent>
-        <CardFooter>
-          <Button onClick={handleRunDiagnostic} disabled={isScanning} variant="destructive" className="w-full">
-            {isScanning ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}
-            {isScanning ? 'Scanning...' : 'Run Diagnostic'}
-          </Button>
-        </CardFooter>
       </Card>
 
-       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-2">
+       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-2">
         {navigationCards.map((card) => (
           <Card
             key={card.title}
