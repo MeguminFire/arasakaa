@@ -56,12 +56,17 @@ const NavLink = ({ item }: { item: typeof baseNavItems[0] }) => {
 function AppShell({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const { authUser } = useUser();
+    const [isClient, setIsClient] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsClient(true);
+    }, []);
+
     const isAuthPage = pathname === '/login' || pathname === '/signup';
     const showAppShell = !isAuthPage;
   
     const ADMIN_EMAILS = ['gmorecj22@gmail.com'];
     const isAdmin = authUser?.email && ADMIN_EMAILS.includes(authUser.email);
-    const navItems = isAdmin ? [...baseNavItems, adminNavItem] : baseNavItems;
   
     if (!showAppShell) {
         return <>{children}</>;
@@ -75,7 +80,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
               <span className="hidden sm:block font-logo text-xl text-white tracking-widest">ARASAKA</span>
           </Link>
           <div className="absolute right-4 top-1/2 -translate-y-1/2 sm:hidden">
-            <UserAvatar />
+            {isClient ? <UserAvatar /> : <div className="h-10 w-10" />}
           </div>
       </header>
       <main className="flex-1 p-4">
@@ -84,12 +89,13 @@ function AppShell({ children }: { children: React.ReactNode }) {
       <footer className="flex-shrink-0 sticky bottom-0 z-50 border-t bg-background/90">
           <div className="relative flex h-16 items-center justify-center px-4">
               <nav className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-                  {navItems.map((item) => (
+                  {baseNavItems.map((item) => (
                       <NavLink key={item.href} item={item} />
                   ))}
+                  {isClient && isAdmin && <NavLink key={adminNavItem.href} item={adminNavItem} />}
               </nav>
               <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:block">
-                  <UserAvatar />
+                  {isClient ? <UserAvatar /> : <div className="h-10 w-10" />}
               </div>
           </div>
       </footer>
