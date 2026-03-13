@@ -18,7 +18,7 @@ import { UserProvider, useUser } from '@/context/UserProvider';
 import { cn } from '@/lib/utils';
 import { FirebaseProvider } from '@/firebase/FirebaseProvider';
 import DataRain from '@/components/shared/DataRain';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const baseNavItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -32,17 +32,10 @@ const adminNavItem = { href: '/users', icon: Users, label: 'Users' };
 
 const NavLink = ({ item }: { item: typeof baseNavItems[0] }) => {
   const pathname = usePathname();
-  const [isActive, setIsActive] = useState(false);
-
-  useEffect(() => {
-    // This effect runs only on the client, after hydration, to prevent mismatches.
-    const checkActive = () => {
-        // More robust check for active state. Handles nested routes.
-        // e.g. /games/1 will match /games
-        return (item.href !== '/dashboard' && pathname.startsWith(item.href)) || pathname === item.href;
-    }
-    setIsActive(checkActive());
-  }, [pathname, item.href]);
+  // Directly calculate isActive during render to prevent hydration mismatch.
+  const isActive =
+    (item.href !== '/dashboard' && pathname.startsWith(item.href)) ||
+    pathname === item.href;
 
   return (
     <Link
@@ -93,7 +86,7 @@ export default function RootLayout({
           <UserProvider>
             {showAppShell ? (
                 <div className="flex flex-col h-screen">
-                <header className="flex-shrink-0 sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm">
+                <header className="flex-shrink-0 sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm">
                     <Link href="/dashboard" className="flex items-center gap-3">
                         <Image src="/arasaka.png" alt="Arasaka Logo" width={36} height={36} className="h-9 w-auto" />
                         <span className="hidden sm:block font-logo text-xl text-white tracking-widest">ARASAKA</span>
@@ -102,12 +95,12 @@ export default function RootLayout({
                       <UserAvatar />
                     </div>
                 </header>
-                <main className="flex-1 p-2 overflow-y-auto">
+                <main className="flex-1 p-4">
                   {children}
                 </main>
-                <footer className="flex-shrink-0 border-t bg-background/90">
+                <footer className="flex-shrink-0 sticky bottom-0 z-50 border-t bg-background/90">
                     <div className="relative flex h-16 items-center justify-center px-4">
-                        <nav className="flex items-center justify-center gap-2 sm:gap-4">
+                        <nav className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
                             {navItems.map((item) => (
                                 <NavLink key={item.href} item={item} />
                             ))}

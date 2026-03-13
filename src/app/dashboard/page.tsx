@@ -1,12 +1,13 @@
 'use client';
 
 import { useUser } from '@/context/UserProvider';
-import { Loader2, AlertTriangle, Gamepad2, MessagesSquare, ArrowRight, Wrench, Terminal } from 'lucide-react';
+import { Loader2, AlertTriangle, Gamepad2, MessagesSquare, ArrowRight, Wrench, Terminal, Shield, BarChart, Server } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
+import { Progress } from '@/components/ui/progress';
 
 const navigationCards = [
     {
@@ -45,6 +46,9 @@ const logMessages = [
 export default function DashboardPage() {
   const { authUser, loading } = useUser();
   const [currentLog, setCurrentLog] = useState(logMessages[0]);
+  const [isScanning, setIsScanning] = useState(false);
+  const [scanProgress, setScanProgress] = useState(0);
+  const [scanMessage, setScanMessage] = useState('');
 
   useEffect(() => {
     const logInterval = setInterval(() => {
@@ -57,6 +61,33 @@ export default function DashboardPage() {
 
     return () => clearInterval(logInterval);
   }, []);
+  
+  useEffect(() => {
+    let progressInterval: NodeJS.Timeout | null = null;
+    if (isScanning) {
+        progressInterval = setInterval(() => {
+            setScanProgress(prev => {
+                if (prev >= 100) {
+                    clearInterval(progressInterval!);
+                    setIsScanning(false);
+                    setScanMessage('No Critical Errors Found');
+                    return 100;
+                }
+                return prev + 1;
+            });
+        }, 30);
+    }
+    return () => {
+        if (progressInterval) clearInterval(progressInterval);
+    };
+}, [isScanning]);
+
+
+  const handleRunDiagnostic = () => {
+    setIsScanning(true);
+    setScanProgress(0);
+    setScanMessage('Scanning...');
+  }
 
 
   if (loading) {
@@ -70,7 +101,7 @@ export default function DashboardPage() {
   const isGuest = !authUser;
 
   return (
-    <div className="relative flex h-full flex-col items-center justify-start space-y-4 p-1">
+    <div className="flex flex-col items-center justify-start space-y-4 p-4">
       
       {isGuest && (
         <Alert variant="destructive" className="w-full max-w-4xl border-2 border-destructive bg-destructive/10 backdrop-blur-sm p-1 flex items-center max-h-[60px]">
@@ -108,8 +139,47 @@ export default function DashboardPage() {
           </div>
         </CardContent>
       </Card>
+      
+       {/* --- System Health Monitor --- */}
+      <Card className="w-full max-w-4xl animate-pulse-red">
+          <CardHeader>
+              <CardTitle className="font-headline text-base text-destructive flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  System Health Monitor
+              </CardTitle>
+              <CardDescription className="font-body">Technician Notes: Live diagnostic panel.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                  <div className="bg-destructive/10 p-3 rounded-md">
+                      <p className="font-headline text-destructive text-sm">Active Vulnerabilities</p>
+                      <p className="text-2xl font-bold">4</p>
+                  </div>
+                   <div className="bg-destructive/10 p-3 rounded-md">
+                      <p className="font-headline text-destructive text-sm">Firewall Integrity</p>
+                      <p className="text-2xl font-bold">88%</p>
+                  </div>
+                   <div className="bg-destructive/10 p-3 rounded-md">
+                      <p className="font-headline text-destructive text-sm">Network Latency</p>
+                      <p className="text-2xl font-bold">12ms</p>
+                  </div>
+              </div>
+              {isScanning || scanMessage ? (
+                  <div className="space-y-2">
+                      <Progress value={scanProgress} className="h-2 [&>div]:bg-destructive" />
+                      <p className="text-center font-code text-sm text-destructive">{scanMessage}</p>
+                  </div>
+              ) : null}
+          </CardContent>
+          <CardFooter>
+              <Button variant="destructive" onClick={handleRunDiagnostic} disabled={isScanning}>
+                  {isScanning ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Server className="mr-2 h-4 w-4" />}
+                  {isScanning ? 'Scanning...' : 'Run Diagnostic'}
+              </Button>
+          </CardFooter>
+      </Card>
 
-       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-2">
+       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-4">
         {navigationCards.map((card) => (
           <Card
             key={card.title}
