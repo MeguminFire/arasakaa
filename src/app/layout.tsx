@@ -69,12 +69,12 @@ function AppShell({ children }: { children: React.ReactNode }) {
   
     return (
       <div className="flex flex-col h-screen">
-      <header className="flex-shrink-0 sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm">
+      <header className="relative flex-shrink-0 sticky top-0 z-50 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm">
           <Link href="/dashboard" className="flex items-center gap-3">
               <Image src="/arasaka.png" alt="Arasaka Logo" width={36} height={36} className="h-9 w-auto" />
               <span className="hidden sm:block font-logo text-xl text-white tracking-widest">ARASAKA</span>
           </Link>
-          <div className="sm:hidden">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 sm:hidden">
             <UserAvatar />
           </div>
       </header>
