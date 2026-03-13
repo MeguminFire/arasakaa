@@ -55,7 +55,7 @@ const NavLink = ({ item }: { item: typeof baseNavItems[0] }) => {
 
 function AppShell({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
-    const { authUser } = useUser();
+    const { authUser, loading } = useUser();
     const [isClient, setIsClient] = React.useState(false);
 
     React.useEffect(() => {
@@ -66,7 +66,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
     const showAppShell = !isAuthPage;
   
     const ADMIN_EMAILS = ['gmorecj22@gmail.com'];
-    const isAdmin = authUser?.email && ADMIN_EMAILS.includes(authUser.email);
+    const isAdmin = isClient && !loading && authUser?.email && ADMIN_EMAILS.includes(authUser.email);
   
     if (!showAppShell) {
         return <>{children}</>;
@@ -80,7 +80,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
               <span className="hidden sm:block font-logo text-xl text-white tracking-widest">ARASAKA</span>
           </Link>
           <div className="absolute right-4 top-1/2 -translate-y-1/2 sm:hidden">
-            {isClient ? <UserAvatar /> : <div className="h-10 w-10" />}
+            <UserAvatar />
           </div>
       </header>
       <main className="flex-1 p-4">
@@ -92,10 +92,10 @@ function AppShell({ children }: { children: React.ReactNode }) {
                   {baseNavItems.map((item) => (
                       <NavLink key={item.href} item={item} />
                   ))}
-                  {isClient && isAdmin && <NavLink key={adminNavItem.href} item={adminNavItem} />}
+                  {isAdmin && <NavLink key={adminNavItem.href} item={adminNavItem} />}
               </nav>
               <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:block">
-                  {isClient ? <UserAvatar /> : <div className="h-10 w-10" />}
+                  <UserAvatar />
               </div>
           </div>
       </footer>
