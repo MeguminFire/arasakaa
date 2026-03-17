@@ -11,29 +11,23 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { LogOut, Settings, LogIn } from 'lucide-react';
+import { LogOut, Settings, LogIn, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { signOut } from 'firebase/auth';
 import { useFirebase } from '@/firebase/FirebaseProvider';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export default function UserAvatar() {
   const { userProfile, authUser, loading } = useUser();
   const { auth } = useFirebase();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
 
   const handleLogout = async () => {
     if (!auth) return;
     await signOut(auth);
   };
 
-  if (!isClient || loading) {
-    return <div className="h-10 w-10 rounded-full bg-muted" />;
+  if (loading) {
+    return <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center"><Loader2 className="h-5 w-5 animate-spin" /></div>;
   }
 
   if (!authUser || !userProfile) {
