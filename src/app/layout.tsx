@@ -10,6 +10,7 @@ import {
   Trophy,
   Users,
   Wrench,
+  BookOpen,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
@@ -24,6 +25,7 @@ const baseNavItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
   { href: '/troubleshooting', icon: Wrench, label: 'Troubleshoot' },
+  { href: '/learn', icon: BookOpen, label: 'Learn' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
   { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
 ];

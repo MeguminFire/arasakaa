@@ -12,7 +12,7 @@ type UserContextValue = {
     loading: boolean;
     updateUserProfile: (data: Partial<UserProfile>) => Promise<void>;
     addCompletedItem: (
-        type: 'game',
+        type: 'game' | 'lesson' | 'quiz',
         id: string
     ) => Promise<void>;
 };
@@ -83,6 +83,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
               name: data.name || authUser?.displayName || 'New User',
               avatar: data.avatar || authUser?.photoURL || '',
               completedGames: [],
+              completedLessons: [],
+              completedQuizzes: [],
               ...data,
             }
           : data;
@@ -90,7 +92,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     };
 
     const addCompletedItem = async (
-        type: 'game',
+        type: 'game' | 'lesson' | 'quiz',
         id: string
       ) => {
         if (!authUser || !userProfile || !db) return;
@@ -103,6 +105,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           case 'game':
             fieldToUpdate = 'completedGames';
             existingItems = userProfile.completedGames || [];
+            break;
+          case 'lesson':
+            fieldToUpdate = 'completedLessons';
+            existingItems = userProfile.completedLessons || [];
+            break;
+          case 'quiz':
+            fieldToUpdate = 'completedQuizzes';
+            existingItems = userProfile.completedQuizzes || [];
             break;
         }
     

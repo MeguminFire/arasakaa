@@ -4,6 +4,9 @@ import type {
   ProgressItem,
   Game,
   GameScenario,
+  Lesson,
+  Quiz,
+  QuizQuestion,
 } from './types';
 import {
   Cpu,
@@ -24,6 +27,9 @@ import {
   Network,
   Unplug,
   MoveHorizontal,
+  HelpCircle,
+  BrainCircuit,
+  Dna,
 } from 'lucide-react';
 import { getPlaceholderImage } from './placeholder-images';
 
@@ -90,6 +96,154 @@ export const progress: ProgressItem[] = [
     completion: 0,
   },
 ];
+
+export const lessons: Lesson[] = [
+  {
+    id: '1',
+    title: 'Anatomy of a Computer',
+    description: 'Understand the core components that make a computer work, from the CPU to the PSU.',
+    href: '/learn/components',
+    icon: Cpu,
+  },
+  {
+    id: '2',
+    title: 'Networking Fundamentals',
+    description: 'Learn the basics of how devices communicate, including IP addresses, DNS, and routers.',
+    href: '/learn/networking',
+    icon: Router,
+  },
+  {
+    id: '3',
+    title: 'The Art of Troubleshooting',
+    description: 'Master the 6-step methodology for diagnosing and solving any technical problem.',
+    href: '/learn/troubleshooting',
+    icon: HelpCircle,
+  },
+];
+
+export const quizzes: Quiz[] = [
+    {
+        id: '1',
+        title: 'Networking Quiz',
+        description: 'Test your knowledge of networking fundamentals like IP, DNS, and hardware.',
+        href: '/quiz/1',
+        icon: Dna,
+    },
+    {
+        id: '2',
+        title: 'Hardware Quiz',
+        description: 'How well do you know your computer components? Test your knowledge.',
+        href: '/quiz/2',
+        icon: BrainCircuit,
+    },
+    {
+        id: '3',
+        title: 'Troubleshooting Theory Quiz',
+        description: 'Quiz yourself on the 6-step troubleshooting methodology.',
+        href: '/quiz/3',
+        icon: HelpCircle,
+    }
+];
+
+export const quizQuestions: Record<string, QuizQuestion[]> = {
+    '1': [ // Networking Quiz
+        {
+            question: "What is the primary function of a router?",
+            options: ["To connect multiple devices on the same local network", "To connect a local network to the internet and direct traffic", "To translate domain names into IP addresses", "To provide power to network devices"],
+            correctAnswer: "To connect a local network to the internet and direct traffic",
+            explanation: "A router's main job is to act as a gateway between your local network and the wider internet, directing traffic to the correct destinations."
+        },
+        {
+            question: "Which of these is a valid private IP address often used for a home router's admin page?",
+            options: ["8.8.8.8", "192.168.1.1", "google.com", "2001:0db8:85a3:0000:0000:8a2e:0370:7334"],
+            correctAnswer: "192.168.1.1",
+            explanation: "IP addresses in the 192.168.x.x range are designated for private networks and are not routable on the public internet. 192.168.1.1 is a very common default address for routers."
+        },
+        {
+            question: "What does DNS stand for and what does it do?",
+            options: ["Digital Network Service; it encrypts your data", "Domain Name System; it translates domain names to IP addresses", "Data Naming Standard; it assigns names to files", "Dynamic Network Security; it acts as a firewall"],
+            correctAnswer: "Domain Name System; it translates domain names to IP addresses",
+            explanation: "DNS acts like the internet's phonebook, allowing you to use easy-to-remember names like 'google.com' instead of having to memorize a complex IP address like '142.250.191.78'."
+        },
+        {
+            question: "If you want to connect several wired devices within the same room to your network, what is the best device to use?",
+            options: ["A modem", "A switch", "A second router", "An access point"],
+            correctAnswer: "A switch",
+            explanation: "A switch is specifically designed to connect multiple devices on a local area network (LAN), allowing them to communicate with each other efficiently."
+        },
+        {
+            question: "You can ping 8.8.8.8 successfully, but you can't browse to google.com. What is the most likely problem?",
+            options: ["Your internet cable is unplugged", "Your computer has no IP address", "A firewall is blocking all traffic", "There is a DNS failure"],
+            correctAnswer: "There is a DNS failure",
+            explanation: "Being able to ping an IP address proves your internet connectivity is working. The inability to reach a site by its domain name points directly to a problem with DNS resolution."
+        },
+    ],
+    '2': [ // Hardware Quiz
+        {
+            question: "Which component is considered the 'brain' of the computer?",
+            options: ["RAM", "GPU", "CPU", "Motherboard"],
+            correctAnswer: "CPU",
+            explanation: "The CPU (Central Processing Unit) performs most of the processing inside a computer, executing instructions and performing calculations, which is why it's called the 'brain'."
+        },
+        {
+            question: "What type of memory is volatile, meaning it loses its data when the power is turned off?",
+            options: ["SSD (Solid-State Drive)", "HDD (Hard Disk Drive)", "RAM (Random-Access Memory)", "ROM (Read-Only Memory)"],
+            correctAnswer: "RAM (Random-Access Memory)",
+            explanation: "RAM is the computer's short-term, volatile memory. It holds data for currently running applications, but this data is erased when the computer shuts down."
+        },
+        {
+            question: "Which component connects all the other hardware pieces together and allows them to communicate?",
+            options: ["Power Supply Unit (PSU)", "Graphics Processing Unit (GPU)", "Central Processing Unit (CPU)", "Motherboard"],
+            correctAnswer: "Motherboard",
+            explanation: "The motherboard is the main circuit board that acts as the central hub, providing connections for the CPU, RAM, GPU, storage, and other peripherals."
+        },
+        {
+            question: "What is the primary purpose of a GPU?",
+            options: ["To run the operating system", "To store long-term files", "To render images and video for display", "To connect to the internet"],
+            correctAnswer: "To render images and video for display",
+            explanation: "The GPU, or graphics card, is a specialized processor optimized for handling visual data, making it essential for gaming, video editing, and other graphics-heavy tasks."
+        },
+        {
+            question: "Which storage technology generally offers the fastest performance for booting an operating system and loading applications?",
+            options: ["HDD (Hard Disk Drive)", "SSD (Solid-State Drive)", "Optical Drive (CD/DVD)", "USB Flash Drive"],
+            correctAnswer: "SSD (Solid-State Drive)",
+            explanation: "SSDs use flash memory and have no moving parts, allowing them to read and write data significantly faster than traditional spinning Hard Disk Drives (HDDs)."
+        },
+    ],
+    '3': [ // Troubleshooting Theory Quiz
+        {
+            question: "According to the 6-step troubleshooting methodology, what should you do right after you've implemented a solution?",
+            options: ["Document your findings", "Establish a new theory", "Verify full system functionality and implement preventative measures", "Identify the problem"],
+            correctAnswer: "Verify full system functionality and implement preventative measures",
+            explanation: "After applying a fix, it's crucial to confirm that the original problem is gone and also to think about how to prevent it from happening again."
+        },
+        {
+            question: "When forming a theory of probable cause, where should you start?",
+            options: ["With the most complex and unlikely potential causes", "With the most obvious and simplest potential causes", "By immediately assuming it's a virus", "By taking the entire computer apart"],
+            correctAnswer: "With the most obvious and simplest potential causes",
+            explanation: "Always start with the simplest explanations first (e.g., 'Is it plugged in?'). This is often referred to as 'questioning the obvious' and can save a lot of time."
+        },
+        {
+            question: "What is the final, and often most overlooked, step in the troubleshooting process?",
+            options: ["Test the theory", "Implement the solution", "Identify the problem", "Document findings, actions, and outcomes"],
+            correctAnswer: "Document findings, actions, and outcomes",
+            explanation: "Proper documentation helps other technicians, provides a record of work, and assists in identifying trends or recurring problems. It is a critical professional habit."
+        },
+        {
+            question: "You have a theory about what is causing a problem. What is the next step?",
+            options: ["Implement a plan of action", "Test the theory to determine the cause", "Establish a new theory", "Document your findings"],
+            correctAnswer: "Test the theory to determine the cause",
+            explanation: "Before you can create a plan of action, you must test your theory to confirm or deny that it is the actual cause of the problem."
+        },
+        {
+            question: "If your test proves your theory is incorrect, what should you do?",
+            options: ["Keep trying the same fix until it works", "Tell the user the problem is unfixable", "Establish a new theory and test it", "Immediately escalate to a senior technician"],
+            correctAnswer: "Establish a new theory and test it",
+            explanation: "The troubleshooting process is iterative. If one theory is disproven, you use what you've learned to form a new, more informed theory and repeat the testing process."
+        },
+    ]
+};
+
 
 export const games: Game[] = [
   {
@@ -438,67 +592,17 @@ export const scenarios: Record<string, GameScenario> = {
   '10': {
       id: '10',
       title: 'DNS Blackout',
-      initialSituation: "The entire office suddenly can't browse websites like google.com or cnn.com, getting 'Server not found' errors. However, you discover you can successfully `ping 8.8.8.8`.",
-      steps: [
-          {
-              title: 'Step 1: Interpret the Clues',
-              description: 'You can ping an external IP address, but domain names are not working. What service is this a classic symptom of?',
-              hint: 'What service acts as the internet\'s phonebook, turning names into numbers?',
-              actions: [
-                  { text: 'DNS (Domain Name System) failure.', isCorrect: true, feedback: 'Correct. The ability to ping an IP means the core internet connection is working, but the system that translates names to IPs is broken.' },
-                  { text: 'DHCP server failure.', isCorrect: false, feedback: 'If DHCP failed, devices wouldn\'t be getting IP addresses in the first place, and you likely couldn\'t ping an external IP.' },
-                  { text: 'Firewall blockage.', isCorrect: false, feedback: 'A firewall might block web traffic, but it wouldn\'t typically stop domain name resolution itself, and you can ping out.' },
-              ]
-          },
-          {
-              title: 'Step 2: Temporary Fix',
-              description: 'You check a user\'s IP config and see their DNS server is an internal IP (`192.168.1.5`) which is unresponsive. What is the fastest way to get the whole office back online while you fix the internal server?',
-              hint: 'You can centrally manage the DNS servers that clients use.',
-              actions: [
-                  { text: 'Log into the main router and change the DHCP settings to assign a public DNS server (like 1.1.1.1) to all clients.', isCorrect: true, feedback: 'Excellent choice. This is an efficient, network-wide fix that restores service to everyone. They just need to renew their DHCP lease.' },
-                  { text: 'Email instructions to every user on how to manually change their DNS settings.', isCorrect: false, feedback: 'This is slow, inefficient, and prone to user error. A central fix is much better.' },
-                  { text: 'Reboot the main internet router.', isCorrect: false, feedback: 'The router is working (since you can ping 8.8.8.8). The issue is with the specific DNS server it\'s telling clients to use.' },
-              ]
-          }
-      ],
-      finalSolution: "The office-wide internet outage was due to a failure of the internal DNS server. A successful ping to a public IP confirmed the internet connection was active. The immediate solution was to reconfigure the office's DHCP server to assign a public DNS provider (like 1.1.1.1 or 8.8.8.8), restoring domain name resolution for all users."
+      description: "Users can't access any websites by name, but can by IP address. Diagnose the DNS failure.",
+      topic: 'DNS Failure',
+      difficulty: 'medium',
+      icon: Unplug,
   },
   '11': {
       id: '11',
       title: 'The Packet Thief',
-      initialSituation: 'A user reports that their video calls are freezing and audio is robotic, but a speed test shows excellent download and upload speeds. The problem is intermittent.',
-      steps: [
-          {
-              title: 'Step 1: Check Connection Quality',
-              description: 'Bandwidth is good, but the symptoms point to an unstable connection. What command-line tool is best for checking for packet loss over time?',
-              hint: 'You need a tool that sends requests continuously, not just once.',
-              actions: [
-                  { text: '`ping 8.8.8.8 -t`', isCorrect: true, feedback: 'Correct. The `-t` flag makes ping run continuously. You let it run and see frequent "Request timed out" messages, indicating packet loss.' },
-                  { text: '`ipconfig /all`', isCorrect: false, feedback: 'This shows your IP configuration but does not test the quality of your connection to a remote host.' },
-                  { text: '`tracert 8.8.8.8`', isCorrect: false, feedback: 'Tracert is a great tool for finding *where* loss occurs, but a continuous ping is better for first confirming *if* loss is happening.' },
-              ]
-          },
-          {
-              title: 'Step 2: Locate the Loss',
-              description: 'You\'ve confirmed about 10% packet loss. Now you need to find where it\'s happening. What tool traces the network path hop-by-hop, showing the performance of each step?',
-              hint: 'This tool is like a road map for your data packets.',
-              actions: [
-                  { text: '`tracert 8.8.8.8` (or `pathping 8.8.8.8`)', isCorrect: true, feedback: 'Perfect. You run the trace and see that the first few hops within your local network are fine (1-2ms), but latency jumps and packet loss begins at an IP outside your network.' },
-                  { text: 'Restarting the user\'s Wi-Fi adapter.', isCorrect: false, feedback: 'While a good basic step, the `tracert` tool is needed to prove whether the problem is local or external.' },
-                  { text: 'Running a virus scan.', isCorrect: false, feedback: 'Malware is an unlikely cause for network packet loss that occurs at a specific external hop.' },
-              ]
-          },
-          {
-              title: 'Step 3: Draw a Conclusion',
-              description: 'The `tracert` results show 0% loss to your office router (hop 1), but 10% loss starting at hop 2, which is an IP address owned by your ISP. What is the correct conclusion and action?',
-              hint: 'If the problem is outside your control, you need to involve the party that controls it.',
-              actions: [
-                  { text: 'The problem is with the ISP. You must contact their support and provide the `tracert` logs as evidence.', isCorrect: true, feedback: 'Exactly. Your diagnostics have proven the issue is not on the local network. Providing the data to the ISP is the only way to get it resolved.' },
-                  { text: 'You need to replace the office router.', isCorrect: false, feedback: 'The trace shows the connection to the router is perfect. Replacing it would not fix an issue happening further down the line.' },
-                  { text: 'The user needs to use a wired connection instead of Wi-Fi.', isCorrect: false, feedback: 'This might help, but the evidence points to an external issue. Even on a wired connection, the ISP-level packet loss would still exist.' },
-              ]
-          }
-      ],
-      finalSolution: "The user's call quality issues were caused by packet loss. A continuous ping confirmed the instability, and a `tracert` command isolated the loss to a router within the Internet Service Provider's (ISP) network. The solution was to contact the ISP with the diagnostic data, enabling them to investigate and fix their faulty equipment."
-  }
+      description: 'A stable connection is experiencing intermittent slowness and timeouts. Trace the connection to find the packet loss.',
+      topic: 'Packet Loss',
+      difficulty: 'hard',
+      icon: MoveHorizontal,
+  },
 };

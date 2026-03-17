@@ -12,7 +12,9 @@ export type UserProfile = {
   name: string;
   avatar: string;
   completedGames: string[];
-}
+  completedLessons?: string[];
+  completedQuizzes?: string[];
+};
 
 export type StatCard = {
   label: string;
@@ -90,4 +92,27 @@ export type ForumPost = {
   brand: string;
   issueType: string;
   createdAt: Timestamp;
+};
+
+export type Lesson = {
+    id: string;
+    title: string;
+    description: string;
+    href: string;
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+};
+
+export type Quiz = {
+    id: string;
+    title: string;
+    description: string;
+    href: string;
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+};
+
+export type QuizQuestion = {
+    question: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
 };
