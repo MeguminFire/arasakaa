@@ -11,7 +11,6 @@ import {
   Users,
   Wrench,
   BookOpen,
-  BrainCircuit,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
@@ -27,7 +26,6 @@ const baseNavItems = [
   { href: '/games', icon: Gamepad2, label: 'Games' },
   { href: '/troubleshooting', icon: Wrench, label: 'Troubleshoot' },
   { href: '/learn', icon: BookOpen, label: 'Learn' },
-  { href: '/quizzes', icon: BrainCircuit, label: 'Quizzes' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
   { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
 ];
@@ -108,10 +106,10 @@ function AppShell({ children }: { children: React.ReactNode }) {
                   {baseNavItems.map((item) => (
                       <NavLink key={item.href} item={item} />
                   ))}
-                  {isAdmin && <NavLink key={adminNavItem.href} item={adminNavItem} />}
+                  {isClient && isAdmin && <NavLink key={adminNavItem.href} item={adminNavItem} />}
               </nav>
               <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:block">
-                  <UserAvatar />
+                  {isClient ? <UserAvatar /> : <div className="h-10 w-10" />}
               </div>
           </div>
       </footer>

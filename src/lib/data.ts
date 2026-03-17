@@ -114,8 +114,8 @@ export const lessons: Lesson[] = [
   },
   {
     id: '3',
-    title: 'The Art of Troubleshooting',
-    description: 'Master the 6-step methodology for diagnosing and solving any technical problem.',
+    title: 'OS Troubleshooting Methodology',
+    description: 'Master the 6-step methodology for diagnosing and solving any OS or software problem.',
     href: '/learn/troubleshooting',
     icon: HelpCircle,
   },
@@ -498,11 +498,11 @@ export const scenarios: Record<string, GameScenario> = {
   '7': {
     id: '7',
     title: 'Virus Vanguard',
-    initialSituation: "A user's browser homepage has been changed to a suspicious search engine, and pop-up ads are appearing constantly. The computer is also running slower than usual.",
+    description: 'A user suspects they have a virus. Identify the malware symptoms and clean the system.',
     steps: [
         {
             title: 'Step 1: First Response',
-            description: "The user is logged in. What's your immediate action to prevent further damage?",
+            description: "The user's browser homepage has been changed to a suspicious search engine, and pop-up ads are appearing constantly. The computer is also running slower than usual. What's your immediate action to prevent further damage?",
             hint: "Isolate the patient before you operate.",
             actions: [
                 { text: 'Disconnect the computer from the network.', isCorrect: true, feedback: "Good call. Isolating the machine prevents the malware from spreading or communicating with its command center." },
@@ -526,7 +526,7 @@ export const scenarios: Record<string, GameScenario> = {
   '8': {
     id: '8',
     title: 'Data Recovery Dash',
-    initialSituation: "A frantic user calls you. They accidentally held Shift+Delete on a folder named 'Q4_Project_Finals', permanently bypassing the Recycle Bin. The folder was on their desktop.",
+    description: 'A user has accidentally deleted a critical project folder. Attempt to recover the lost files.',
     steps: [
         {
             title: 'Step 1: Immediate Action',
@@ -592,17 +592,67 @@ export const scenarios: Record<string, GameScenario> = {
   '10': {
       id: '10',
       title: 'DNS Blackout',
-      description: "Users can't access any websites by name, but can by IP address. Diagnose the DNS failure.",
-      topic: 'DNS Failure',
-      difficulty: 'medium',
-      icon: Unplug,
+      initialSituation: "Users report they can't access any websites like google.com or cnn.com, but you find you can successfully `ping 8.8.8.8`. What is the most likely issue?",
+      steps: [
+        {
+            title: 'Step 1: Test Your Theory',
+            description: "Your theory is that the local DNS server is down. How do you test this from a user's command prompt?",
+            hint: 'Use a tool that lets you query domain names and specify which server to ask.',
+            actions: [
+                { text: 'Run `nslookup google.com 8.8.8.8` to query a public DNS server.', isCorrect: true, feedback: 'Correct. This bypasses the local DNS server. The command succeeds, proving that the internet is working but the local DNS resolver is the point of failure.' },
+                { text: 'Run `ipconfig /flushdns`', isCorrect: false, feedback: 'Flushing the DNS cache is a good step, but it doesn\'t test if the server is responsive. You need to test resolution first.' },
+                { text: 'Run `tracert google.com`', isCorrect: false, feedback: 'Tracert will also fail because it relies on DNS to resolve the name to an IP. It doesn\'t help you diagnose the DNS server itself.' }
+            ]
+        },
+        {
+            title: 'Step 2: Implement a Workaround',
+            description: "You've confirmed the local DNS server is unresponsive. While you work on fixing the server, how can you get users back online immediately?",
+            hint: "You can manually tell computers to use a different 'phonebook'.",
+            actions: [
+                { text: 'Instruct users to change their network adapter settings to use a public DNS server like 8.8.8.8 or 1.1.1.1.', isCorrect: true, feedback: 'This is the standard temporary fix. By pointing their computers to a working public DNS server, they can resolve domain names and access the internet while you fix the primary server.' },
+                { text: 'Tell everyone to just use IP addresses for all websites.', isCorrect: false, feedback: 'This is impractical and not user-friendly.' },
+                { text: 'Restart every computer in the office.', isCorrect: false, feedback: 'This will not help, as the computers will still try to contact the same broken DNS server on reboot.' }
+            ]
+        }
+    ],
+    finalSolution: "The local DNS server was down, preventing domain name resolution. This was confirmed by using `nslookup` to successfully query a public DNS server (8.8.8.8), bypassing the local one. The short-term fix was to have users temporarily change their network settings to use a public DNS server."
   },
   '11': {
       id: '11',
       title: 'The Packet Thief',
-      description: 'A stable connection is experiencing intermittent slowness and timeouts. Trace the connection to find the packet loss.',
-      topic: 'Packet Loss',
-      difficulty: 'hard',
-      icon: MoveHorizontal,
+      initialSituation: "A user on a wired connection complains that video calls are choppy and web pages sometimes fail to load completely, even though their connection seems to be active. You suspect packet loss.",
+      steps: [
+        {
+            title: 'Step 1: Gather Evidence',
+            description: "What command-line tool can you use to continuously test the connection to a reliable server and see if any packets are being lost?",
+            hint: "This command sends repeated echo requests and shows you if any fail to return.",
+            actions: [
+                { text: '`ping google.com -t`', isCorrect: true, feedback: "Correct. The `-t` flag makes the ping continuous. After a minute, you see several 'Request timed out' messages, confirming intermittent packet loss." },
+                { text: '`ipconfig /all`', isCorrect: false, feedback: "This shows your IP configuration but doesn't test the quality of the live connection." },
+                { text: '`netstat -e`', isCorrect: false, feedback: "This can show interface statistics, including errors, but a continuous ping is a more direct and real-time test for packet loss to a specific destination." }
+            ]
+        },
+        {
+            title: 'Step 2: Isolate the Faulty Hop',
+            description: "You've confirmed packet loss. Now you need to find out *where* it's happening between the user and the destination. Which tool traces the route and shows statistics for each hop?",
+            hint: "This tool is like a combination of ping and tracert.",
+            actions: [
+                { text: '`pathping google.com`', isCorrect: true, feedback: "Excellent choice. Pathping first traces the route, then pings each hop for a period of time. After a few minutes, it reveals that a specific router in the office is dropping 50% of the packets sent to it." },
+                { text: '`tracert google.com`', isCorrect: false, feedback: "Tracert shows the route, but it doesn't provide detailed loss statistics for each hop, which is what you need to pinpoint the problem." },
+                { text: 'Unplug and replug the user\'s network cable.', isCorrect: false, feedback: "This is a basic physical check, but since the connection is intermittent (not completely dead), a faulty hardware device along the path is more likely than a simple loose cable." }
+            ]
+        },
+        {
+            title: 'Step 3: The Physical Layer',
+            description: "Pathping has identified the specific router that is dropping packets. What is the most likely cause and solution?",
+            hint: "When a single piece of network hardware is failing intermittently, think about its most basic connections.",
+            actions: [
+                { text: "The router has a faulty ethernet cable connecting it to the main switch. Replacing the cable resolves the packet loss.", isCorrect: true, feedback: 'Correct. A damaged or poorly terminated cable is a very common cause of packet loss. After replacing the cable between the switch and the faulty router, a new pathping shows 0% loss at all hops.' },
+                { text: "The entire router is broken and needs to be replaced.", isCorrect: false, feedback: "While possible, it's much more common for a cable to fail than an entire router. Always check and replace cables before replacing expensive hardware." },
+                { text: "The user's computer has a bad network card.", isCorrect: false, feedback: "Pathping proved the loss was happening at an internal router, not at the user's computer (the first hop)." }
+            ]
+        }
+    ],
+    finalSolution: "Intermittent packet loss was causing the user's connection issues. This was confirmed with `ping -t` and then isolated to a specific router using `pathping`. The root cause was a faulty Ethernet cable connecting that router to the core switch. Replacing the cable resolved the packet loss."
   },
 };
