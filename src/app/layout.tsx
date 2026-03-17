@@ -87,7 +87,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <footer className="flex-shrink-0 sticky bottom-0 z-50 border-t bg-background/90">
-          <div className="relative flex h-16 items-center justify-center px-4">
+          <div className="relative flex items-center justify-center px-4 py-2">
               <nav className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
                   {baseNavItems.map((item) => (
                       <NavLink key={item.href} item={item} />
