@@ -21,6 +21,9 @@ import {
   FileX,
   ShieldAlert,
   FileUp,
+  Network,
+  Unplug,
+  MoveHorizontal,
 } from 'lucide-react';
 import { getPlaceholderImage } from './placeholder-images';
 
@@ -152,6 +155,30 @@ export const games: Game[] = [
     topic: 'Data Recovery',
     difficulty: 'hard',
     icon: FileUp,
+  },
+  {
+    id: '9',
+    title: 'The IP Address Thief',
+    description: 'Two devices are fighting over the same IP address, causing network instability. Find the rogue device.',
+    topic: 'IP Conflict',
+    difficulty: 'medium',
+    icon: Network,
+  },
+  {
+      id: '10',
+      title: 'DNS Blackout',
+      description: "Users can't access any websites by name, but can by IP address. Diagnose the DNS failure.",
+      topic: 'DNS Failure',
+      difficulty: 'medium',
+      icon: Unplug,
+  },
+  {
+      id: '11',
+      title: 'The Packet Thief',
+      description: 'A stable connection is experiencing intermittent slowness and timeouts. Trace the connection to find the packet loss.',
+      topic: 'Packet Loss',
+      difficulty: 'hard',
+      icon: MoveHorizontal,
   },
 ];
 
@@ -369,5 +396,109 @@ export const scenarios: Record<string, GameScenario> = {
         }
     ],
     finalSolution: "The key to recovering shift-deleted files is to immediately stop using the drive to prevent data overwriting. The correct procedure was to use a portable data recovery application run from a USB drive to scan the user's main drive for the deleted file signatures and restore them to a different drive (the USB stick)."
+  },
+  '9': {
+    id: '9',
+    title: 'The IP Address Thief',
+    initialSituation: "A user in accounting reports their connection is dropping every few minutes. When it works, it's fine, but then it dies. They see a pop-up mentioning an 'IP address conflict'.",
+    steps: [
+        {
+            title: 'Step 1: Confirm the Conflict',
+            description: "You need to see the user's IP configuration to confirm their address. What command do you run on their machine?",
+            hint: 'This command shows all network adapter configurations, including IP addresses, MAC addresses, and DNS servers.',
+            actions: [
+                { text: '`ipconfig /all`.', isCorrect: true, feedback: 'Correct. You run the command and see their IP is 192.168.1.123. You also note their hardware MAC address.' },
+                { text: '`tracert google.com`.', isCorrect: false, feedback: 'This traces a route to an external server but won\'t show the local IP configuration details needed to resolve a conflict.' },
+                { text: '`netstat -an`.', isCorrect: false, feedback: 'This shows active connections and listening ports, but it\'s not the primary tool for viewing the IP address configuration.' },
+            ]
+        },
+        {
+            title: 'Step 2: Hunt the Rogue Device',
+            description: "You know the conflicting IP is 192.168.1.123. How do you find the MAC address of the *other* device that's causing the conflict?",
+            hint: 'You need to query the network\'s address resolution table after communicating with the conflicting IP.',
+            actions: [
+                { text: '`ping 192.168.1.123` followed by `arp -a`.', isCorrect: true, feedback: "Excellent. Pinging the address ensures it's in the computer's ARP cache. `arp -a` then reveals a different MAC address associated with that IP—the culprit." },
+                { text: '`ping -a 192.168.1.123`.', isCorrect: false, feedback: 'This performs a reverse DNS lookup, which is not what you need. You need the hardware (MAC) address.' },
+                { text: 'Immediately unplug the user\'s computer from the network.', isCorrect: false, feedback: 'This takes the user offline and doesn\'t help you find the other device.' },
+            ]
+        },
+        {
+            title: 'Step 3: Identify and Remediate',
+            description: 'You look up the rogue MAC address in the asset inventory and find it belongs to a new smart-printer someone plugged in and manually set to a static IP. What is the proper, long-term solution?',
+            hint: 'Static IPs in a DHCP environment are a recipe for disaster. Devices should ask for an address.',
+            actions: [
+                { text: 'Access the printer\'s web interface and change its network settings from static to DHCP.', isCorrect: true, feedback: 'Perfect. By setting the printer to use DHCP, it will request a unique, available IP from the router, permanently resolving the conflict.' },
+                { text: 'Change the user\'s computer to a different static IP.', isCorrect: false, feedback: 'This only fixes the problem for this one user and creates a new static IP that could cause future conflicts. It doesn\'t solve the root problem.' },
+                { text: 'Tell the office to stop using the new printer.', isCorrect: false, feedback: 'This is not a helpful technical solution. The goal is to make the technology work correctly for everyone.' },
+            ]
+        }
+    ],
+    finalSolution: "An IP conflict was caused by a new printer configured with a static IP address that was already assigned to a user. The solution was to find the printer's MAC address using `arp -a`, access its configuration, and change its network settings to obtain an IP address automatically via DHCP."
+  },
+  '10': {
+      id: '10',
+      title: 'DNS Blackout',
+      initialSituation: "The entire office suddenly can't browse websites like google.com or cnn.com, getting 'Server not found' errors. However, you discover you can successfully `ping 8.8.8.8`.",
+      steps: [
+          {
+              title: 'Step 1: Interpret the Clues',
+              description: 'You can ping an external IP address, but domain names are not working. What service is this a classic symptom of?',
+              hint: 'What service acts as the internet\'s phonebook, turning names into numbers?',
+              actions: [
+                  { text: 'DNS (Domain Name System) failure.', isCorrect: true, feedback: 'Correct. The ability to ping an IP means the core internet connection is working, but the system that translates names to IPs is broken.' },
+                  { text: 'DHCP server failure.', isCorrect: false, feedback: 'If DHCP failed, devices wouldn\'t be getting IP addresses in the first place, and you likely couldn\'t ping an external IP.' },
+                  { text: 'Firewall blockage.', isCorrect: false, feedback: 'A firewall might block web traffic, but it wouldn\'t typically stop domain name resolution itself, and you can ping out.' },
+              ]
+          },
+          {
+              title: 'Step 2: Temporary Fix',
+              description: 'You check a user\'s IP config and see their DNS server is an internal IP (`192.168.1.5`) which is unresponsive. What is the fastest way to get the whole office back online while you fix the internal server?',
+              hint: 'You can centrally manage the DNS servers that clients use.',
+              actions: [
+                  { text: 'Log into the main router and change the DHCP settings to assign a public DNS server (like 1.1.1.1) to all clients.', isCorrect: true, feedback: 'Excellent choice. This is an efficient, network-wide fix that restores service to everyone. They just need to renew their DHCP lease.' },
+                  { text: 'Email instructions to every user on how to manually change their DNS settings.', isCorrect: false, feedback: 'This is slow, inefficient, and prone to user error. A central fix is much better.' },
+                  { text: 'Reboot the main internet router.', isCorrect: false, feedback: 'The router is working (since you can ping 8.8.8.8). The issue is with the specific DNS server it\'s telling clients to use.' },
+              ]
+          }
+      ],
+      finalSolution: "The office-wide internet outage was due to a failure of the internal DNS server. A successful ping to a public IP confirmed the internet connection was active. The immediate solution was to reconfigure the office's DHCP server to assign a public DNS provider (like 1.1.1.1 or 8.8.8.8), restoring domain name resolution for all users."
+  },
+  '11': {
+      id: '11',
+      title: 'The Packet Thief',
+      initialSituation: 'A user reports that their video calls are freezing and audio is robotic, but a speed test shows excellent download and upload speeds. The problem is intermittent.',
+      steps: [
+          {
+              title: 'Step 1: Check Connection Quality',
+              description: 'Bandwidth is good, but the symptoms point to an unstable connection. What command-line tool is best for checking for packet loss over time?',
+              hint: 'You need a tool that sends requests continuously, not just once.',
+              actions: [
+                  { text: '`ping 8.8.8.8 -t`', isCorrect: true, feedback: 'Correct. The `-t` flag makes ping run continuously. You let it run and see frequent "Request timed out" messages, indicating packet loss.' },
+                  { text: '`ipconfig /all`', isCorrect: false, feedback: 'This shows your IP configuration but does not test the quality of your connection to a remote host.' },
+                  { text: '`tracert 8.8.8.8`', isCorrect: false, feedback: 'Tracert is a great tool for finding *where* loss occurs, but a continuous ping is better for first confirming *if* loss is happening.' },
+              ]
+          },
+          {
+              title: 'Step 2: Locate the Loss',
+              description: 'You\'ve confirmed about 10% packet loss. Now you need to find where it\'s happening. What tool traces the network path hop-by-hop, showing the performance of each step?',
+              hint: 'This tool is like a road map for your data packets.',
+              actions: [
+                  { text: '`tracert 8.8.8.8` (or `pathping 8.8.8.8`)', isCorrect: true, feedback: 'Perfect. You run the trace and see that the first few hops within your local network are fine (1-2ms), but latency jumps and packet loss begins at an IP outside your network.' },
+                  { text: 'Restarting the user\'s Wi-Fi adapter.', isCorrect: false, feedback: 'While a good basic step, the `tracert` tool is needed to prove whether the problem is local or external.' },
+                  { text: 'Running a virus scan.', isCorrect: false, feedback: 'Malware is an unlikely cause for network packet loss that occurs at a specific external hop.' },
+              ]
+          },
+          {
+              title: 'Step 3: Draw a Conclusion',
+              description: 'The `tracert` results show 0% loss to your office router (hop 1), but 10% loss starting at hop 2, which is an IP address owned by your ISP. What is the correct conclusion and action?',
+              hint: 'If the problem is outside your control, you need to involve the party that controls it.',
+              actions: [
+                  { text: 'The problem is with the ISP. You must contact their support and provide the `tracert` logs as evidence.', isCorrect: true, feedback: 'Exactly. Your diagnostics have proven the issue is not on the local network. Providing the data to the ISP is the only way to get it resolved.' },
+                  { text: 'You need to replace the office router.', isCorrect: false, feedback: 'The trace shows the connection to the router is perfect. Replacing it would not fix an issue happening further down the line.' },
+                  { text: 'The user needs to use a wired connection instead of Wi-Fi.', isCorrect: false, feedback: 'This might help, but the evidence points to an external issue. Even on a wired connection, the ISP-level packet loss would still exist.' },
+              ]
+          }
+      ],
+      finalSolution: "The user's call quality issues were caused by packet loss. A continuous ping confirmed the instability, and a `tracert` command isolated the loss to a router within the Internet Service Provider's (ISP) network. The solution was to contact the ISP with the diagnostic data, enabling them to investigate and fix their faulty equipment."
   }
 };

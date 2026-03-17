@@ -73,7 +73,7 @@ const ScenarioSection = ({ title, icon: Icon, games }: { title: string; icon: Re
 export default function TroubleshootingPage() {
     const hardwareScenarios = games.filter(g => ['Printer issues', 'Slow computer performance', 'No Power'].includes(g.topic));
     const softwareScenarios = games.filter(g => ['Blue Screen of Death (BSOD)', 'Software Installation Issues', 'Malware Removal', 'Data Recovery'].includes(g.topic));
-    const networkingScenarios = games.filter(g => ['Intermittent Wi-Fi connection'].includes(g.topic));
+    const networkingScenarios = games.filter(g => ['Intermittent Wi-Fi connection', 'IP Conflict', 'DNS Failure', 'Packet Loss'].includes(g.topic));
 
   return (
     <div className="space-y-8">
