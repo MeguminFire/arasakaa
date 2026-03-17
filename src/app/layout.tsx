@@ -11,6 +11,7 @@ import {
   Users,
   Wrench,
   BookOpen,
+  BrainCircuit,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
@@ -26,6 +27,7 @@ const baseNavItems = [
   { href: '/games', icon: Gamepad2, label: 'Games' },
   { href: '/troubleshooting', icon: Wrench, label: 'Troubleshoot' },
   { href: '/learn', icon: BookOpen, label: 'Learn' },
+  { href: '/quizzes', icon: BrainCircuit, label: 'Quizzes' },
   { href: '/forum', icon: MessagesSquare, label: 'Forum' },
   { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
 ];
@@ -70,6 +72,18 @@ function AppShell({ children }: { children: React.ReactNode }) {
     const ADMIN_EMAILS = ['gmorecj22@gmail.com'];
     const isAdmin = !loading && authUser?.email && ADMIN_EMAILS.includes(authUser.email);
   
+    if (!isClient) {
+      return (
+        <div className="flex flex-col h-screen">
+            <header className="relative flex-shrink-0 sticky top-0 z-50 flex h-16 items-center justify-center border-b bg-background/80 px-4 backdrop-blur-sm"></header>
+            <main className="flex-1 p-4">{children}</main>
+            <footer className="flex-shrink-0 sticky bottom-0 z-50 border-t bg-background/90">
+                <div className="relative flex items-center justify-center px-4 py-2"></div>
+            </footer>
+        </div>
+      )
+    }
+
     if (!showAppShell) {
         return <>{children}</>;
     }
@@ -82,7 +96,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
               <span className="hidden sm:block font-logo text-xl text-white tracking-widest">ARASAKA</span>
           </Link>
           <div className="absolute right-4 top-1/2 -translate-y-1/2 sm:hidden">
-            {isClient && <UserAvatar />}
+            <UserAvatar />
           </div>
       </header>
       <main className="flex-1 p-4">
@@ -94,10 +108,10 @@ function AppShell({ children }: { children: React.ReactNode }) {
                   {baseNavItems.map((item) => (
                       <NavLink key={item.href} item={item} />
                   ))}
-                  {isClient && isAdmin && <NavLink key={adminNavItem.href} item={adminNavItem} />}
+                  {isAdmin && <NavLink key={adminNavItem.href} item={adminNavItem} />}
               </nav>
               <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:block">
-                  {isClient && <UserAvatar />}
+                  <UserAvatar />
               </div>
           </div>
       </footer>
