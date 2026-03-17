@@ -71,6 +71,12 @@
       "description": "A network switch with ethernet cables plugged in.",
       "imageUrl": "https://images.unsplash.com/photo-1601972602985-e36636785342?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
       "imageHint": "network switch"
+    },
+    {
+      "id": "hardware-troubleshooting-hero",
+      "description": "A technician working on the internals of a computer.",
+      "imageUrl": "https://images.unsplash.com/photo-1581092917325-78819543b351?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80",
+      "imageHint": "technician computer"
     }
   ]
 }

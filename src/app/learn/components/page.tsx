@@ -50,7 +50,7 @@ const componentsData = [
 ];
 
 const LESSON_ID = '1';
-const QUIZ_ID = '2';
+const QUIZ_ID = '1';
 
 export default function ComponentsLessonPage() {
   const { addCompletedItem, userProfile } = useUser();
@@ -110,7 +110,7 @@ export default function ComponentsLessonPage() {
             <Button variant="outline" asChild>
                 <Link href={`/quiz/${QUIZ_ID}`}>
                     <BookOpen className="mr-2 h-4 w-4" />
-                    Take the Hardware Quiz
+                    Take the Hardware Components Quiz
                 </Link>
             </Button>
         </CardFooter>

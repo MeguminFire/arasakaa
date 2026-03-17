@@ -10,8 +10,8 @@ import { Youtube, CheckCircle, BookOpen } from 'lucide-react';
 import { useUser } from '@/context/UserProvider';
 import { useToast } from '@/hooks/use-toast';
 
-const LESSON_ID = '3';
-const QUIZ_ID = '3';
+const LESSON_ID = '4';
+const QUIZ_ID = '4';
 
 export default function TroubleshootingLessonPage() {
     const { addCompletedItem, userProfile } = useUser();

@@ -30,6 +30,7 @@ import {
   HelpCircle,
   BrainCircuit,
   Dna,
+  HardDrive,
 } from 'lucide-react';
 import { getPlaceholderImage } from './placeholder-images';
 
@@ -107,13 +108,20 @@ export const lessons: Lesson[] = [
   },
   {
     id: '2',
+    title: 'Hardware Troubleshooting',
+    description: 'Learn to diagnose common hardware failures, from power issues to component conflicts.',
+    href: '/learn/hardware-troubleshooting',
+    icon: HardDrive,
+  },
+  {
+    id: '3',
     title: 'Networking Fundamentals',
     description: 'Learn the basics of how devices communicate, including IP addresses, DNS, and routers.',
     href: '/learn/networking',
     icon: Router,
   },
   {
-    id: '3',
+    id: '4',
     title: 'OS Troubleshooting Methodology',
     description: 'Master the 6-step methodology for diagnosing and solving any OS or software problem.',
     href: '/learn/troubleshooting',
@@ -124,61 +132,36 @@ export const lessons: Lesson[] = [
 export const quizzes: Quiz[] = [
     {
         id: '1',
-        title: 'Networking Quiz',
-        description: 'Test your knowledge of networking fundamentals like IP, DNS, and hardware.',
-        href: '/quiz/1',
-        icon: Dna,
-    },
-    {
-        id: '2',
-        title: 'Hardware Quiz',
+        title: 'Hardware Components Quiz',
         description: 'How well do you know your computer components? Test your knowledge.',
-        href: '/quiz/2',
+        href: '/quiz/1',
         icon: BrainCircuit,
     },
     {
+        id: '2',
+        title: 'Hardware Troubleshooting Quiz',
+        description: 'Test your knowledge on diagnosing common hardware issues.',
+        href: '/quiz/2',
+        icon: HardDrive,
+    },
+    {
         id: '3',
+        title: 'Networking Quiz',
+        description: 'Test your knowledge of networking fundamentals like IP, DNS, and hardware.',
+        href: '/quiz/3',
+        icon: Dna,
+    },
+    {
+        id: '4',
         title: 'Troubleshooting Theory Quiz',
         description: 'Quiz yourself on the 6-step troubleshooting methodology.',
-        href: '/quiz/3',
+        href: '/quiz/4',
         icon: HelpCircle,
     }
 ];
 
 export const quizQuestions: Record<string, QuizQuestion[]> = {
-    '1': [ // Networking Quiz
-        {
-            question: "What is the primary function of a router?",
-            options: ["To connect multiple devices on the same local network", "To connect a local network to the internet and direct traffic", "To translate domain names into IP addresses", "To provide power to network devices"],
-            correctAnswer: "To connect a local network to the internet and direct traffic",
-            explanation: "A router's main job is to act as a gateway between your local network and the wider internet, directing traffic to the correct destinations."
-        },
-        {
-            question: "Which of these is a valid private IP address often used for a home router's admin page?",
-            options: ["8.8.8.8", "192.168.1.1", "google.com", "2001:0db8:85a3:0000:0000:8a2e:0370:7334"],
-            correctAnswer: "192.168.1.1",
-            explanation: "IP addresses in the 192.168.x.x range are designated for private networks and are not routable on the public internet. 192.168.1.1 is a very common default address for routers."
-        },
-        {
-            question: "What does DNS stand for and what does it do?",
-            options: ["Digital Network Service; it encrypts your data", "Domain Name System; it translates domain names to IP addresses", "Data Naming Standard; it assigns names to files", "Dynamic Network Security; it acts as a firewall"],
-            correctAnswer: "Domain Name System; it translates domain names to IP addresses",
-            explanation: "DNS acts like the internet's phonebook, allowing you to use easy-to-remember names like 'google.com' instead of having to memorize a complex IP address like '142.250.191.78'."
-        },
-        {
-            question: "If you want to connect several wired devices within the same room to your network, what is the best device to use?",
-            options: ["A modem", "A switch", "A second router", "An access point"],
-            correctAnswer: "A switch",
-            explanation: "A switch is specifically designed to connect multiple devices on a local area network (LAN), allowing them to communicate with each other efficiently."
-        },
-        {
-            question: "You can ping 8.8.8.8 successfully, but you can't browse to google.com. What is the most likely problem?",
-            options: ["Your internet cable is unplugged", "Your computer has no IP address", "A firewall is blocking all traffic", "There is a DNS failure"],
-            correctAnswer: "There is a DNS failure",
-            explanation: "Being able to ping an IP address proves your internet connectivity is working. The inability to reach a site by its domain name points directly to a problem with DNS resolution."
-        },
-    ],
-    '2': [ // Hardware Quiz
+    '1': [ // Hardware Components Quiz
         {
             question: "Which component is considered the 'brain' of the computer?",
             options: ["RAM", "GPU", "CPU", "Motherboard"],
@@ -210,7 +193,71 @@ export const quizQuestions: Record<string, QuizQuestion[]> = {
             explanation: "SSDs use flash memory and have no moving parts, allowing them to read and write data significantly faster than traditional spinning Hard Disk Drives (HDDs)."
         },
     ],
-    '3': [ // Troubleshooting Theory Quiz
+    '2': [ // Hardware Troubleshooting Quiz
+        {
+            question: "What does a series of short, repetitive beeps during startup most commonly indicate?",
+            options: ["A virus has been detected", "The operating system is corrupt", "A RAM or Power Supply issue", "The video card is not working"],
+            correctAnswer: "A RAM or Power Supply issue",
+            explanation: "Repetitive beeps often signal a fundamental hardware failure. Depending on the pattern, it's frequently related to improperly seated or faulty RAM, or a failing power supply."
+        },
+        {
+            question: "If a computer will not turn on at all (no lights, no fans), what is the very first and simplest thing you should check?",
+            options: ["Reseat the RAM", "Replace the CMOS battery", "Test the power supply with a multimeter", "The power cable, power strip, and wall outlet"],
+            correctAnswer: "The power cable, power strip, and wall outlet",
+            explanation: "Always start with the most basic external factors. Checking the complete power path from the wall to the PC is the first step before assuming an internal component has failed."
+        },
+        {
+            question: "A loud, repetitive clicking or grinding noise coming from a desktop computer is a classic symptom of what?",
+            options: ["CPU overheating", "A failing Hard Disk Drive (HDD)", "A faulty case fan", "An issue with the GPU"],
+            correctAnswer: "A failing Hard Disk Drive (HDD)",
+            explanation: "This noise, often called the 'click of death,' is caused by the read/write head of a mechanical hard drive repeatedly trying and failing to access the platters. The drive should be backed up immediately."
+        },
+        {
+            question: "A PC randomly shuts down entirely, especially when playing a game or rendering video. What is a primary suspect?",
+            options: ["A software driver conflict", "Incorrect BIOS settings", "Overheating of the CPU or GPU", "A failing SSD"],
+            correctAnswer: "Overheating of the CPU or GPU",
+            explanation: "Intense tasks cause the CPU and GPU to generate significant heat. If the cooling system (fans, heatsinks) is inadequate or dusty, components can overheat, triggering a thermal shutdown to prevent damage."
+        },
+        {
+            question: "What is the name of the diagnostic process a computer runs every time it's powered on to check the essential hardware?",
+            options: ["BIOS Check", "CMOS Initialization", "Power-On Self-Test (POST)", "System File Check (SFC)"],
+            correctAnswer: "Power-On Self-Test (POST)",
+            explanation: "The POST is a built-in diagnostic program that checks for the presence and functionality of core hardware like the CPU, RAM, and video card before the operating system begins to load."
+        },
+    ],
+    '3': [ // Networking Quiz
+        {
+            question: "What is the primary function of a router?",
+            options: ["To connect multiple devices on the same local network", "To connect a local network to the internet and direct traffic", "To translate domain names into IP addresses", "To provide power to network devices"],
+            correctAnswer: "To connect a local network to the internet and direct traffic",
+            explanation: "A router's main job is to act as a gateway between your local network and the wider internet, directing traffic to the correct destinations."
+        },
+        {
+            question: "Which of these is a valid private IP address often used for a home router's admin page?",
+            options: ["8.8.8.8", "192.168.1.1", "google.com", "2001:0db8:85a3:0000:0000:8a2e:0370:7334"],
+            correctAnswer: "192.168.1.1",
+            explanation: "IP addresses in the 192.168.x.x range are designated for private networks and are not routable on the public internet. 192.168.1.1 is a very common default address for routers."
+        },
+        {
+            question: "What does DNS stand for and what does it do?",
+            options: ["Digital Network Service; it encrypts your data", "Domain Name System; it translates domain names to IP addresses", "Data Naming Standard; it assigns names to files", "Dynamic Network Security; it acts as a firewall"],
+            correctAnswer: "Domain Name System; it translates domain names to IP addresses",
+            explanation: "DNS acts like the internet's phonebook, allowing you to use easy-to-remember names like 'google.com' instead of having to memorize a complex IP address like '142.250.191.78'."
+        },
+        {
+            question: "If you want to connect several wired devices within the same room to your network, what is the best device to use?",
+            options: ["A modem", "A switch", "A second router", "An access point"],
+            correctAnswer: "A switch",
+            explanation: "A switch is specifically designed to connect multiple devices on a local area network (LAN), allowing them to communicate with each other efficiently."
+        },
+        {
+            question: "You can ping 8.8.8.8 successfully, but you can't browse to google.com. What is the most likely problem?",
+            options: ["Your internet cable is unplugged", "Your computer has no IP address", "A firewall is blocking all traffic", "There is a DNS failure"],
+            correctAnswer: "There is a DNS failure",
+            explanation: "Being able to ping an IP address proves your internet connectivity is working. The inability to reach a site by its domain name points directly to a problem with DNS resolution."
+        },
+    ],
+    '4': [ // Troubleshooting Theory Quiz
         {
             question: "According to the 6-step troubleshooting methodology, what should you do right after you've implemented a solution?",
             options: ["Document your findings", "Establish a new theory", "Verify full system functionality and implement preventative measures", "Identify the problem"],
@@ -470,7 +517,7 @@ export const scenarios: Record<string, GameScenario> = {
   '6': {
     id: '6',
     title: 'The Installation Blockade',
-    initialSituation: 'An accountant is trying to install a new version of their tax software, but the installation fails every time with a generic "Installation failed" error. They have administrator rights.',
+    description: 'An accountant is trying to install a new version of their tax software, but the installation fails every time with a generic "Installation failed" error. They have administrator rights.',
     steps: [
       {
         title: 'Step 1: Look for Clues',
@@ -592,7 +639,7 @@ export const scenarios: Record<string, GameScenario> = {
   '10': {
       id: '10',
       title: 'DNS Blackout',
-      initialSituation: "Users report they can't access any websites like google.com or cnn.com, but you find you can successfully `ping 8.8.8.8`. What is the most likely issue?",
+      description: "Users can't access any websites by name, but can by IP address. Diagnose the DNS failure.",
       steps: [
         {
             title: 'Step 1: Test Your Theory',
@@ -620,7 +667,7 @@ export const scenarios: Record<string, GameScenario> = {
   '11': {
       id: '11',
       title: 'The Packet Thief',
-      initialSituation: "A user on a wired connection complains that video calls are choppy and web pages sometimes fail to load completely, even though their connection seems to be active. You suspect packet loss.",
+      description: 'A stable connection is experiencing intermittent slowness and timeouts. Trace the connection to find the packet loss.',
       steps: [
         {
             title: 'Step 1: Gather Evidence',

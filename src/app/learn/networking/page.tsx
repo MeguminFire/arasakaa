@@ -10,8 +10,8 @@ import { CheckCircle, BookOpen, Wifi, Globe, Waypoints, Dna } from 'lucide-react
 import { useUser } from '@/context/UserProvider';
 import { useToast } from '@/hooks/use-toast';
 
-const LESSON_ID = '2';
-const QUIZ_ID = '1';
+const LESSON_ID = '3';
+const QUIZ_ID = '3';
 
 export default function NetworkingLessonPage() {
     const { addCompletedItem, userProfile } = useUser();
